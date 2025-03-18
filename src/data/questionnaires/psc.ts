@@ -1,4 +1,3 @@
-
 import { Questionnaire } from "@/types/questionnaire";
 
 export const pscQuestionnaire: Questionnaire = {
