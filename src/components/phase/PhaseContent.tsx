@@ -7,15 +7,30 @@ import VideoPreview from "./VideoPreview";
 interface PhaseContentProps {
   day?: number;
   content?: string;
+  onNextDay?: () => void;
+  onPreviousDay?: () => void;
+  totalDays?: number;
 }
 
-const PhaseContent = ({ day = 1, content }: PhaseContentProps) => {
+const PhaseContent = ({ 
+  day = 1, 
+  content, 
+  onNextDay, 
+  onPreviousDay,
+  totalDays = 7 
+}: PhaseContentProps) => {
   const dayContent = content || "Please review the description of how Phase 1 functions. A guide to participating in Phase 1.";
   
   return (
     <Card>
       <CardHeader className="pb-2">
-        <ContentHeader title={`Day ${day} Content`} />
+        <ContentHeader 
+          title={`Day ${day} Content`} 
+          onNext={onNextDay}
+          onPrevious={onPreviousDay}
+          canGoNext={day < totalDays}
+          canGoPrevious={day > 1}
+        />
       </CardHeader>
       <CardContent>
         <p className="text-neutral-600 mb-6">

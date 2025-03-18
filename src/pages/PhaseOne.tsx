@@ -64,7 +64,13 @@ const PhaseOne = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <PhaseContent day={currentDay} content={dayContents[currentDay - 1]} />
+        <PhaseContent 
+          day={currentDay} 
+          content={dayContents[currentDay - 1]} 
+          onNextDay={goToNextDay}
+          onPreviousDay={goToPreviousDay}
+          totalDays={totalDays}
+        />
         <ExternalTracking />
       </div>
     </PageLayout>
