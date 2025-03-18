@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
-import { Circle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import TaskItem from "./TaskItem";
 
 type Task = {
   id: number;
@@ -34,14 +34,12 @@ const PhaseTaskList = () => {
       <CardContent>
         <ul className="space-y-3">
           {tasks.map((task) => (
-            <li 
+            <TaskItem 
               key={task.id}
-              className="flex items-center cursor-pointer hover:bg-neutral-50 p-2 rounded"
+              title={task.title}
+              completed={task.completed}
               onClick={() => toggleTask(task.id)}
-            >
-              <Circle className={`mr-3 h-5 w-5 ${task.completed ? "text-neutral-800 fill-neutral-800" : "text-neutral-400"}`} />
-              <span className={task.completed ? "line-through text-neutral-500" : ""}>{task.title}</span>
-            </li>
+            />
           ))}
         </ul>
       </CardContent>

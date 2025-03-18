@@ -1,7 +1,7 @@
 
 import React from "react";
-import { ChartLine } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import ConnectAppButton from "./ConnectAppButton";
 
 const ExternalTracking = () => {
   return (
@@ -10,12 +10,7 @@ const ExternalTracking = () => {
         <CardTitle className="text-xl">External Headache Tracking</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="bg-neutral-800 rounded-lg p-8 flex items-center justify-center h-[200px]">
-          <div className="text-center">
-            <ChartLine className="h-12 w-12 text-white mb-2" />
-            <p className="text-white">Connect Your External Tracking App</p>
-          </div>
-        </div>
+        <ConnectAppButton title="Connect Your External Tracking App" />
       </CardContent>
     </Card>
   );

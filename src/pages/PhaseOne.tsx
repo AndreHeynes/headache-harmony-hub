@@ -6,11 +6,12 @@ import PhaseTaskList from "@/components/phase/PhaseTaskList";
 import PhaseTimeline from "@/components/phase/PhaseTimeline";
 import PhaseContent from "@/components/phase/PhaseContent";
 import ExternalTracking from "@/components/phase/ExternalTracking";
+import PhaseHeading from "@/components/phase/PhaseHeading";
 
 const PhaseOne = () => {
   return (
     <PageLayout>
-      <h1 className="text-3xl mb-8 text-neutral-900">Understanding where you are starting from</h1>
+      <PhaseHeading title="Understanding where you are starting from" />
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <CurrentPhaseCard />
