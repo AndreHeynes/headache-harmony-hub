@@ -1,80 +1,15 @@
 
-import { Brain, Calendar, PieChart, Clock, Activity, Pill, Sun, AlertCircle, BookOpen } from "lucide-react";
+import { Brain } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const LearnMore = () => {
-  const migraine101 = [
-    {
-      title: "What are migraines?",
-      content: "Migraines are recurring headaches that cause moderate to severe throbbing or pulsing pain, typically on one side of the head. They're often accompanied by nausea, vomiting, and extreme sensitivity to light and sound."
-    },
-    {
-      title: "Common triggers",
-      content: "Migraine triggers vary from person to person but may include stress, certain foods, skipped meals, sleep changes, hormonal changes, weather changes, and sensory stimuli like bright lights."
-    },
-    {
-      title: "Types of migraines",
-      content: "Migraines come in different forms, including migraines with aura (visual disturbances), migraines without aura, chronic migraines, and vestibular migraines that affect balance."
-    }
-  ];
-
-  const trackingFeatures = [
-    {
-      icon: <Calendar className="h-6 w-6 text-primary" />,
-      title: "Calendar Tracking",
-      description: "Log your migraines on an easy-to-use calendar to identify patterns and frequencies."
-    },
-    {
-      icon: <PieChart className="h-6 w-6 text-primary" />,
-      title: "Detailed Analytics",
-      description: "View comprehensive reports that analyze your migraine patterns, triggers, and treatment effectiveness."
-    },
-    {
-      icon: <Clock className="h-6 w-6 text-primary" />,
-      title: "Duration Monitoring",
-      description: "Track how long your migraines last to better understand your condition's severity."
-    },
-    {
-      icon: <Activity className="h-6 w-6 text-primary" />,
-      title: "Intensity Tracking",
-      description: "Rate your pain levels and symptoms to monitor changes over time."
-    },
-    {
-      icon: <Pill className="h-6 w-6 text-primary" />,
-      title: "Medication Tracking",
-      description: "Record which medications you take and how effective they are for your migraines."
-    },
-    {
-      icon: <Sun className="h-6 w-6 text-primary" />,
-      title: "Trigger Identification",
-      description: "Log potential triggers like foods, activities, or environmental factors to identify patterns."
-    }
-  ];
-
-  const lifestyleSection = [
-    {
-      title: "Regular Sleep Schedule",
-      content: "Maintaining consistent sleep patterns can help reduce migraine frequency. Aim for 7-9 hours of quality sleep each night."
-    },
-    {
-      title: "Stress Management",
-      content: "Practice stress-reduction techniques like meditation, deep breathing, or yoga to help prevent stress-induced migraines."
-    },
-    {
-      title: "Hydration & Nutrition",
-      content: "Stay well-hydrated and maintain regular, balanced meals. Some people find certain dietary changes helpful in reducing migraines."
-    },
-    {
-      title: "Regular Exercise",
-      content: "Moderate, regular exercise can help reduce the frequency and severity of migraines for many people."
-    }
-  ];
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header - reusing the same header style from the mockup */}
+      {/* Header - reusing the same header style */}
       <header className="fixed top-0 left-0 right-0 bg-white border-b border-neutral-200 z-50">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-2">
@@ -98,126 +33,109 @@ const LearnMore = () => {
 
       {/* Main Content */}
       <main className="pt-16">
-        {/* Hero Section */}
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="bg-neutral-200 w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center">
-                <BookOpen className="h-8 w-8 text-white" />
-              </div>
-              <h1 className="text-4xl md:text-5xl font-semibold mb-4 text-neutral-900">Understanding Migraines</h1>
-              <p className="text-lg md:text-xl text-neutral-600 mb-8">
-                Knowledge is power when it comes to managing migraines. Learn about the causes, symptoms, 
-                and treatments to take control of your condition.
-              </p>
+        <div className="container mx-auto px-4 py-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-4xl mx-auto"
+          >
+            {/* Program Overview */}
+            <div className="text-center mb-16">
+              <h1 className="text-4xl font-bold text-gray-900 mb-6">3-Month Headache Management Program</h1>
+              <p className="text-lg text-gray-600">A comprehensive approach to understanding and managing your headache disorders</p>
             </div>
-          </div>
-        </section>
 
-        {/* Migraine 101 Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-semibold mb-8 text-center">Migraine 101</h2>
-              <div className="grid md:grid-cols-3 gap-8">
-                {migraine101.map((item, index) => (
-                  <Card key={index} className="shadow-md">
-                    <CardContent className="pt-6">
-                      <h3 className="text-xl font-medium mb-3">{item.title}</h3>
-                      <p className="text-neutral-600">{item.content}</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+            {/* Program Phases */}
+            <div className="grid md:grid-cols-2 gap-8 mb-16">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="bg-white p-6 rounded-lg shadow-sm"
+              >
+                <h3 className="text-xl font-semibold text-primary mb-4">Phase 1: Impact Assessment</h3>
+                <p className="text-gray-600">A streamlined assessment process to understand how headaches affect your daily life. We use a simple, step-by-step approach with just 1-3 questions per screen to make it easy and stress-free to share your experience.</p>
+              </motion.div>
 
-              <div className="mt-12 bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-medium mb-4 flex items-center">
-                  <AlertCircle className="h-5 w-5 mr-2 text-red-500" />
-                  When to See a Doctor
-                </h3>
-                <p className="mb-4">
-                  While many migraines can be managed at home, certain symptoms require immediate medical attention:
-                </p>
-                <ul className="list-disc pl-6 space-y-2 text-neutral-700">
-                  <li>Sudden, severe headache different from previous headaches</li>
-                  <li>Headache accompanied by fever, stiff neck, confusion, seizures, double vision, or weakness</li>
-                  <li>Headache following a head injury</li>
-                  <li>Chronic or persistent headaches that worsen after coughing, exertion, straining, or sudden movement</li>
-                  <li>New headache pain if you're over 50</li>
-                </ul>
-              </div>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+                className="bg-white p-6 rounded-lg shadow-sm"
+              >
+                <h3 className="text-xl font-semibold text-primary mb-4">Phase 2: Daily Management</h3>
+                <p className="text-gray-600">Engage in structured daily activities, exercises, and tracking to build effective self-management habits.</p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4 }}
+                className="bg-white p-6 rounded-lg shadow-sm"
+              >
+                <h3 className="text-xl font-semibold text-primary mb-4">Phase 3: Progress Review</h3>
+                <p className="text-gray-600">Complete follow-up assessments to measure your progress and adjust your program accordingly.</p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5 }}
+                className="bg-white p-6 rounded-lg shadow-sm"
+              >
+                <h3 className="text-xl font-semibold text-primary mb-4">Phase 4: Maintenance</h3>
+                <p className="text-gray-600">Create your personalized maintenance program based on the exercises that work best for you.</p>
+              </motion.div>
             </div>
-          </div>
-        </section>
 
-        <Separator />
-
-        {/* How Our App Helps Section */}
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-semibold mb-2 text-center">How MigraineTracker Helps</h2>
-              <p className="text-center text-neutral-600 mb-12">Our comprehensive tracking tools help you understand your unique migraine patterns</p>
-              
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {trackingFeatures.map((feature, index) => (
-                  <div key={index} className="bg-white p-6 rounded-lg shadow-md">
-                    <div className="mb-4">{feature.icon}</div>
-                    <h3 className="text-lg font-medium mb-2">{feature.title}</h3>
-                    <p className="text-neutral-600">{feature.description}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-12 text-center">
-                <Button className="bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-3 rounded-lg">
-                  Start Tracking Today
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Lifestyle Management Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-semibold mb-8 text-center">Lifestyle Management</h2>
-              <p className="text-center text-neutral-600 mb-8">
-                Beyond tracking, these lifestyle approaches can help reduce migraine frequency and severity
-              </p>
-
+            {/* Key Features */}
+            <div className="bg-white p-8 rounded-lg shadow-sm mb-16">
+              <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Program Features</h2>
               <div className="grid md:grid-cols-2 gap-6">
-                {lifestyleSection.map((item, index) => (
-                  <div key={index} className="bg-gray-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-medium mb-3">{item.title}</h3>
-                    <p className="text-neutral-600">{item.content}</p>
+                <div className="flex items-start space-x-4">
+                  <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                  <div>
+                    <h4 className="font-semibold mb-2">User-Friendly Assessment</h4>
+                    <p className="text-gray-600">Simple, focused questions presented one at a time to reduce overwhelm</p>
                   </div>
-                ))}
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                  <div>
+                    <h4 className="font-semibold mb-2">Progress Tracking</h4>
+                    <p className="text-gray-600">Monitor your improvement with detailed analytics</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                  <div>
+                    <h4 className="font-semibold mb-2">Personalized Program</h4>
+                    <p className="text-gray-600">Tailored exercises based on your assessment results</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                  <div>
+                    <h4 className="font-semibold mb-2">Step-by-Step Guidance</h4>
+                    <p className="text-gray-600">Clear, manageable steps throughout your journey</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* CTA Section */}
-        <section className="py-16 bg-neutral-900 text-white">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl font-semibold mb-4">Ready to Take Control of Your Migraines?</h2>
-              <p className="text-lg mb-8 text-neutral-300">
-                Join thousands of users who have reduced their migraine frequency and severity through better tracking and management.
-              </p>
-              <div className="flex flex-col md:flex-row gap-4 justify-center">
-                <Button className="bg-white text-neutral-900 hover:bg-neutral-100 px-8 py-6 rounded-lg text-lg">
-                  Create Free Account
-                </Button>
-                <Button variant="outline" className="border-white text-white hover:bg-white/10 px-8 py-6 rounded-lg text-lg">
-                  Learn More About Plans
-                </Button>
-              </div>
+            {/* CTA Section */}
+            <div className="text-center">
+              <Button
+                onClick={() => navigate("/register")}
+                size="lg"
+                className="px-8 py-6 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg transition-all shadow-lg hover:shadow-xl"
+              >
+                Create Your Account
+              </Button>
             </div>
-          </div>
-        </section>
+          </motion.div>
+        </div>
       </main>
 
       {/* Footer */}
