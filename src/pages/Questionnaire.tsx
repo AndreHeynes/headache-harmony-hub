@@ -3,15 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PageLayout from "@/components/layout/PageLayout";
 import QuestionnaireForm from "@/components/questionnaire/QuestionnaireForm";
-import { hit6Questionnaire } from "@/data/questionnaires/hit6";
-import { fhtQuestionnaire } from "@/data/questionnaires/fht";
-import { midasQuestionnaire } from "@/data/questionnaires/midas";
-import { hsesQuestionnaire } from "@/data/questionnaires/hses";
-import { psfsQuestionnaire } from "@/data/questionnaires/psfs";
-import { hslocQuestionnaire } from "@/data/questionnaires/hsloc";
-import { hbQuestionnaire } from "@/data/questionnaires/hb";
-import { pscQuestionnaire } from "@/data/questionnaires/psc";
-import { mkqQuestionnaire } from "@/data/questionnaires/mkq";
+import { getQuestionnaire } from "@/utils/questionnaireUtils";
 import { QuestionnaireResponse } from "@/types/questionnaire";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,33 +14,7 @@ const Questionnaire = () => {
   const navigate = useNavigate();
   const [savedResponses, setSavedResponses] = useState<Record<string, any>>({});
   
-  // Get the appropriate questionnaire based on ID
-  const getQuestionnaire = () => {
-    switch (id) {
-      case "hit-6":
-        return hit6Questionnaire;
-      case "fht":
-        return fhtQuestionnaire;
-      case "midas":
-        return midasQuestionnaire;
-      case "hses":
-        return hsesQuestionnaire;
-      case "psfs":
-        return psfsQuestionnaire;
-      case "hsloc":
-        return hslocQuestionnaire;
-      case "hb":
-        return hbQuestionnaire;
-      case "psc":
-        return pscQuestionnaire;
-      case "mkq":
-        return mkqQuestionnaire;
-      default:
-        return null;
-    }
-  };
-  
-  const questionnaire = getQuestionnaire();
+  const questionnaire = getQuestionnaire(id);
   
   // Load any previously saved responses
   useEffect(() => {
