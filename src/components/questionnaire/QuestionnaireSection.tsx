@@ -123,7 +123,7 @@ const QuestionnaireSection: React.FC<QuestionnaireSectionProps> = ({
               onChange={(e) => {
                 // For numeric fields that need conversion
                 if (
-                  questionnaire.id === "midas" &&
+                  // Remove the undefined questionnaire reference
                   question.id.startsWith("midas-q") && 
                   !isNaN(Number(e.target.value))
                 ) {
@@ -133,12 +133,14 @@ const QuestionnaireSection: React.FC<QuestionnaireSectionProps> = ({
                 }
               }}
               type={
-                questionnaire.id === "midas" && question.id.startsWith("midas-q")
+                // Remove the undefined questionnaire reference
+                question.id.startsWith("midas-q")
                   ? "number"
                   : "text"
               }
               min={
-                questionnaire.id === "midas" && question.id.startsWith("midas-q")
+                // Remove the undefined questionnaire reference
+                question.id.startsWith("midas-q")
                   ? "0"
                   : undefined
               }

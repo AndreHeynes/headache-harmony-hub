@@ -66,7 +66,7 @@ export interface QuestionnaireResponse {
     value: string | number | string[];
   }[];
   score?: number;
-  groupScores?: Record<string, number>;
+  groupScores?: Record<string, number | string>;
   savedActivities?: {
     id: string;
     text: string;

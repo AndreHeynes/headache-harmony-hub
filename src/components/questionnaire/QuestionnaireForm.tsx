@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -26,21 +25,18 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
   const [answers, setAnswers] = useState<Record<string, any>>(initialAnswers);
   const [isCompleted, setIsCompleted] = useState(false);
   const [score, setScore] = useState<number | null>(null);
-  const [groupScores, setGroupScores] = useState<Record<string, number>>({});
+  const [groupScores, setGroupScores] = useState<Record<string, number | string>>({});
   const [savedActivities, setSavedActivities] = useState<any[]>([]);
   const [recommendedExercises, setRecommendedExercises] = useState<string[]>([]);
 
   const currentSection = questionnaire.sections[currentSectionIndex];
   
-  // Check for saved activities
   useEffect(() => {
-    // Check if we're returning to a PSFS questionnaire with saved activities
     if (questionnaire.id === "psfs") {
       const storedActivities = localStorage.getItem(`psfs-activities`);
       if (storedActivities) {
         try {
           const activities = JSON.parse(storedActivities);
-          // Pre-populate the activity fields
           const updatedAnswers = { ...answers };
           activities.forEach((activity: any) => {
             if (activity.id.includes("activity")) {
@@ -56,7 +52,6 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
     }
   }, [questionnaire.id]);
   
-  // Handle answer changes
   const handleAnswerChange = (questionId: string, value: any) => {
     setAnswers((prev) => ({
       ...prev,
@@ -64,7 +59,6 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
     }));
   };
 
-  // Check if section is complete
   const isSectionComplete = () => {
     const requiredQuestions = currentSection.questions.filter(
       (q) => q.required && q.type !== 'heading' && q.type !== 'info'
@@ -76,14 +70,12 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
     });
   };
 
-  // Calculate score based on questionnaire type
   const calculateScore = () => {
-    let calculatedScore = null;
-    let calculatedGroupScores: Record<string, number> = {};
+    let calculatedScore: number | null = null;
+    let calculatedGroupScores: Record<string, number | string> = {};
     let calculatedRecommendedExercises: string[] = [];
     
     if (!questionnaire.scoring) {
-      // Simple scoring - sum of numeric values
       calculatedScore = Object.entries(answers).reduce((total, [questionId, val]) => {
         if (typeof val === 'number') {
           return total + val;
@@ -91,10 +83,8 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
         return total;
       }, 0);
     } else if (questionnaire.scoring.type === 'sum') {
-      // Calculate total score
       calculatedScore = 0;
       
-      // Calculate group scores if defined
       if (questionnaire.scoring.groups) {
         questionnaire.scoring.groups.forEach(group => {
           const groupScore = group.items.reduce((total, questionId) => {
@@ -107,14 +97,12 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
           
           calculatedGroupScores[group.id] = groupScore;
           
-          // For MIDAS and similar questionnaires where total is just the main group
           if (group.id === 'midas_total' || group.id === 'hses_total') {
             calculatedScore = groupScore;
           }
         });
       }
     } else if (questionnaire.scoring.type === 'custom') {
-      // Handle special case for HSLOC
       if (questionnaire.id === 'hsloc') {
         const internalItems = questionnaire.scoring.groups?.find(g => g.id === 'internal')?.items || [];
         const healthcareItems = questionnaire.scoring.groups?.find(g => g.id === 'healthcare')?.items || [];
@@ -136,7 +124,6 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
         calculatedGroupScores['healthcare'] = healthcareScore;
         calculatedGroupScores['chance'] = chanceScore;
         
-        // Determine dominant locus of control
         let dominant = 'internal';
         let dominantScore = internalScore;
         
@@ -149,53 +136,45 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
           dominant = 'chance';
         }
         
-        calculatedScore = 0; // Not used for HSLOC
+        calculatedScore = 0;
         calculatedGroupScores['dominant'] = dominant;
-      } 
-      // Handle PSFS
-      else if (questionnaire.id === 'psfs') {
+      } else if (questionnaire.id === 'psfs') {
         const activities = [];
         
-        // Activity 1
         if (answers['psfs-activity1']) {
           activities.push({
             id: 'psfs-activity1',
             text: answers['psfs-activity1'],
-            rating: answers['psfs-rating1'] || 0
+            rating: Number(answers['psfs-rating1']) || 0
           });
         }
         
-        // Activity 2
         if (answers['psfs-activity2']) {
           activities.push({
             id: 'psfs-activity2',
             text: answers['psfs-activity2'],
-            rating: answers['psfs-rating2'] || 0
+            rating: Number(answers['psfs-rating2']) || 0
           });
         }
         
-        // Activity 3
         if (answers['psfs-activity3']) {
           activities.push({
             id: 'psfs-activity3',
             text: answers['psfs-activity3'],
-            rating: answers['psfs-rating3'] || 0
+            rating: Number(answers['psfs-rating3']) || 0
           });
         }
         
-        // Save activities for future use
         localStorage.setItem(`psfs-activities`, JSON.stringify(activities));
         setSavedActivities(activities);
         
-        // Calculate average rating if there are activities
         if (activities.length > 0) {
           const sum = activities.reduce((total, activity) => total + activity.rating, 0);
-          calculatedScore = Math.round((sum / activities.length) * 10) / 10; // Round to 1 decimal
+          calculatedScore = Math.round((sum / activities.length) * 10) / 10;
         }
       }
     }
     
-    // Handle FHT (headache type) for exercise recommendations
     if (questionnaire.id === 'fht' && questionnaire.recommendedExercises) {
       const selectedTypes = answers['headache-types'] || [];
       if (Array.isArray(selectedTypes)) {
@@ -216,9 +195,7 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
     };
   };
 
-  // Go to next section
   const handleNext = () => {
-    // Save progress if handler provided
     if (onSaveProgress) {
       onSaveProgress({
         questionnaireId: questionnaire.id,
@@ -234,7 +211,6 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
       setCurrentSectionIndex((prev) => prev + 1);
       toast.success("Section completed!");
     } else {
-      // Calculate scores
       const results = calculateScore();
       setScore(results.score);
       setGroupScores(results.groupScores);
@@ -245,7 +221,6 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
         setRecommendedExercises(results.recommendedExercises);
       }
 
-      // Mark as completed and prepare response
       setIsCompleted(true);
       toast.success("Questionnaire completed!");
       
@@ -257,7 +232,7 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
           value,
         })),
         score: results.score || undefined,
-        groupScores: Object.keys(results.groupScores).length > 0 ? results.groupScores : undefined,
+        groupScores: Object.keys(results.groupScores).length > 0 ? results.groupScores as Record<string, number> : undefined,
         savedActivities: results.savedActivities,
         recommendedExercises: results.recommendedExercises.length > 0 ? results.recommendedExercises : undefined
       };
@@ -266,7 +241,6 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
     }
   };
 
-  // Go to previous section
   const handlePrevious = () => {
     if (currentSectionIndex > 0) {
       setCurrentSectionIndex((prev) => prev - 1);
@@ -298,7 +272,7 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
           <QuestionnaireInterpretation 
             questionnaire={questionnaire} 
             score={score}
-            groupScores={groupScores}
+            groupScores={groupScores as Record<string, number>}
             savedActivities={savedActivities}
             recommendedExercises={recommendedExercises}
           />

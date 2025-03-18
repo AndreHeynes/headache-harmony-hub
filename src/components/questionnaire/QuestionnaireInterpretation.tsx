@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Questionnaire } from "@/types/questionnaire";
 import { ArrowRight, AlertTriangle, CheckCircle, Info, Dumbbell } from "lucide-react";
@@ -77,7 +76,7 @@ const QuestionnaireInterpretation: React.FC<QuestionnaireInterpretationProps> = 
     const internalScore = groupScores['internal'] || 0;
     const healthcareScore = groupScores['healthcare'] || 0;
     const chanceScore = groupScores['chance'] || 0;
-    const dominant = groupScores['dominant'];
+    const dominant = groupScores['dominant'] as string | undefined;
     
     let dominantText = '';
     let dominantDescription = '';
