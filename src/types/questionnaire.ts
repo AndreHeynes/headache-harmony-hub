@@ -1,5 +1,5 @@
 
-export type QuestionType = 'multiple-choice' | 'radio' | 'checkbox' | 'text' | 'heading' | 'info';
+export type QuestionType = 'multiple-choice' | 'radio' | 'checkbox' | 'text' | 'heading' | 'info' | 'activity-select';
 
 export interface QuestionOption {
   id: string;
@@ -14,6 +14,7 @@ export interface Question {
   options?: QuestionOption[];
   required?: boolean;
   info?: string;
+  activitySaveKey?: string; // For storing user-defined activities
 }
 
 export interface QuestionnaireSection {
@@ -36,6 +37,25 @@ export interface Questionnaire {
       text: string;
     }[];
   };
+  scoring?: {
+    type: 'sum' | 'custom';
+    groups?: {
+      id: string;
+      name: string;
+      items: string[]; // question IDs
+      interpretation?: {
+        ranges: {
+          min: number;
+          max: number;
+          text: string;
+        }[];
+      };
+    }[];
+    customFunction?: string; // For complex scoring logic
+  };
+  recommendedExercises?: {
+    typeMap: Record<string, string[]>; // Maps types to exercise IDs
+  };
 }
 
 export interface QuestionnaireResponse {
@@ -46,4 +66,11 @@ export interface QuestionnaireResponse {
     value: string | number | string[];
   }[];
   score?: number;
+  groupScores?: Record<string, number>;
+  savedActivities?: {
+    id: string;
+    text: string;
+    rating: number;
+  }[];
+  recommendedExercises?: string[];
 }

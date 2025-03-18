@@ -4,10 +4,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import PageLayout from "@/components/layout/PageLayout";
 import QuestionnaireForm from "@/components/questionnaire/QuestionnaireForm";
 import { hit6Questionnaire } from "@/data/questionnaires/hit6";
-import { headacheTypeQuestionnaire } from "@/data/questionnaires/headache-type";
+import { fhtQuestionnaire } from "@/data/questionnaires/fht";
+import { midasQuestionnaire } from "@/data/questionnaires/midas";
+import { hsesQuestionnaire } from "@/data/questionnaires/hses";
+import { psfsQuestionnaire } from "@/data/questionnaires/psfs";
+import { hslocQuestionnaire } from "@/data/questionnaires/hsloc";
 import { QuestionnaireResponse } from "@/types/questionnaire";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const Questionnaire = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,8 +24,16 @@ const Questionnaire = () => {
     switch (id) {
       case "hit-6":
         return hit6Questionnaire;
-      case "headache-type":
-        return headacheTypeQuestionnaire;
+      case "fht":
+        return fhtQuestionnaire;
+      case "midas":
+        return midasQuestionnaire;
+      case "hses":
+        return hsesQuestionnaire;
+      case "psfs":
+        return psfsQuestionnaire;
+      case "hsloc":
+        return hslocQuestionnaire;
       default:
         return null;
     }
@@ -44,6 +57,7 @@ const Questionnaire = () => {
         });
         
         setSavedResponses(answers);
+        toast.info("Previous responses loaded");
       } catch (e) {
         console.error("Error parsing saved responses");
       }
@@ -54,16 +68,18 @@ const Questionnaire = () => {
     // Save completed response
     localStorage.setItem(`questionnaire-${id}`, JSON.stringify(response));
     
-    // In a real app, you'd also send this to a server
-    console.log("Questionnaire completed:", response);
+    // For PSFS, save activities separately for reuse in Phase 3
+    if (id === 'psfs' && response.savedActivities) {
+      localStorage.setItem('psfs-activities', JSON.stringify(response.savedActivities));
+    }
     
-    // Don't navigate away immediately so the user can see their result
-    // The form has a button to return
+    console.log("Questionnaire completed:", response);
   };
   
   const handleSaveProgress = (partialResponse: Partial<QuestionnaireResponse>) => {
     // Save progress
     localStorage.setItem(`questionnaire-${id}-progress`, JSON.stringify(partialResponse));
+    toast.success("Progress saved");
   };
   
   if (!questionnaire) {

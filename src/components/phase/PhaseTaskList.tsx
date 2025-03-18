@@ -43,28 +43,86 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
         ];
       }
       
-      // Phase 1 tasks - including questionnaires (starting from day 2)
-      return [
-        { 
-          id: 1, 
-          title: "Initial Assessment", 
-          status: day > 3 ? "completed" : day > 1 ? "in-progress" : "not-started" 
-        },
-        { 
-          id: 2, 
-          title: "HIT-6 Questionnaire", 
-          status: day > 5 ? "completed" : day > 2 ? "in-progress" : "not-started",
-          type: "questionnaire",
-          link: "/questionnaire/hit-6"
-        },
-        { 
-          id: 3, 
-          title: "Headache Type Survey", 
-          status: day > 6 ? "completed" : day > 4 ? "in-progress" : "not-started",
-          type: "questionnaire",
-          link: "/questionnaire/headache-type"
-        }
-      ];
+      // Day 2 - Initial questionnaires
+      else if (day === 2) {
+        return [
+          { 
+            id: 1, 
+            title: "HIT-6 Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/hit-6"
+          },
+          { 
+            id: 2, 
+            title: "MIDAS Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/midas"
+          }
+        ];
+      }
+      
+      // Day 3 - More questionnaires
+      else if (day === 3) {
+        return [
+          { 
+            id: 1, 
+            title: "Headache Self-Efficacy Scale", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/hses"
+          },
+          { 
+            id: 2, 
+            title: "Headache Type Assessment", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/fht"
+          }
+        ];
+      }
+      
+      // Day 4 - More questionnaires
+      else if (day === 4) {
+        return [
+          { 
+            id: 1, 
+            title: "Patient Specific Functional Scale", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/psfs"
+          },
+          { 
+            id: 2, 
+            title: "Headache Locus of Control", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/hsloc"
+          }
+        ];
+      }
+      
+      // Days 5-7 - Review and reflect
+      else {
+        return [
+          { 
+            id: 1, 
+            title: "Review your questionnaire results", 
+            status: day > 6 ? "completed" : "not-started"
+          },
+          { 
+            id: 2, 
+            title: "Track headache symptoms and triggers", 
+            status: day > 5 ? "in-progress" : "not-started"
+          },
+          { 
+            id: 3, 
+            title: "Prepare for Phase 2", 
+            status: day === 7 ? "in-progress" : "not-started"
+          }
+        ];
+      }
     } else if (phase === 2) {
       // Phase 2 tasks - these will vary based on the day
       return [

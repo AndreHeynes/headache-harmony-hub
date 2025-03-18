@@ -29,7 +29,7 @@ const QuestionnaireSection: React.FC<QuestionnaireSectionProps> = ({
       case "info":
         return (
           <div className="mb-4 p-3 bg-blue-50 rounded-md">
-            <p className="text-sm text-neutral-700">{question.text}</p>
+            <p className="text-sm text-neutral-700 whitespace-pre-line">{question.text}</p>
           </div>
         );
       case "radio":
@@ -40,8 +40,15 @@ const QuestionnaireSection: React.FC<QuestionnaireSectionProps> = ({
               <p className="text-sm text-neutral-500 mb-2">{question.info}</p>
             )}
             <RadioGroup
-              value={answers[question.id] || ""}
-              onValueChange={(value) => onAnswerChange(question.id, value)}
+              value={answers[question.id]?.toString() || ""}
+              onValueChange={(value) => {
+                // Convert string numbers to actual numbers for scoring
+                if (!isNaN(Number(value))) {
+                  onAnswerChange(question.id, Number(value));
+                } else {
+                  onAnswerChange(question.id, value);
+                }
+              }}
               className="space-y-1"
             >
               {question.options?.map((option) => (
@@ -113,8 +120,45 @@ const QuestionnaireSection: React.FC<QuestionnaireSectionProps> = ({
             <Input
               id={question.id}
               value={answers[question.id] || ""}
+              onChange={(e) => {
+                // For numeric fields that need conversion
+                if (
+                  questionnaire.id === "midas" &&
+                  question.id.startsWith("midas-q") && 
+                  !isNaN(Number(e.target.value))
+                ) {
+                  onAnswerChange(question.id, Number(e.target.value) || 0);
+                } else {
+                  onAnswerChange(question.id, e.target.value);
+                }
+              }}
+              type={
+                questionnaire.id === "midas" && question.id.startsWith("midas-q")
+                  ? "number"
+                  : "text"
+              }
+              min={
+                questionnaire.id === "midas" && question.id.startsWith("midas-q")
+                  ? "0"
+                  : undefined
+              }
+              className="w-full"
+            />
+          </div>
+        );
+      case "activity-select":
+        // For PSFS-specific activity selection
+        return (
+          <div className="mb-6">
+            <Label htmlFor={question.id} className="block mb-2">
+              {question.text}
+            </Label>
+            <Input
+              id={question.id}
+              value={answers[question.id] || ""}
               onChange={(e) => onAnswerChange(question.id, e.target.value)}
               className="w-full"
+              placeholder="Enter an activity affected by your headaches"
             />
           </div>
         );
