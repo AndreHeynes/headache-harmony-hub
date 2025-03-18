@@ -5,6 +5,7 @@ import StandardInterpretation from "./interpretation/StandardInterpretation";
 import HSLOCInterpretation from "./interpretation/HSLOCInterpretation";
 import PSFSInterpretation from "./interpretation/PSFSInterpretation";
 import FHTInterpretation from "./interpretation/FHTInterpretation";
+import PSCInterpretation from "./interpretation/PSCInterpretation";
 import SimpleCompletion from "./interpretation/SimpleCompletion";
 
 interface QuestionnaireInterpretationProps {
@@ -38,9 +39,16 @@ const QuestionnaireInterpretation: React.FC<QuestionnaireInterpretationProps> = 
     case 'fht':
       return <FHTInterpretation recommendedExercises={recommendedExercises} />;
     
+    case 'psc':
+      return <PSCInterpretation groupScores={groupScores} />;
+    
     case 'hb':
       // HB questionnaire has no specific interpretation, just confirmation of completion
-      return <SimpleCompletion />;
+      return <SimpleCompletion customMessage="Thank you for sharing your beliefs about headaches. This information will help us tailor your program." />;
+    
+    case 'mkq':
+      // MKQ questionnaire completion message
+      return <SimpleCompletion customMessage="Thank you for completing the Medication Knowledge Questionnaire. This information will help us understand your current medication management." />;
     
     default:
       // Default interpretation for standard questionnaires

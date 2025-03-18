@@ -111,6 +111,57 @@ export const calculateQuestionnaireScore = (
         const sum = activities.reduce((total, activity) => total + activity.rating, 0);
         calculatedScore = Math.round((sum / activities.length) * 10) / 10;
       }
+    } else if (questionnaire.id === 'psc') {
+      // Process PSC scoring
+      const precontemplationItems = questionnaire.scoring.groups?.find(g => g.id === 'precontemplation')?.items || [];
+      const contemplationItems = questionnaire.scoring.groups?.find(g => g.id === 'contemplation')?.items || [];
+      const actionItems = questionnaire.scoring.groups?.find(g => g.id === 'action')?.items || [];
+      const maintenanceItems = questionnaire.scoring.groups?.find(g => g.id === 'maintenance')?.items || [];
+      
+      // Calculate scores for each stage
+      const precontemplationScore = precontemplationItems.reduce((total, questionId) => {
+        return total + (Number(answers[questionId]) || 0);
+      }, 0);
+      
+      const contemplationScore = contemplationItems.reduce((total, questionId) => {
+        return total + (Number(answers[questionId]) || 0);
+      }, 0);
+      
+      const actionScore = actionItems.reduce((total, questionId) => {
+        return total + (Number(answers[questionId]) || 0);
+      }, 0);
+      
+      const maintenanceScore = maintenanceItems.reduce((total, questionId) => {
+        return total + (Number(answers[questionId]) || 0);
+      }, 0);
+      
+      // Store scores
+      calculatedGroupScores['precontemplation'] = precontemplationScore;
+      calculatedGroupScores['contemplation'] = contemplationScore;
+      calculatedGroupScores['action'] = actionScore;
+      calculatedGroupScores['maintenance'] = maintenanceScore;
+      
+      // Find dominant stage (highest score)
+      let dominant = 'precontemplation';
+      let dominantScore = precontemplationScore;
+      
+      if (contemplationScore > dominantScore) {
+        dominant = 'contemplation';
+        dominantScore = contemplationScore;
+      }
+      
+      if (actionScore > dominantScore) {
+        dominant = 'action';
+        dominantScore = actionScore;
+      }
+      
+      if (maintenanceScore > dominantScore) {
+        dominant = 'maintenance';
+        dominantScore = maintenanceScore;
+      }
+      
+      calculatedGroupScores['dominant'] = dominant;
+      calculatedScore = dominantScore;
     }
   }
   
