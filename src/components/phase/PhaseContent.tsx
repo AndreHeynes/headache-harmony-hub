@@ -37,6 +37,15 @@ const PhaseContent = ({
           {dayContent}
         </p>
         {day === 1 && <VideoPreview title="Phase 1 Introduction Video" />}
+        {day === 7 && (
+          <div className="bg-neutral-100 p-4 rounded mt-4">
+            <h3 className="font-medium mb-2">Week 1 Summary</h3>
+            <p className="text-neutral-600">
+              Complete your final assessments and review your progress from the past week. 
+              Prepare for moving to Phase 2 of your program.
+            </p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
