@@ -44,9 +44,6 @@ const ContentHeader = ({
             <ArrowRight className="h-5 w-5 text-neutral-600" />
           </Button>
         )}
-        {!onNext && !onPrevious && (
-          <ArrowRight className="h-5 w-5 text-neutral-600" />
-        )}
       </div>
     </div>
   );
