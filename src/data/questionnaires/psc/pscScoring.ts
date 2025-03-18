@@ -1,6 +1,6 @@
 
 export const pscScoring = {
-  type: 'custom',
+  type: 'custom' as const,
   groups: [
     {
       id: 'precontemplation',
