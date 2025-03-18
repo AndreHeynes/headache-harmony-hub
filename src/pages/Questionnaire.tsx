@@ -9,6 +9,9 @@ import { midasQuestionnaire } from "@/data/questionnaires/midas";
 import { hsesQuestionnaire } from "@/data/questionnaires/hses";
 import { psfsQuestionnaire } from "@/data/questionnaires/psfs";
 import { hslocQuestionnaire } from "@/data/questionnaires/hsloc";
+import { hbQuestionnaire } from "@/data/questionnaires/hb";
+import { pscQuestionnaire } from "@/data/questionnaires/psc";
+import { mkqQuestionnaire } from "@/data/questionnaires/mkq";
 import { QuestionnaireResponse } from "@/types/questionnaire";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,6 +37,12 @@ const Questionnaire = () => {
         return psfsQuestionnaire;
       case "hsloc":
         return hslocQuestionnaire;
+      case "hb":
+        return hbQuestionnaire;
+      case "psc":
+        return pscQuestionnaire;
+      case "mkq":
+        return mkqQuestionnaire;
       default:
         return null;
     }
