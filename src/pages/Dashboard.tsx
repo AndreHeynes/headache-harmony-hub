@@ -8,7 +8,8 @@ import {
   CircleOff, 
   Clock, 
   Heart, 
-  Plus 
+  Plus,
+  ArrowRight 
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -56,7 +57,7 @@ const Dashboard = () => {
           <div className="flex items-center space-x-4">
             <div className="text-neutral-600">
               <span>Current Phase: </span>
-              <span>2</span>
+              <Link to="/phase-one" className="text-neutral-800 hover:underline">1</Link>
             </div>
             <div className="w-8 h-8 rounded-full bg-purple-200 flex items-center justify-center">
               <span className="text-sm font-medium">JD</span>
@@ -146,7 +147,12 @@ const Dashboard = () => {
               <CardContent>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <span>Phase 1: Week 1</span>
+                    <span>
+                      <Link to="/phase-one" className="hover:underline flex items-center">
+                        Phase 1: Week 1
+                        <ArrowRight className="ml-1 h-3 w-3" />
+                      </Link>
+                    </span>
                     <Badge className="bg-neutral-800 hover:bg-neutral-700">Completed</Badge>
                   </div>
                   <div className="flex justify-between items-center">
