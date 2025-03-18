@@ -67,7 +67,7 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
             <TaskItem 
               key={task.id}
               title={task.title}
-              status={task.status}
+              completed={task.status === "completed"}
               onClick={() => console.log(`Task ${task.id} clicked`)}
             />
           ))}
