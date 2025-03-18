@@ -37,16 +37,6 @@ const PhaseTwo = () => {
     <PageLayout>
       <div className="flex justify-between items-center mb-8">
         <PhaseHeading title="Building your recovery foundation" />
-        <div className="flex space-x-2">
-          {currentDay === 1 && (
-            <button 
-              onClick={goToNextDay}
-              className="p-2 rounded hover:bg-neutral-100"
-            >
-              <ArrowRight className="h-5 w-5" />
-            </button>
-          )}
-        </div>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -63,7 +53,7 @@ const PhaseTwo = () => {
         <PhaseContent 
           day={currentDay} 
           content={dayContents[currentDay - 1]} 
-          onNextDay={currentDay === 1 ? goToNextDay : undefined}
+          onNextDay={currentDay < totalDays ? goToNextDay : undefined}
           onPreviousDay={undefined}
           totalDays={totalDays}
           phase={2}
