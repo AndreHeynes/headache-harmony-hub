@@ -1,7 +1,16 @@
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import TaskItem from "./TaskItem";
+
+interface Task {
+  id: number;
+  title: string;
+  status: "not-started" | "in-progress" | "completed";
+  type?: "default" | "questionnaire";
+  link?: string;
+}
 
 interface PhaseTaskListProps {
   day?: number;
@@ -9,10 +18,12 @@ interface PhaseTaskListProps {
 }
 
 const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
+  const navigate = useNavigate();
+  
   // Generate tasks based on the phase and day
-  const getTasks = () => {
+  const getTasks = (): Task[] => {
     if (phase === 1) {
-      // Phase 1 tasks
+      // Phase 1 tasks - including questionnaires
       return [
         { 
           id: 1, 
@@ -21,13 +32,17 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
         },
         { 
           id: 2, 
-          title: "Pain Diary", 
-          status: day > 5 ? "completed" : day > 2 ? "in-progress" : "not-started" 
+          title: "HIT-6 Questionnaire", 
+          status: day > 5 ? "completed" : day > 2 ? "in-progress" : "not-started",
+          type: "questionnaire",
+          link: "/questionnaire/hit-6"
         },
         { 
           id: 3, 
-          title: "Lifestyle Survey", 
-          status: day > 6 ? "completed" : day > 4 ? "in-progress" : "not-started" 
+          title: "Headache Type Survey", 
+          status: day > 6 ? "completed" : day > 4 ? "in-progress" : "not-started",
+          type: "questionnaire",
+          link: "/questionnaire/headache-type"
         }
       ];
     } else if (phase === 2) {
@@ -45,8 +60,10 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
         },
         { 
           id: 3, 
-          title: "Stress Management", 
-          status: day % 5 === 0 ? "completed" : day % 4 === 0 ? "in-progress" : "not-started" 
+          title: "HIT-6 Follow-up", 
+          status: day % 5 === 0 ? "completed" : day % 4 === 0 ? "in-progress" : "not-started",
+          type: "questionnaire",
+          link: "/questionnaire/hit-6"
         }
       ];
     } else {
@@ -55,6 +72,13 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
   };
 
   const tasks = getTasks();
+  
+  const handleTaskClick = (task: Task) => {
+    console.log(`Task ${task.id} clicked`);
+    if (task.link) {
+      navigate(task.link);
+    }
+  };
   
   return (
     <Card>
@@ -68,8 +92,9 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
               key={task.id}
               title={task.title}
               completed={task.status === "completed"}
-              status={task.status as "not-started" | "in-progress" | "completed"}
-              onClick={() => console.log(`Task ${task.id} clicked`)}
+              status={task.status}
+              type={task.type}
+              onClick={() => handleTaskClick(task)}
             />
           ))}
         </div>

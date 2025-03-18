@@ -1,16 +1,27 @@
 
 import React from "react";
-import { Circle, CheckCircle, Clock } from "lucide-react";
+import { Circle, CheckCircle, Clock, FileText } from "lucide-react";
 
 interface TaskItemProps {
   title: string;
   completed: boolean;
   onClick: () => void;
   status?: "not-started" | "in-progress" | "completed";
+  type?: "default" | "questionnaire";
 }
 
-const TaskItem = ({ title, completed, onClick, status = "not-started" }: TaskItemProps) => {
+const TaskItem = ({ 
+  title, 
+  completed, 
+  onClick, 
+  status = "not-started", 
+  type = "default" 
+}: TaskItemProps) => {
   const renderStatusIcon = () => {
+    if (type === "questionnaire") {
+      return <FileText className={`mr-3 h-5 w-5 ${getIconColorClass()}`} />;
+    }
+    
     switch (status) {
       case "completed":
         return <CheckCircle className="mr-3 h-5 w-5 text-neutral-800" />;
@@ -19,6 +30,18 @@ const TaskItem = ({ title, completed, onClick, status = "not-started" }: TaskIte
       case "not-started":
       default:
         return <Circle className="mr-3 h-5 w-5 text-neutral-400" />;
+    }
+  };
+
+  const getIconColorClass = () => {
+    switch (status) {
+      case "completed":
+        return "text-neutral-800";
+      case "in-progress":
+        return "text-neutral-600";
+      case "not-started":
+      default:
+        return "text-neutral-400";
     }
   };
 
@@ -36,7 +59,7 @@ const TaskItem = ({ title, completed, onClick, status = "not-started" }: TaskIte
 
   return (
     <li 
-      className="flex items-center justify-between cursor-pointer hover:bg-neutral-50 p-2 rounded"
+      className="flex items-center justify-between cursor-pointer hover:bg-neutral-50 p-2 rounded transition-colors"
       onClick={onClick}
     >
       <div className="flex items-center">
