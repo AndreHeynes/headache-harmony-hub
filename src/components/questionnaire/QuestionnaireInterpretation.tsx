@@ -73,10 +73,13 @@ const QuestionnaireInterpretation: React.FC<QuestionnaireInterpretationProps> = 
   const renderHSLOCResults = () => {
     if (questionnaire.id !== 'hsloc') return null;
     
-    const internalScore = groupScores['internal'] || 0;
-    const healthcareScore = groupScores['healthcare'] || 0;
-    const chanceScore = groupScores['chance'] || 0;
-    const dominant = groupScores['dominant'] as string | undefined;
+    // Fix type issues by ensuring we're using numbers for all score values
+    const internalScore = typeof groupScores['internal'] === 'number' ? groupScores['internal'] : 0;
+    const healthcareScore = typeof groupScores['healthcare'] === 'number' ? groupScores['healthcare'] : 0;
+    const chanceScore = typeof groupScores['chance'] === 'number' ? groupScores['chance'] : 0;
+    
+    // Convert dominant to string explicitly to avoid type errors
+    const dominant = groupScores['dominant'] ? String(groupScores['dominant']) : undefined;
     
     let dominantText = '';
     let dominantDescription = '';
