@@ -13,8 +13,9 @@ const Index = () => {
             <span className="text-xl text-neutral-800">MigraineTracker</span>
           </div>
           <nav className="hidden md:flex space-x-6">
-            <a href="#" className="text-neutral-600 hover:text-neutral-900">Features</a>
-            <a href="#" className="text-neutral-600 hover:text-neutral-900">About</a>
+            <Link to="/" className="text-neutral-900 font-medium">Home</Link>
+            <Link to="/learn-more" className="text-neutral-600 hover:text-neutral-900">Learn More</Link>
+            <Link to="/pricing" className="text-neutral-600 hover:text-neutral-900">Pricing</Link>
             <a href="#" className="text-neutral-600 hover:text-neutral-900">Contact</a>
           </nav>
           <button className="md:hidden">
@@ -36,15 +37,27 @@ const Index = () => {
               <h1 className="text-4xl md:text-5xl mb-4 text-neutral-900">Recover from Headache, Reclaim Your Life!</h1>
               <p className="text-lg md:text-xl text-neutral-600 mb-8">A personalized journey to understand and manage your headache disorder through skills development and expert-guided exercises</p>
               <div className="flex flex-col md:flex-row gap-4 justify-center mb-6">
-                <Button className="bg-neutral-900 text-white px-8 py-3 rounded-lg hover:bg-neutral-800">Log In</Button>
-                <Button className="bg-neutral-700 text-white px-8 py-3 rounded-lg hover:bg-neutral-600">Sign Up</Button>
+                <Link to="/sign-in">
+                  <Button className="bg-neutral-900 text-white px-8 py-3 rounded-lg hover:bg-neutral-800">Log In</Button>
+                </Link>
+                <Link to="/register">
+                  <Button className="bg-neutral-700 text-white px-8 py-3 rounded-lg hover:bg-neutral-600">Sign Up</Button>
+                </Link>
               </div>
-              <Link to="/learn-more" className="text-neutral-600 hover:text-neutral-900 inline-flex items-center">
-                Learn More
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
+              <div className="flex flex-col md:flex-row gap-4 justify-center">
+                <Link to="/learn-more" className="text-neutral-600 hover:text-neutral-900 inline-flex items-center">
+                  Learn More
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+                <Link to="/pricing" className="text-neutral-600 hover:text-neutral-900 inline-flex items-center">
+                  View Pricing
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
             </div>
           </div>
         </section>

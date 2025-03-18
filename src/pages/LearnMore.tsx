@@ -1,8 +1,7 @@
-
 import { Brain } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LearnMore = () => {
   const navigate = useNavigate();
@@ -17,9 +16,9 @@ const LearnMore = () => {
             <span className="text-xl text-neutral-800">MigraineTracker</span>
           </div>
           <nav className="hidden md:flex space-x-6">
-            <a href="/" className="text-neutral-600 hover:text-neutral-900">Home</a>
-            <a href="/learn-more" className="text-neutral-900 font-medium">Learn More</a>
-            <a href="#" className="text-neutral-600 hover:text-neutral-900">Features</a>
+            <Link to="/" className="text-neutral-600 hover:text-neutral-900">Home</Link>
+            <Link to="/learn-more" className="text-neutral-900 font-medium">Learn More</Link>
+            <Link to="/pricing" className="text-neutral-600 hover:text-neutral-900">Pricing</Link>
             <a href="#" className="text-neutral-600 hover:text-neutral-900">Contact</a>
           </nav>
           <button className="md:hidden">
@@ -127,12 +126,20 @@ const LearnMore = () => {
             {/* CTA Section */}
             <div className="text-center">
               <Button
-                onClick={() => navigate("/register")}
-                size="lg"
-                className="px-8 py-6 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg transition-all shadow-lg hover:shadow-xl"
+                onClick={() => navigate("/pricing")}
+                className="px-8 py-6 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg transition-all shadow-lg hover:shadow-xl mb-4"
               >
-                Create Your Account
+                View Pricing Options
               </Button>
+              <div className="mt-4">
+                <Button
+                  variant="outline"
+                  onClick={() => navigate("/register")}
+                  className="px-8 py-6 font-medium rounded-lg transition-all"
+                >
+                  Create Your Account
+                </Button>
+              </div>
             </div>
           </motion.div>
         </div>
