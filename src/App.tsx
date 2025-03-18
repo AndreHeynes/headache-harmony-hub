@@ -13,6 +13,7 @@ import Support from "./pages/Support";
 import Pricing from "./pages/Pricing";
 import Policy from "./pages/Policy";
 import Questionnaire from "./pages/Questionnaire";
+import PhaseOneGuide from "./pages/documents/PhaseOneGuide";
 
 import "./App.css";
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/policy" element={<Policy />} />
         <Route path="/questionnaire/:id" element={<Questionnaire />} />
+        <Route path="/documents/phase-one-guide" element={<PhaseOneGuide />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

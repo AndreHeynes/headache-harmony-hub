@@ -8,7 +8,7 @@ interface Task {
   id: number;
   title: string;
   status: "not-started" | "in-progress" | "completed";
-  type?: "default" | "questionnaire";
+  type?: "default" | "questionnaire" | "document" | "video";
   link?: string;
 }
 
@@ -23,7 +23,27 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
   // Generate tasks based on the phase and day
   const getTasks = (): Task[] => {
     if (phase === 1) {
-      // Phase 1 tasks - including questionnaires
+      // Special tasks for day 1
+      if (day === 1) {
+        return [
+          { 
+            id: 1, 
+            title: "Read the Phase 1 guide", 
+            status: "not-started",
+            type: "document",
+            link: "/documents/phase-one-guide"
+          },
+          { 
+            id: 2, 
+            title: "Watch the Phase 1 introduction video", 
+            status: "not-started",
+            type: "video",
+            link: "#" // This would link to the video player
+          }
+        ];
+      }
+      
+      // Phase 1 tasks - including questionnaires (starting from day 2)
       return [
         { 
           id: 1, 
@@ -74,7 +94,7 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
   const tasks = getTasks();
   
   const handleTaskClick = (task: Task) => {
-    console.log(`Task ${task.id} clicked`);
+    console.log(`Task ${task.id} clicked with type: ${task.type}`);
     if (task.link) {
       navigate(task.link);
     }

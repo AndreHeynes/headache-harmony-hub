@@ -1,13 +1,13 @@
 
 import React from "react";
-import { Circle, CheckCircle, Clock, FileText } from "lucide-react";
+import { Circle, CheckCircle, Clock, FileText, FileQuestion, Video } from "lucide-react";
 
 interface TaskItemProps {
   title: string;
   completed: boolean;
   onClick: () => void;
   status?: "not-started" | "in-progress" | "completed";
-  type?: "default" | "questionnaire";
+  type?: "default" | "questionnaire" | "document" | "video";
 }
 
 const TaskItem = ({ 
@@ -18,10 +18,16 @@ const TaskItem = ({
   type = "default" 
 }: TaskItemProps) => {
   const renderStatusIcon = () => {
+    // Choose icon based on task type
     if (type === "questionnaire") {
+      return <FileQuestion className={`mr-3 h-5 w-5 ${getIconColorClass()}`} />;
+    } else if (type === "document") {
       return <FileText className={`mr-3 h-5 w-5 ${getIconColorClass()}`} />;
+    } else if (type === "video") {
+      return <Video className={`mr-3 h-5 w-5 ${getIconColorClass()}`} />;
     }
     
+    // Choose icon based on status
     switch (status) {
       case "completed":
         return <CheckCircle className="mr-3 h-5 w-5 text-neutral-800" />;
