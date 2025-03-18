@@ -1,12 +1,105 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { Brain } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-white">
+      <header className="fixed top-0 left-0 right-0 bg-white border-b border-neutral-200 z-50">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Brain className="w-6 h-6 text-neutral-800" />
+            <span className="text-xl text-neutral-800">MigraineTracker</span>
+          </div>
+          <nav className="hidden md:flex space-x-6">
+            <a href="#" className="text-neutral-600 hover:text-neutral-900">Features</a>
+            <a href="#" className="text-neutral-600 hover:text-neutral-900">About</a>
+            <a href="#" className="text-neutral-600 hover:text-neutral-900">Contact</a>
+          </nav>
+          <button className="md:hidden">
+            <span className="sr-only">Open menu</span>
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <main className="pt-16">
+        <section className="h-[600px] flex items-center">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mx-auto text-center">
+              <div className="bg-neutral-200 w-64 h-64 mx-auto mb-8 rounded-full flex items-center justify-center">
+                <Brain className="h-24 w-24 text-white" />
+              </div>
+              <h1 className="text-4xl md:text-5xl mb-4 text-neutral-900">Recover from Headache, Reclaim Your Life!</h1>
+              <p className="text-lg md:text-xl text-neutral-600 mb-8">A personalized journey to understand and manage your headache disorder through skills development and expert-guided exercises</p>
+              <div className="flex flex-col md:flex-row gap-4 justify-center mb-6">
+                <Button className="bg-neutral-900 text-white px-8 py-3 rounded-lg hover:bg-neutral-800">Log In</Button>
+                <Button className="bg-neutral-700 text-white px-8 py-3 rounded-lg hover:bg-neutral-600">Sign Up</Button>
+              </div>
+              <Link to="/learn-more" className="text-neutral-600 hover:text-neutral-900 inline-flex items-center">
+                Learn More
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="bg-neutral-100 py-8">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <h4 className="mb-4">About</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Our Story</a></li>
+                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Team</a></li>
+                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Careers</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="mb-4">Support</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Help Center</a></li>
+                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Privacy</a></li>
+                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Terms</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="mb-4">Contact</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Email Us</a></li>
+                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Phone</a></li>
+                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Office</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="mb-4">Follow Us</h4>
+              <div className="flex space-x-4">
+                <a href="#" className="text-neutral-600 hover:text-neutral-900">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8l-8 8m0-8l8 8" />
+                  </svg>
+                </a>
+                <a href="#" className="text-neutral-600 hover:text-neutral-900">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8l-8 8m0-8l8 8" />
+                  </svg>
+                </a>
+                <a href="#" className="text-neutral-600 hover:text-neutral-900">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8l-8 8m0-8l8 8" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
