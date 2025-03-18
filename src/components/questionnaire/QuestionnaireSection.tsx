@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Question, QuestionOption } from "@/types/questionnaire";
+import { Question } from "@/types/questionnaire";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -123,7 +123,6 @@ const QuestionnaireSection: React.FC<QuestionnaireSectionProps> = ({
               onChange={(e) => {
                 // For numeric fields that need conversion
                 if (
-                  // Remove the undefined questionnaire reference
                   question.id.startsWith("midas-q") && 
                   !isNaN(Number(e.target.value))
                 ) {
@@ -133,13 +132,11 @@ const QuestionnaireSection: React.FC<QuestionnaireSectionProps> = ({
                 }
               }}
               type={
-                // Remove the undefined questionnaire reference
                 question.id.startsWith("midas-q")
                   ? "number"
                   : "text"
               }
               min={
-                // Remove the undefined questionnaire reference
                 question.id.startsWith("midas-q")
                   ? "0"
                   : undefined
