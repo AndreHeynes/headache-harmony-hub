@@ -8,20 +8,157 @@ import PhaseTimeline from "@/components/phase/PhaseTimeline";
 import PhaseContent from "@/components/phase/PhaseContent";
 import ExternalTracking from "@/components/phase/ExternalTracking";
 import PhaseHeading from "@/components/phase/PhaseHeading";
+import { Link } from "react-router-dom";
 
 const PhaseOne = () => {
   const [currentDay, setCurrentDay] = useState(1);
   const totalDays = 7;
   
-  const dayContents = [
-    "Please review the description of how Phase 1 functions. A guide to participating in Phase 1.",
-    "Please start completing the questionnaires. You can either complete them full or wait till they will be available again during the course of the week.",
-    "Continue tracking your symptoms and triggers. Pay attention to patterns that may emerge.",
-    "Today's focus is on understanding your personal migraine triggers and how they affect you.",
-    "Review your progress so far and make note of any patterns or trends in your symptoms.",
-    "Focus on identifying lifestyle factors that may be contributing to your migraines.",
-    "Complete the week 1 summary and prepare for moving to the next phase of your program."
-  ];
+  const renderDayContent = (day: number) => {
+    switch (day) {
+      case 1:
+        return "Please review the description of how Phase 1 functions. A guide to participating in Phase 1.";
+      case 2:
+        return (
+          <div className="space-y-4">
+            <p>Please start completing the questionnaires today. These assessments will help us understand your specific situation and create a personalized treatment plan.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <Link to="/questionnaire/hit-6" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">HIT-6</h3>
+                <p className="text-sm text-neutral-600">Headache Impact Test</p>
+              </Link>
+              <Link to="/questionnaire/fht" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">FHT</h3>
+                <p className="text-sm text-neutral-600">Familiar Headache Symptoms</p>
+              </Link>
+              <Link to="/questionnaire/psfs" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">PSFS</h3>
+                <p className="text-sm text-neutral-600">Patient-Specific Functional Scale</p>
+              </Link>
+              <Link to="/questionnaire/mkq" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">MKQ</h3>
+                <p className="text-sm text-neutral-600">Medication Knowledge Quiz</p>
+              </Link>
+            </div>
+            <p className="text-sm mt-2">You can save your progress and complete these questionnaires later if needed.</p>
+          </div>
+        );
+      case 3:
+        return (
+          <div className="space-y-4">
+            <p>Continue tracking your symptoms and triggers. Today's questionnaires focus on headache impact and disability assessment.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <Link to="/questionnaire/fht" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">FHT</h3>
+                <p className="text-sm text-neutral-600">Familiar Headache Symptoms</p>
+              </Link>
+              <Link to="/questionnaire/midas" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">MIDAS</h3>
+                <p className="text-sm text-neutral-600">Migraine Disability Assessment</p>
+              </Link>
+              <Link to="/questionnaire/psfs" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">PSFS</h3>
+                <p className="text-sm text-neutral-600">Patient-Specific Functional Scale</p>
+              </Link>
+              <Link to="/questionnaire/mkq" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">MKQ</h3>
+                <p className="text-sm text-neutral-600">Medication Knowledge Quiz</p>
+              </Link>
+            </div>
+          </div>
+        );
+      case 4:
+        return (
+          <div className="space-y-4">
+            <p>Today's focus is on understanding your personal migraine triggers and how they affect you. Please complete the following assessments.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <Link to="/questionnaire/hit-6" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">HIT-6</h3>
+                <p className="text-sm text-neutral-600">Headache Impact Test</p>
+              </Link>
+              <Link to="/questionnaire/midas" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">MIDAS</h3>
+                <p className="text-sm text-neutral-600">Migraine Disability Assessment</p>
+              </Link>
+              <Link to="/questionnaire/psc" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">PSC</h3>
+                <p className="text-sm text-neutral-600">Pain Stages of Change</p>
+              </Link>
+              <Link to="/questionnaire/mkq" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">MKQ</h3>
+                <p className="text-sm text-neutral-600">Medication Knowledge Quiz</p>
+              </Link>
+            </div>
+          </div>
+        );
+      case 5:
+        return (
+          <div className="space-y-4">
+            <p>Review your progress so far and make note of any patterns or trends in your symptoms. Complete today's questionnaires.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <Link to="/questionnaire/psfs" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">PSFS</h3>
+                <p className="text-sm text-neutral-600">Patient-Specific Functional Scale</p>
+              </Link>
+              <Link to="/questionnaire/hsloc" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">HSLOC</h3>
+                <p className="text-sm text-neutral-600">Headache-Specific Locus of Control</p>
+              </Link>
+              <Link to="/questionnaire/psc" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">PSC</h3>
+                <p className="text-sm text-neutral-600">Pain Stages of Change</p>
+              </Link>
+              <Link to="/questionnaire/mkq" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">MKQ</h3>
+                <p className="text-sm text-neutral-600">Medication Knowledge Quiz</p>
+              </Link>
+            </div>
+          </div>
+        );
+      case 6:
+        return (
+          <div className="space-y-4">
+            <p>Focus on identifying lifestyle factors that may be contributing to your migraines. Complete these final assessments.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <Link to="/questionnaire/hses" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">HSES</h3>
+                <p className="text-sm text-neutral-600">Headache Self-Efficacy Scale</p>
+              </Link>
+              <Link to="/questionnaire/hb" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">HB</h3>
+                <p className="text-sm text-neutral-600">Headache Beliefs</p>
+              </Link>
+            </div>
+          </div>
+        );
+      case 7:
+        return (
+          <div className="space-y-4">
+            <p>Complete the final questionnaires for Phase 1. This will help us prepare your personalized program for Phase 2.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <Link to="/questionnaire/hses" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">HSES</h3>
+                <p className="text-sm text-neutral-600">Headache Self-Efficacy Scale</p>
+              </Link>
+              <Link to="/questionnaire/hsloc" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">HSLOC</h3>
+                <p className="text-sm text-neutral-600">Headache-Specific Locus of Control</p>
+              </Link>
+              <Link to="/questionnaire/hb" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">HB</h3>
+                <p className="text-sm text-neutral-600">Headache Beliefs</p>
+              </Link>
+              <Link to="/questionnaire/psc" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                <h3 className="font-medium">PSC</h3>
+                <p className="text-sm text-neutral-600">Pain Stages of Change</p>
+              </Link>
+            </div>
+          </div>
+        );
+      default:
+        return "";
+    }
+  };
 
   const goToPreviousDay = () => {
     if (currentDay > 1) {
@@ -66,7 +203,12 @@ const PhaseOne = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <PhaseContent 
           day={currentDay} 
-          content={dayContents[currentDay - 1]} 
+          content={typeof renderDayContent(currentDay) === 'string' 
+            ? renderDayContent(currentDay) as string
+            : undefined}
+          customContent={typeof renderDayContent(currentDay) !== 'string' 
+            ? renderDayContent(currentDay) 
+            : undefined}
           onNextDay={goToNextDay}
           onPreviousDay={goToPreviousDay}
           totalDays={totalDays}

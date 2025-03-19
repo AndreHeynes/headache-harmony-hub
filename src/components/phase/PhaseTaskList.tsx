@@ -48,6 +48,74 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
         return [
           { 
             id: 1, 
+            title: "FHT Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/fht"
+          },
+          { 
+            id: 2, 
+            title: "HIT-6 Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/hit-6"
+          },
+          { 
+            id: 3, 
+            title: "MKQ Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/mkq"
+          },
+          { 
+            id: 4, 
+            title: "PSFS Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/psfs"
+          }
+        ];
+      }
+      
+      // Day 3
+      else if (day === 3) {
+        return [
+          { 
+            id: 1, 
+            title: "FHT Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/fht"
+          },
+          { 
+            id: 2, 
+            title: "MIDAS Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/midas"
+          },
+          { 
+            id: 3, 
+            title: "PSFS Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/psfs"
+          },
+          { 
+            id: 4, 
+            title: "MKQ Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/mkq"
+          }
+        ];
+      }
+      
+      // Day 4
+      else if (day === 4) {
+        return [
+          { 
+            id: 1, 
             title: "HIT-6 Questionnaire", 
             status: "not-started",
             type: "questionnaire",
@@ -59,91 +127,113 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
             status: "not-started",
             type: "questionnaire",
             link: "/questionnaire/midas"
-          }
-        ];
-      }
-      
-      // Day 3 - More questionnaires
-      else if (day === 3) {
-        return [
-          { 
-            id: 1, 
-            title: "Headache Self-Efficacy Scale", 
-            status: "not-started",
-            type: "questionnaire",
-            link: "/questionnaire/hses"
           },
           { 
-            id: 2, 
-            title: "Headache Type Assessment", 
+            id: 3, 
+            title: "PSC Questionnaire", 
             status: "not-started",
             type: "questionnaire",
-            link: "/questionnaire/fht"
+            link: "/questionnaire/psc"
+          },
+          { 
+            id: 4, 
+            title: "MKQ Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/mkq"
           }
         ];
       }
       
-      // Day 4 - More questionnaires
-      else if (day === 4) {
+      // Day 5
+      else if (day === 5) {
         return [
           { 
             id: 1, 
-            title: "Patient Specific Functional Scale", 
+            title: "PSFS Questionnaire", 
             status: "not-started",
             type: "questionnaire",
             link: "/questionnaire/psfs"
           },
           { 
             id: 2, 
-            title: "Headache Locus of Control", 
+            title: "HSLOC Questionnaire", 
             status: "not-started",
             type: "questionnaire",
             link: "/questionnaire/hsloc"
+          },
+          { 
+            id: 3, 
+            title: "PSC Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/psc"
+          },
+          { 
+            id: 4, 
+            title: "MKQ Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/mkq"
           }
         ];
       }
       
-      // Days 5-7 - Review and reflect
-      else {
+      // Day 6
+      else if (day === 6) {
         return [
           { 
             id: 1, 
-            title: "Review your questionnaire results", 
-            status: day > 6 ? "completed" : "not-started"
+            title: "HSES Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/hses"
           },
           { 
             id: 2, 
-            title: "Track headache symptoms and triggers", 
-            status: day > 5 ? "in-progress" : "not-started"
-          },
-          { 
-            id: 3, 
-            title: "Prepare for Phase 2", 
-            status: day === 7 ? "in-progress" : "not-started"
+            title: "HB Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/hb"
           }
         ];
       }
-    } else if (phase === 2) {
-      // Phase 2 tasks - these will vary based on the day
-      return [
-        { 
-          id: 1, 
-          title: "Morning Exercise Routine", 
-          status: day % 4 === 0 ? "completed" : day % 3 === 0 ? "in-progress" : "not-started" 
-        },
-        { 
-          id: 2, 
-          title: "Breathing Techniques", 
-          status: day % 3 === 0 ? "completed" : day % 2 === 0 ? "in-progress" : "not-started" 
-        },
-        { 
-          id: 3, 
-          title: "HIT-6 Follow-up", 
-          status: day % 5 === 0 ? "completed" : day % 4 === 0 ? "in-progress" : "not-started",
-          type: "questionnaire",
-          link: "/questionnaire/hit-6"
-        }
-      ];
+      
+      // Day 7
+      else if (day === 7) {
+        return [
+          { 
+            id: 1, 
+            title: "HSES Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/hses"
+          },
+          { 
+            id: 2, 
+            title: "HSLOC Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/hsloc"
+          },
+          { 
+            id: 3, 
+            title: "HB Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/hb"
+          },
+          { 
+            id: 4, 
+            title: "PSC Questionnaire", 
+            status: "not-started",
+            type: "questionnaire",
+            link: "/questionnaire/psc"
+          }
+        ];
+      } else {
+        return [];
+      }
     } else {
       return [];
     }
@@ -165,16 +255,20 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {tasks.map(task => (
-            <TaskItem 
-              key={task.id}
-              title={task.title}
-              completed={task.status === "completed"}
-              status={task.status}
-              type={task.type}
-              onClick={() => handleTaskClick(task)}
-            />
-          ))}
+          {tasks.length > 0 ? (
+            tasks.map(task => (
+              <TaskItem 
+                key={task.id}
+                title={task.title}
+                completed={task.status === "completed"}
+                status={task.status}
+                type={task.type}
+                onClick={() => handleTaskClick(task)}
+              />
+            ))
+          ) : (
+            <p className="text-neutral-500 italic">No tasks for today.</p>
+          )}
         </div>
       </CardContent>
     </Card>

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ import VideoPreview from "./VideoPreview";
 interface PhaseContentProps {
   day?: number;
   content?: string;
+  customContent?: React.ReactNode;
   onNextDay?: () => void;
   onPreviousDay?: () => void;
   totalDays?: number;
@@ -17,6 +19,7 @@ interface PhaseContentProps {
 const PhaseContent = ({ 
   day = 1, 
   content, 
+  customContent,
   onNextDay, 
   onPreviousDay,
   totalDays = 7,
@@ -111,6 +114,8 @@ const PhaseContent = ({
         {/* Special content for Phase 1, Day 1 */}
         {phase === 1 && day === 1 ? (
           renderPhase1Day1Content()
+        ) : customContent ? (
+          customContent
         ) : (
           <p className="text-neutral-600 mb-6">
             {dayContent}
@@ -118,7 +123,7 @@ const PhaseContent = ({
         )}
         
         {/* Phase 1 specific content for other days */}
-        {phase === 1 && day !== 1 && day === 7 && (
+        {phase === 1 && day !== 1 && day === 7 && !customContent && (
           <div className="bg-neutral-100 p-4 rounded mt-4">
             <h3 className="font-medium mb-2">Week 1 Summary</h3>
             <p className="text-neutral-600">
