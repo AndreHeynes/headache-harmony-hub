@@ -7,6 +7,7 @@ import PSFSInterpretation from "./interpretation/PSFSInterpretation";
 import FHTInterpretation from "./interpretation/FHTInterpretation";
 import PSCInterpretation from "./interpretation/PSCInterpretation";
 import SimpleCompletion from "./interpretation/SimpleCompletion";
+import QuestionnaireOutcomeFeedback from "./QuestionnaireOutcomeFeedback";
 
 interface QuestionnaireInterpretationProps {
   questionnaire: Questionnaire;
@@ -26,6 +27,18 @@ const QuestionnaireInterpretation: React.FC<QuestionnaireInterpretationProps> = 
   // If no score and no group scores for questionnaires that need them
   if (!score && !Object.keys(groupScores).length && questionnaire.id !== 'fht' && questionnaire.id !== 'hb') {
     return <SimpleCompletion />;
+  }
+
+  // Special case for when multiple questionnaires have been completed - show comprehensive feedback
+  if (questionnaire.id === 'overview') {
+    const results = {
+      'hit-6': { score },
+      'midas': { score },
+      'hsloc': { groupScores },
+      'psfs': { savedActivities },
+      'psc': { groupScores }
+    };
+    return <QuestionnaireOutcomeFeedback questionnaireResults={results} />;
   }
 
   // Handle special questionnaires
