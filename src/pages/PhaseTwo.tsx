@@ -58,7 +58,7 @@ const PhaseTwo = () => {
           totalDays={totalDays}
           phase={2}
         />
-        <ExternalTracking />
+        <ExternalTracking phase={2} />
       </div>
     </PageLayout>
   );
