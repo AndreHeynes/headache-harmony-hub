@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import PageLayout from "@/components/layout/PageLayout";
 import CurrentPhaseCard from "@/components/phase/CurrentPhaseCard";
@@ -13,6 +13,36 @@ import { Link } from "react-router-dom";
 const PhaseOne = () => {
   const [currentDay, setCurrentDay] = useState(1);
   const totalDays = 7;
+  const [completedQuestionnaires, setCompletedQuestionnaires] = useState<Record<string, boolean>>({});
+  
+  // Load completed questionnaires from localStorage
+  useEffect(() => {
+    const loadCompletedQuestionnaires = () => {
+      const questionnaires = [
+        'hit-6', 'fht', 'psfs', 'mkq', 'midas', 'psc', 'hsloc', 'hses', 'hb'
+      ];
+      
+      const completed: Record<string, boolean> = {};
+      
+      questionnaires.forEach(id => {
+        const savedResponse = localStorage.getItem(`questionnaire-${id}`);
+        if (savedResponse) {
+          completed[id] = true;
+        }
+      });
+      
+      setCompletedQuestionnaires(completed);
+    };
+    
+    loadCompletedQuestionnaires();
+    
+    // Add event listener for storage changes (in case user completes questionnaire in another tab)
+    window.addEventListener('storage', loadCompletedQuestionnaires);
+    
+    return () => {
+      window.removeEventListener('storage', loadCompletedQuestionnaires);
+    };
+  }, []);
   
   const renderDayContent = (day: number) => {
     switch (day) {
@@ -23,24 +53,41 @@ const PhaseOne = () => {
           <div className="space-y-4">
             <p>Please start completing the questionnaires today. These assessments will help us understand your specific situation and create a personalized treatment plan.</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-              <Link to="/questionnaire/hit-6" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">HIT-6</h3>
-                <p className="text-sm text-neutral-600">Headache Impact Test</p>
-              </Link>
-              <Link to="/questionnaire/fht" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">FHT</h3>
-                <p className="text-sm text-neutral-600">Familiar Headache Symptoms</p>
-              </Link>
-              <Link to="/questionnaire/psfs" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">PSFS</h3>
-                <p className="text-sm text-neutral-600">Patient-Specific Functional Scale</p>
-              </Link>
-              <Link to="/questionnaire/mkq" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">MKQ</h3>
-                <p className="text-sm text-neutral-600">Medication Knowledge Quiz</p>
-              </Link>
+              {!completedQuestionnaires['hit-6'] && (
+                <Link to="/questionnaire/hit-6" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">HIT-6</h3>
+                  <p className="text-sm text-neutral-600">Headache Impact Test</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['fht'] && (
+                <Link to="/questionnaire/fht" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">FHT</h3>
+                  <p className="text-sm text-neutral-600">Familiar Headache Symptoms</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['psfs'] && (
+                <Link to="/questionnaire/psfs" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">PSFS</h3>
+                  <p className="text-sm text-neutral-600">Patient-Specific Functional Scale</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['mkq'] && (
+                <Link to="/questionnaire/mkq" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">MKQ</h3>
+                  <p className="text-sm text-neutral-600">Medication Knowledge Quiz</p>
+                </Link>
+              )}
             </div>
-            <p className="text-sm mt-2">You can save your progress and complete these questionnaires later if needed.</p>
+            {Object.keys(completedQuestionnaires).some(id => ['hit-6', 'fht', 'psfs', 'mkq'].includes(id)) && 
+              Object.keys(completedQuestionnaires).length < 4 && (
+              <p className="text-sm mt-2">You have completed some questionnaires. Continue with the remaining ones.</p>
+            )}
+            {Object.keys(completedQuestionnaires).filter(id => ['hit-6', 'fht', 'psfs', 'mkq'].includes(id)).length === 4 && (
+              <p className="text-sm mt-2 text-green-600">You have completed all questionnaires for today!</p>
+            )}
+            {Object.keys(completedQuestionnaires).filter(id => ['hit-6', 'fht', 'psfs', 'mkq'].includes(id)).length === 0 && (
+              <p className="text-sm mt-2">You can save your progress and complete these questionnaires later if needed.</p>
+            )}
           </div>
         );
       case 3:
@@ -48,46 +95,62 @@ const PhaseOne = () => {
           <div className="space-y-4">
             <p>Continue tracking your symptoms and triggers. Today's questionnaires focus on headache impact and disability assessment.</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-              <Link to="/questionnaire/fht" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">FHT</h3>
-                <p className="text-sm text-neutral-600">Familiar Headache Symptoms</p>
-              </Link>
-              <Link to="/questionnaire/midas" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">MIDAS</h3>
-                <p className="text-sm text-neutral-600">Migraine Disability Assessment</p>
-              </Link>
-              <Link to="/questionnaire/psfs" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">PSFS</h3>
-                <p className="text-sm text-neutral-600">Patient-Specific Functional Scale</p>
-              </Link>
-              <Link to="/questionnaire/mkq" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">MKQ</h3>
-                <p className="text-sm text-neutral-600">Medication Knowledge Quiz</p>
-              </Link>
+              {!completedQuestionnaires['fht'] && (
+                <Link to="/questionnaire/fht" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">FHT</h3>
+                  <p className="text-sm text-neutral-600">Familiar Headache Symptoms</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['midas'] && (
+                <Link to="/questionnaire/midas" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">MIDAS</h3>
+                  <p className="text-sm text-neutral-600">Migraine Disability Assessment</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['psfs'] && (
+                <Link to="/questionnaire/psfs" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">PSFS</h3>
+                  <p className="text-sm text-neutral-600">Patient-Specific Functional Scale</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['mkq'] && (
+                <Link to="/questionnaire/mkq" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">MKQ</h3>
+                  <p className="text-sm text-neutral-600">Medication Knowledge Quiz</p>
+                </Link>
+              )}
             </div>
           </div>
         );
       case 4:
         return (
           <div className="space-y-4">
-            <p>Today's focus is on understanding your personal migraine triggers and how they affect you. Please complete the following assessments.</p>
+            <p>Today's focus is on understanding how your headache affects you, your medication knowledge base, and how ready you are for change. Please complete the following assessments.</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-              <Link to="/questionnaire/hit-6" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">HIT-6</h3>
-                <p className="text-sm text-neutral-600">Headache Impact Test</p>
-              </Link>
-              <Link to="/questionnaire/midas" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">MIDAS</h3>
-                <p className="text-sm text-neutral-600">Migraine Disability Assessment</p>
-              </Link>
-              <Link to="/questionnaire/psc" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">PSC</h3>
-                <p className="text-sm text-neutral-600">Pain Stages of Change</p>
-              </Link>
-              <Link to="/questionnaire/mkq" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">MKQ</h3>
-                <p className="text-sm text-neutral-600">Medication Knowledge Quiz</p>
-              </Link>
+              {!completedQuestionnaires['hit-6'] && (
+                <Link to="/questionnaire/hit-6" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">HIT-6</h3>
+                  <p className="text-sm text-neutral-600">Headache Impact Test</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['midas'] && (
+                <Link to="/questionnaire/midas" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">MIDAS</h3>
+                  <p className="text-sm text-neutral-600">Migraine Disability Assessment</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['psc'] && (
+                <Link to="/questionnaire/psc" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">PSC</h3>
+                  <p className="text-sm text-neutral-600">Pain Stages of Change</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['mkq'] && (
+                <Link to="/questionnaire/mkq" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">MKQ</h3>
+                  <p className="text-sm text-neutral-600">Medication Knowledge Quiz</p>
+                </Link>
+              )}
             </div>
           </div>
         );
@@ -96,22 +159,30 @@ const PhaseOne = () => {
           <div className="space-y-4">
             <p>Review your progress so far and make note of any patterns or trends in your symptoms. Complete today's questionnaires.</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-              <Link to="/questionnaire/psfs" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">PSFS</h3>
-                <p className="text-sm text-neutral-600">Patient-Specific Functional Scale</p>
-              </Link>
-              <Link to="/questionnaire/hsloc" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">HSLOC</h3>
-                <p className="text-sm text-neutral-600">Headache-Specific Locus of Control</p>
-              </Link>
-              <Link to="/questionnaire/psc" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">PSC</h3>
-                <p className="text-sm text-neutral-600">Pain Stages of Change</p>
-              </Link>
-              <Link to="/questionnaire/mkq" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">MKQ</h3>
-                <p className="text-sm text-neutral-600">Medication Knowledge Quiz</p>
-              </Link>
+              {!completedQuestionnaires['psfs'] && (
+                <Link to="/questionnaire/psfs" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">PSFS</h3>
+                  <p className="text-sm text-neutral-600">Patient-Specific Functional Scale</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['hsloc'] && (
+                <Link to="/questionnaire/hsloc" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">HSLOC</h3>
+                  <p className="text-sm text-neutral-600">Headache-Specific Locus of Control</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['psc'] && (
+                <Link to="/questionnaire/psc" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">PSC</h3>
+                  <p className="text-sm text-neutral-600">Pain Stages of Change</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['mkq'] && (
+                <Link to="/questionnaire/mkq" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">MKQ</h3>
+                  <p className="text-sm text-neutral-600">Medication Knowledge Quiz</p>
+                </Link>
+              )}
             </div>
           </div>
         );
@@ -120,14 +191,18 @@ const PhaseOne = () => {
           <div className="space-y-4">
             <p>Focus on identifying lifestyle factors that may be contributing to your migraines. Complete these final assessments.</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-              <Link to="/questionnaire/hses" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">HSES</h3>
-                <p className="text-sm text-neutral-600">Headache Self-Efficacy Scale</p>
-              </Link>
-              <Link to="/questionnaire/hb" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">HB</h3>
-                <p className="text-sm text-neutral-600">Headache Beliefs</p>
-              </Link>
+              {!completedQuestionnaires['hses'] && (
+                <Link to="/questionnaire/hses" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">HSES</h3>
+                  <p className="text-sm text-neutral-600">Headache Self-Efficacy Scale</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['hb'] && (
+                <Link to="/questionnaire/hb" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">HB</h3>
+                  <p className="text-sm text-neutral-600">Headache Beliefs</p>
+                </Link>
+              )}
             </div>
           </div>
         );
@@ -136,22 +211,30 @@ const PhaseOne = () => {
           <div className="space-y-4">
             <p>Complete the final questionnaires for Phase 1. This will help us prepare your personalized program for Phase 2.</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-              <Link to="/questionnaire/hses" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">HSES</h3>
-                <p className="text-sm text-neutral-600">Headache Self-Efficacy Scale</p>
-              </Link>
-              <Link to="/questionnaire/hsloc" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">HSLOC</h3>
-                <p className="text-sm text-neutral-600">Headache-Specific Locus of Control</p>
-              </Link>
-              <Link to="/questionnaire/hb" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">HB</h3>
-                <p className="text-sm text-neutral-600">Headache Beliefs</p>
-              </Link>
-              <Link to="/questionnaire/psc" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
-                <h3 className="font-medium">PSC</h3>
-                <p className="text-sm text-neutral-600">Pain Stages of Change</p>
-              </Link>
+              {!completedQuestionnaires['hses'] && (
+                <Link to="/questionnaire/hses" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">HSES</h3>
+                  <p className="text-sm text-neutral-600">Headache Self-Efficacy Scale</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['hsloc'] && (
+                <Link to="/questionnaire/hsloc" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">HSLOC</h3>
+                  <p className="text-sm text-neutral-600">Headache-Specific Locus of Control</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['hb'] && (
+                <Link to="/questionnaire/hb" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">HB</h3>
+                  <p className="text-sm text-neutral-600">Headache Beliefs</p>
+                </Link>
+              )}
+              {!completedQuestionnaires['psc'] && (
+                <Link to="/questionnaire/psc" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+                  <h3 className="font-medium">PSC</h3>
+                  <p className="text-sm text-neutral-600">Pain Stages of Change</p>
+                </Link>
+              )}
             </div>
           </div>
         );
@@ -196,7 +279,10 @@ const PhaseOne = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <CurrentPhaseCard day={currentDay} totalDays={totalDays} />
-        <PhaseTaskList day={currentDay} />
+        <PhaseTaskList 
+          day={currentDay} 
+          completedQuestionnaires={completedQuestionnaires}
+        />
         <PhaseTimeline />
       </div>
 

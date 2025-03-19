@@ -10,14 +10,20 @@ interface Task {
   status: "not-started" | "in-progress" | "completed";
   type?: "default" | "questionnaire" | "document" | "video";
   link?: string;
+  questionnaire?: string;
 }
 
 interface PhaseTaskListProps {
   day?: number;
   phase?: number;
+  completedQuestionnaires?: Record<string, boolean>;
 }
 
-const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
+const PhaseTaskList = ({ 
+  day = 1, 
+  phase = 1,
+  completedQuestionnaires = {}
+}: PhaseTaskListProps) => {
   const navigate = useNavigate();
   
   // Generate tasks based on the phase and day
@@ -49,30 +55,34 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
           { 
             id: 1, 
             title: "FHT Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['fht'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/fht"
+            link: completedQuestionnaires['fht'] ? undefined : "/questionnaire/fht",
+            questionnaire: "fht"
           },
           { 
             id: 2, 
             title: "HIT-6 Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['hit-6'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/hit-6"
+            link: completedQuestionnaires['hit-6'] ? undefined : "/questionnaire/hit-6",
+            questionnaire: "hit-6"
           },
           { 
             id: 3, 
             title: "MKQ Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['mkq'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/mkq"
+            link: completedQuestionnaires['mkq'] ? undefined : "/questionnaire/mkq",
+            questionnaire: "mkq"
           },
           { 
             id: 4, 
             title: "PSFS Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['psfs'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/psfs"
+            link: completedQuestionnaires['psfs'] ? undefined : "/questionnaire/psfs",
+            questionnaire: "psfs"
           }
         ];
       }
@@ -83,30 +93,34 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
           { 
             id: 1, 
             title: "FHT Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['fht'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/fht"
+            link: completedQuestionnaires['fht'] ? undefined : "/questionnaire/fht",
+            questionnaire: "fht"
           },
           { 
             id: 2, 
             title: "MIDAS Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['midas'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/midas"
+            link: completedQuestionnaires['midas'] ? undefined : "/questionnaire/midas",
+            questionnaire: "midas"
           },
           { 
             id: 3, 
             title: "PSFS Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['psfs'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/psfs"
+            link: completedQuestionnaires['psfs'] ? undefined : "/questionnaire/psfs",
+            questionnaire: "psfs"
           },
           { 
             id: 4, 
             title: "MKQ Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['mkq'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/mkq"
+            link: completedQuestionnaires['mkq'] ? undefined : "/questionnaire/mkq",
+            questionnaire: "mkq"
           }
         ];
       }
@@ -117,30 +131,34 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
           { 
             id: 1, 
             title: "HIT-6 Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['hit-6'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/hit-6"
+            link: completedQuestionnaires['hit-6'] ? undefined : "/questionnaire/hit-6",
+            questionnaire: "hit-6"
           },
           { 
             id: 2, 
             title: "MIDAS Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['midas'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/midas"
+            link: completedQuestionnaires['midas'] ? undefined : "/questionnaire/midas",
+            questionnaire: "midas"
           },
           { 
             id: 3, 
             title: "PSC Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['psc'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/psc"
+            link: completedQuestionnaires['psc'] ? undefined : "/questionnaire/psc",
+            questionnaire: "psc"
           },
           { 
             id: 4, 
             title: "MKQ Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['mkq'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/mkq"
+            link: completedQuestionnaires['mkq'] ? undefined : "/questionnaire/mkq",
+            questionnaire: "mkq"
           }
         ];
       }
@@ -151,30 +169,34 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
           { 
             id: 1, 
             title: "PSFS Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['psfs'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/psfs"
+            link: completedQuestionnaires['psfs'] ? undefined : "/questionnaire/psfs",
+            questionnaire: "psfs"
           },
           { 
             id: 2, 
             title: "HSLOC Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['hsloc'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/hsloc"
+            link: completedQuestionnaires['hsloc'] ? undefined : "/questionnaire/hsloc",
+            questionnaire: "hsloc"
           },
           { 
             id: 3, 
             title: "PSC Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['psc'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/psc"
+            link: completedQuestionnaires['psc'] ? undefined : "/questionnaire/psc",
+            questionnaire: "psc"
           },
           { 
             id: 4, 
             title: "MKQ Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['mkq'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/mkq"
+            link: completedQuestionnaires['mkq'] ? undefined : "/questionnaire/mkq",
+            questionnaire: "mkq"
           }
         ];
       }
@@ -185,16 +207,18 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
           { 
             id: 1, 
             title: "HSES Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['hses'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/hses"
+            link: completedQuestionnaires['hses'] ? undefined : "/questionnaire/hses",
+            questionnaire: "hses"
           },
           { 
             id: 2, 
             title: "HB Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['hb'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/hb"
+            link: completedQuestionnaires['hb'] ? undefined : "/questionnaire/hb",
+            questionnaire: "hb"
           }
         ];
       }
@@ -205,30 +229,34 @@ const PhaseTaskList = ({ day = 1, phase = 1 }: PhaseTaskListProps) => {
           { 
             id: 1, 
             title: "HSES Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['hses'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/hses"
+            link: completedQuestionnaires['hses'] ? undefined : "/questionnaire/hses",
+            questionnaire: "hses"
           },
           { 
             id: 2, 
             title: "HSLOC Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['hsloc'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/hsloc"
+            link: completedQuestionnaires['hsloc'] ? undefined : "/questionnaire/hsloc",
+            questionnaire: "hsloc"
           },
           { 
             id: 3, 
             title: "HB Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['hb'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/hb"
+            link: completedQuestionnaires['hb'] ? undefined : "/questionnaire/hb",
+            questionnaire: "hb"
           },
           { 
             id: 4, 
             title: "PSC Questionnaire", 
-            status: "not-started",
+            status: completedQuestionnaires['psc'] ? "completed" : "not-started",
             type: "questionnaire",
-            link: "/questionnaire/psc"
+            link: completedQuestionnaires['psc'] ? undefined : "/questionnaire/psc",
+            questionnaire: "psc"
           }
         ];
       } else {

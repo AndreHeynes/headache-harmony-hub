@@ -48,7 +48,13 @@ const Questionnaire = () => {
       localStorage.setItem('psfs-activities', JSON.stringify(response.savedActivities));
     }
     
+    // Dispatch a storage event so other tabs can be notified
+    window.dispatchEvent(new Event('storage'));
+    
     console.log("Questionnaire completed:", response);
+    
+    // Show success message
+    toast.success("Questionnaire completed successfully!");
   };
   
   const handleSaveProgress = (partialResponse: Partial<QuestionnaireResponse>) => {
