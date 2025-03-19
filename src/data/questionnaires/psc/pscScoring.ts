@@ -8,7 +8,7 @@ export const pscScoring = {
       items: ['psc-q11', 'psc-q12', 'psc-q22', 'psc-q24', 'psc-q25', 'psc-q29'],
       interpretation: {
         ranges: [
-          { min: 0, max: 8, text: "Precontemplation Stage - Not ready to change" }
+          { min: 0, max: 8, text: "Precontemplation Stage - Not ready to change. You may still be viewing pain as purely a medical condition and not seeing your role in management." }
         ]
       }
     },
@@ -18,7 +18,7 @@ export const pscScoring = {
       items: ['psc-q1', 'psc-q7', 'psc-q8', 'psc-q9', 'psc-q14', 'psc-q15', 'psc-q21'],
       interpretation: {
         ranges: [
-          { min: 9, max: 11, text: "Contemplation Stage - Thinking about change" }
+          { min: 9, max: 11, text: "Contemplation Stage - Thinking about change and beginning to recognize the benefits of taking an active role in pain management." }
         ]
       }
     },
@@ -28,7 +28,7 @@ export const pscScoring = {
       items: ['psc-q2', 'psc-q6', 'psc-q20', 'psc-q26', 'psc-q27', 'psc-q30'],
       interpretation: {
         ranges: [
-          { min: 12, max: 14, text: "Preparation/Action Stage - Taking steps to change" }
+          { min: 12, max: 14, text: "Preparation/Action Stage - Taking steps to change and developing new strategies to cope with your pain." }
         ]
       }
     },
@@ -38,9 +38,15 @@ export const pscScoring = {
       items: ['psc-q3', 'psc-q4', 'psc-q5', 'psc-q10', 'psc-q13', 'psc-q17', 'psc-q18'],
       interpretation: {
         ranges: [
-          { min: 15, max: 30, text: "Maintenance Stage - Working to maintain changes" }
+          { min: 15, max: 30, text: "Maintenance Stage - Actively working to maintain changes and have developed skills to keep your pain from interfering with your life." }
         ]
       }
     }
-  ]
+  ],
+  activitySheets: {
+    precontemplation: "AS 1 Improved Readiness for Change",
+    contemplation: "AS 1 Improved Readiness for Change",
+    action: "AS 2 Developing Helpful Beliefs",
+    maintenance: "AS 5 Trigger Management"
+  }
 };
