@@ -32,6 +32,29 @@ const ExerciseItem: React.FC<ExerciseItemProps> = ({
     frequency: "2x daily"
   };
   
+  // Helper function to get activity sheet description
+  const getActivitySheetDescription = () => {
+    if (!exercise.activitySheetName) return "";
+    
+    // Return descriptions based on activity sheet ID or name
+    switch (exercise.activitySheetId) {
+      case "readiness-for-change":
+        return "Complete this worksheet to assess and improve your readiness to make changes in managing your condition.";
+      case "helpful-beliefs":
+        return "Activities to identify and modify beliefs that may be affecting your recovery progress.";
+      case "headache-mechanisms":
+        return "Educational material explaining how headaches work and what factors influence their frequency and severity.";
+      case "sleep-hygiene":
+        return "Complete this worksheet to improve your sleep habits and quality to reduce headache frequency.";
+      case "trigger-management":
+        return "Use this worksheet to identify and develop strategies to manage your specific headache triggers.";
+      case "medication-management":
+        return "Track and optimize your medication use with this structured activity sheet.";
+      default:
+        return "Complete this activity sheet as part of your personalized recovery program.";
+    }
+  };
+  
   return (
     <Card className={`mb-4 ${isCompleted ? 'bg-green-50/50 border-green-200' : 'bg-gradient-to-r from-white to-slate-50/30'} 
       hover:shadow-md transition-all duration-200 border`}>
