@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import PageLayout from "@/components/layout/PageLayout";
@@ -17,7 +16,6 @@ const PhaseOne = () => {
   const [completedQuestionnaires, setCompletedQuestionnaires] = useState<Record<string, boolean>>({});
   const [questionnaireResults, setQuestionnaireResults] = useState<Record<string, any>>({});
   
-  // Load completed questionnaires from localStorage
   useEffect(() => {
     const loadCompletedQuestionnaires = () => {
       const questionnaires = [
@@ -46,7 +44,6 @@ const PhaseOne = () => {
     
     loadCompletedQuestionnaires();
     
-    // Add event listener for storage changes (in case user completes questionnaire in another tab)
     window.addEventListener('storage', loadCompletedQuestionnaires);
     
     return () => {
@@ -267,6 +264,22 @@ const PhaseOne = () => {
                           {questionnaireResults['hit-6'].score < 50 ? 
                             "Your headaches currently have a mild to moderate impact on your daily activities." : 
                             "Your headaches are substantially impacting your daily life and activities."}
+                        </p>
+                      </div>
+                    )}
+                    
+                    {/* MIDAS Interpretation */}
+                    {questionnaireResults['midas'] && (
+                      <div className="rounded-lg border p-4">
+                        <h3 className="font-medium text-lg mb-2">Migraine Disability</h3>
+                        <p className="text-neutral-600">
+                          {questionnaireResults['midas'].score <= 5 ? 
+                            "Your migraines currently cause little to no disability in your daily life." : 
+                            questionnaireResults['midas'].score <= 10 ?
+                            "Your migraines are causing mild disability. Your Phase 2 program will include strategies to minimize this impact." :
+                            questionnaireResults['midas'].score <= 20 ?
+                            "Your migraines are causing moderate disability. We'll focus on reducing this impact in Phase 2." :
+                            "Your migraines are causing significant disability in your daily life. Phase 2 will prioritize strategies to reduce this burden."}
                         </p>
                       </div>
                     )}
