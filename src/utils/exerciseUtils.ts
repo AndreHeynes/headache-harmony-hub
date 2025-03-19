@@ -1,3 +1,4 @@
+
 import { QuestionnaireResponse } from "@/types/questionnaire";
 
 export interface Exercise {
@@ -8,6 +9,10 @@ export interface Exercise {
   excludedForTypes?: string[];
   includedForTypes?: string[];
   isGeneralExercise?: boolean;
+  type?: "activity" | "exercise";
+  activitySheetName?: string;
+  activitySheetId?: string;
+  requiresInput?: boolean;
 }
 
 // Map of headache types to specific exercises
@@ -30,7 +35,8 @@ export const exercises: Exercise[] = [
     description: "Gentle mobilization technique for the right temporomandibular joint",
     videoUrl: "https://vimeo.com/1055488933?share=copy#t=0",
     includedForTypes: ["6"],
-    excludedForTypes: ["4"]
+    excludedForTypes: ["4"],
+    type: "exercise"
   },
   {
     id: "51.1",
@@ -38,7 +44,8 @@ export const exercises: Exercise[] = [
     description: "Gentle mobilization technique for the left temporomandibular joint",
     videoUrl: "https://vimeo.com/1055490245?share=copy#t=0",
     includedForTypes: ["6"],
-    excludedForTypes: ["4"]
+    excludedForTypes: ["4"],
+    type: "exercise"
   },
   {
     id: "52.0",
@@ -46,7 +53,8 @@ export const exercises: Exercise[] = [
     description: "Advanced mobilization technique for the temporomandibular joint",
     videoUrl: "https://vimeo.com/1055483903?share=copy#t=0",
     includedForTypes: ["6"],
-    excludedForTypes: ["4"]
+    excludedForTypes: ["4"],
+    type: "exercise"
   },
   {
     id: "53.0",
@@ -54,7 +62,8 @@ export const exercises: Exercise[] = [
     description: "Self-massage technique for temporal region to relieve tension",
     videoUrl: "https://vimeo.com/1055487326?share=copy#t=0",
     includedForTypes: ["6"],
-    excludedForTypes: ["4"]
+    excludedForTypes: ["4"],
+    type: "exercise"
   },
   {
     id: "54.0",
@@ -62,7 +71,8 @@ export const exercises: Exercise[] = [
     description: "Self-massage technique for the buccal region to relieve tension",
     videoUrl: "https://vimeo.com/1055485611?share=copy#t=0",
     includedForTypes: ["6"],
-    excludedForTypes: ["4"]
+    excludedForTypes: ["4"],
+    type: "exercise"
   },
   {
     id: "56.1",
@@ -70,7 +80,8 @@ export const exercises: Exercise[] = [
     description: "Neural mobility exercise for the left side",
     videoUrl: "https://vimeo.com/1063585819?share=copy#t=0",
     includedForTypes: ["4"],
-    excludedForTypes: ["6"]
+    excludedForTypes: ["6"],
+    type: "exercise"
   },
   {
     id: "56.2",
@@ -78,7 +89,8 @@ export const exercises: Exercise[] = [
     description: "Neural mobility exercise for the right side",
     videoUrl: "https://vimeo.com/1063586666?share=copy#t=0",
     includedForTypes: ["4"],
-    excludedForTypes: ["6"]
+    excludedForTypes: ["6"],
+    type: "exercise"
   },
   {
     id: "57",
@@ -86,7 +98,8 @@ export const exercises: Exercise[] = [
     description: "Specialized exercise for occipital neuralgia",
     videoUrl: "https://vimeo.com/example",
     includedForTypes: ["4"],
-    excludedForTypes: ["6"]
+    excludedForTypes: ["6"],
+    type: "exercise"
   },
   // General exercises that everyone does
   {
@@ -94,21 +107,52 @@ export const exercises: Exercise[] = [
     title: "Deep Breathing Exercise",
     description: "Controlled breathing technique to reduce stress and tension",
     videoUrl: "https://vimeo.com/example",
-    isGeneralExercise: true
+    isGeneralExercise: true,
+    type: "exercise"
   },
   {
     id: "2",
     title: "Posture Correction",
     description: "Exercise to improve posture and reduce neck strain",
     videoUrl: "https://vimeo.com/example",
-    isGeneralExercise: true
+    isGeneralExercise: true,
+    type: "exercise"
   },
   {
     id: "3",
     title: "Shoulder Rolls",
     description: "Simple exercise to relieve tension in shoulders and upper back",
     videoUrl: "https://vimeo.com/example",
-    isGeneralExercise: true
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  // Activity sheets based on readiness for change (from PSC)
+  {
+    id: "as-1",
+    title: "Improved Readiness for Change",
+    description: "Activities to help you move forward in your pain management journey",
+    type: "activity",
+    activitySheetName: "AS 1 Improved Readiness for Change",
+    activitySheetId: "readiness-for-change",
+    requiresInput: true
+  },
+  {
+    id: "as-2",
+    title: "Developing Helpful Beliefs",
+    description: "Exercises to identify and modify beliefs about your pain",
+    type: "activity",
+    activitySheetName: "AS 2 Developing Helpful Beliefs",
+    activitySheetId: "helpful-beliefs",
+    requiresInput: true
+  },
+  {
+    id: "as-5",
+    title: "Trigger Management",
+    description: "Techniques to identify and manage headache triggers",
+    type: "activity",
+    activitySheetName: "AS 5 Trigger Management",
+    activitySheetId: "trigger-management",
+    requiresInput: true
   }
 ];
 

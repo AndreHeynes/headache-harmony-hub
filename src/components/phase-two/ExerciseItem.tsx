@@ -22,7 +22,7 @@ const ExerciseItem: React.FC<ExerciseItemProps> = ({
   const [isActivitySheetOpen, setIsActivitySheetOpen] = useState(false);
   
   const hasActivitySheet = exercise.activitySheetName && showActivitySheet;
-  const activitySheetIcon = exercise.requiresInput ? Pencil : FileText;
+  const ActivitySheetIcon = exercise.requiresInput ? Pencil : FileText;
   
   const handleMarkComplete = () => {
     setIsCompleted(!isCompleted);
@@ -78,7 +78,7 @@ const ExerciseItem: React.FC<ExerciseItemProps> = ({
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <activitySheetIcon className="h-4 w-4 mr-2 text-blue-600" />
+                <ActivitySheetIcon className="h-4 w-4 mr-2 text-blue-600" />
                 <span className="text-sm font-medium">Activity Sheet: {exercise.activitySheetName}</span>
               </div>
               <CollapsibleTrigger asChild>
