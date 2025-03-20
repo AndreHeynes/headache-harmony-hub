@@ -58,10 +58,13 @@ const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
       : "Please complete all assessments to view your feedback.")
     : "No tasks for today.";
 
+  // For day 8, use a different title
+  const title = day === 8 ? "Program Completion" : "Today's Tasks";
+
   return (
     <TaskList
       tasks={tasks}
-      title="Today's Tasks"
+      title={title}
       emptyMessage={emptyMessage}
       onTaskClick={() => {}} // Empty function since tasks shouldn't be clickable
       showIcons={false} // Add this prop to hide icons

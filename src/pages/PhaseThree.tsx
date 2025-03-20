@@ -11,6 +11,7 @@ import PhaseThreeTaskList from "@/components/phase-three/PhaseThreeTaskList";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import PageFooter from "@/components/layout/PageFooter";
 
 const PhaseThree = () => {
   const { toast } = useToast();
@@ -90,53 +91,89 @@ const PhaseThree = () => {
   };
 
   return (
-    <PageLayout>
-      <div className="flex justify-between items-center mb-8">
-        <PhaseHeading title="Consolidating your recovery progress" />
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
-        <CurrentPhaseCard 
-          day={currentDay} 
-          totalDays={totalDays} 
-          phaseNumber={3} 
-        />
-        <PhaseThreeTaskList day={currentDay} />
-        <PhaseTimeline currentPhase={3} />
-      </div>
+    <>
+      <PageLayout>
+        <div className="flex justify-between items-center mb-8">
+          <PhaseHeading title="Consolidating your recovery progress" />
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+          <CurrentPhaseCard 
+            day={currentDay} 
+            totalDays={totalDays} 
+            phaseNumber={3} 
+          />
+          <PhaseThreeTaskList day={currentDay} />
+          <PhaseTimeline currentPhase={3} />
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader className="pb-2 flex justify-between items-center">
-            <CardTitle className="text-lg">Day {currentDay} Content</CardTitle>
-            <div className="flex space-x-2">
-              <Button 
-                onClick={goToPreviousDay}
-                disabled={currentDay === 1}
-                variant="outline"
-                size="sm"
-              >
-                <ArrowLeft className="h-4 w-4 mr-1" />
-                Previous
-              </Button>
-              <Button 
-                onClick={goToNextDay}
-                disabled={currentDay === totalDays}
-                variant="outline"
-                size="sm"
-              >
-                Next
-                <ArrowRight className="h-4 w-4 ml-1" />
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <PhaseThreeContent day={currentDay} />
-          </CardContent>
-        </Card>
-        <ExternalTracking phase={3} />
-      </div>
-    </PageLayout>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <Card>
+            <CardHeader className="pb-2 flex justify-between items-center">
+              <CardTitle className="text-lg">Day {currentDay} Content</CardTitle>
+              <div className="flex space-x-2">
+                <Button 
+                  onClick={goToPreviousDay}
+                  disabled={currentDay === 1}
+                  variant="outline"
+                  size="sm"
+                >
+                  <ArrowLeft className="h-4 w-4 mr-1" />
+                  Previous
+                </Button>
+                <Button 
+                  onClick={goToNextDay}
+                  disabled={currentDay === totalDays}
+                  variant="outline"
+                  size="sm"
+                >
+                  Next
+                  <ArrowRight className="h-4 w-4 ml-1" />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <PhaseThreeContent day={currentDay} />
+            </CardContent>
+          </Card>
+          
+          {/* Only show external tracking for day 8 if specifically on that day, otherwise show the normal external tracking */}
+          {currentDay === 8 ? (
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg">Additional Recovery Resources</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="border rounded-lg p-4 bg-blue-50 border-blue-100">
+                    <h3 className="font-medium mb-2 text-blue-800">Phase 4 Preparation</h3>
+                    <p className="text-blue-700 mb-3">
+                      Your Phase 4 maintenance plan is now available. This includes long-term strategies to maintain your progress.
+                    </p>
+                    <Button variant="outline" className="bg-white text-blue-700 border-blue-200 hover:bg-blue-50">
+                      View Phase 4 Plan
+                    </Button>
+                  </div>
+                  
+                  <div className="border rounded-lg p-4 bg-purple-50 border-purple-100">
+                    <h3 className="font-medium mb-2 text-purple-800">Download Your Progress Report</h3>
+                    <p className="text-purple-700 mb-3">
+                      A comprehensive report of your progress through all three phases is available for download.
+                    </p>
+                    <Button variant="outline" className="bg-white text-purple-700 border-purple-200 hover:bg-purple-50">
+                      Download Report
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <ExternalTracking phase={3} />
+          )}
+        </div>
+      </PageLayout>
+      <PageFooter />
+    </>
   );
 };
 
