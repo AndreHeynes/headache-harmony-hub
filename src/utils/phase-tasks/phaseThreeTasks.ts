@@ -9,9 +9,38 @@ export const getPhaseThreeTasks = (
   day: number,
   completedQuestionnaires: CompletedQuestionnairesMap = {}
 ): Task[] => {
+  console.log("getPhaseThreeTasks - Day:", day);
+  
   // Day 8 will show a different set of tasks (feedback day)
   if (day === 8) {
-    return [];
+    const allCompleted = Object.keys(completedQuestionnaires).length >= 4;
+    
+    if (allCompleted) {
+      return [
+        {
+          id: 1,
+          title: "Review Phase 3 Progress Summary",
+          status: "not-started",
+          type: "content",
+        },
+        {
+          id: 2,
+          title: "Review Questionnaire Results",
+          status: "not-started",
+          type: "content",
+        }
+      ];
+    } else {
+      // If not all questionnaires are completed
+      return [
+        {
+          id: 1,
+          title: "Complete all assessments to view feedback",
+          status: "not-started",
+          type: "warning",
+        }
+      ];
+    }
   }
   
   // Common tasks for all days in Phase 3 (days 1-7)

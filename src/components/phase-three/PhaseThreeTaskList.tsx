@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import TaskList from "@/components/phase/TaskList";
 import { Task } from "@/types/task";
@@ -23,6 +24,7 @@ const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
         }
       });
       
+      console.log("PhaseThreeTaskList - Completed questionnaires:", completed);
       setCompletedQuestionnaires(completed);
     };
     
@@ -36,7 +38,9 @@ const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
   }, []);
 
   useEffect(() => {
+    console.log("PhaseThreeTaskList - day:", day);
     const phaseTasks = getPhaseThreeTasks(day, completedQuestionnaires);
+    console.log("PhaseThreeTaskList - tasks:", phaseTasks);
     
     const nonLinkableTasks = phaseTasks.map(task => ({
       ...task,
@@ -46,8 +50,10 @@ const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
     setTasks(nonLinkableTasks);
   }, [day, completedQuestionnaires]);
 
+  const allCompleted = Object.keys(completedQuestionnaires).length >= 4;
+  
   const emptyMessage = day === 8 
-    ? (Object.keys(completedQuestionnaires).length === 4
+    ? (allCompleted
       ? "All assessments completed. Review your feedback below."
       : "Please complete all assessments to view your feedback.")
     : "No tasks for today.";

@@ -26,10 +26,13 @@ const PhaseThreeContent: React.FC<PhaseThreeContentProps> = ({ day }) => {
           try {
             results[id] = JSON.parse(savedResponse);
           } catch (e) {
-            console.error(`Error parsing ${id} questionnaire results`);
+            console.error(`Error parsing ${id} questionnaire results`, e);
           }
         }
       });
+      
+      console.log("Loaded questionnaires:", completed);
+      console.log("Loaded results:", results);
       
       setCompletedQuestionnaires(completed);
       setQuestionnaireResults(results);
@@ -45,7 +48,10 @@ const PhaseThreeContent: React.FC<PhaseThreeContentProps> = ({ day }) => {
     };
   }, []);
 
-  const allCompleted = Object.keys(completedQuestionnaires).length === 4;
+  const allCompleted = Object.keys(completedQuestionnaires).length >= 4;
+  
+  console.log("PhaseThreeContent - Day:", day);
+  console.log("PhaseThreeContent - All Completed:", allCompleted);
 
   if (day >= 1 && day <= 7) {
     return <DaysOneToSevenContent completedQuestionnaires={completedQuestionnaires} />;

@@ -12,11 +12,12 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import PageFooter from "@/components/layout/PageFooter";
+import HeadacheAnalysis from "@/components/phase/HeadacheAnalysis";
 
 const PhaseThree = () => {
   const { toast } = useToast();
   const [currentDay, setCurrentDay] = useState(1);
-  const totalDays = 8; // Updated to 8 days to include feedback day
+  const totalDays = 8; // 8 days to include feedback day
   
   // Initialize currentDay from localStorage or set to 1
   useEffect(() => {
@@ -90,11 +91,42 @@ const PhaseThree = () => {
     }
   };
 
+  // FOR TESTING ONLY: Navigate directly to day 8
+  const goToDay8 = () => {
+    // Add some mock data for testing
+    const questionnaires = ['hit-6', 'midas', 'psfs', 'gpoc'];
+    questionnaires.forEach(id => {
+      if (!localStorage.getItem(`questionnaire-${id}`)) {
+        localStorage.setItem(`questionnaire-${id}`, JSON.stringify({completed: true}));
+      }
+    });
+    
+    setCurrentDay(8);
+    // Force reload completed questionnaires
+    const completed: Record<string, boolean> = {};
+    questionnaires.forEach(id => {
+      completed[id] = true;
+    });
+    setCompletedQuestionnaires(completed);
+  };
+
   return (
     <>
       <PageLayout>
         <div className="flex justify-between items-center mb-8">
           <PhaseHeading title="Consolidating your recovery progress" />
+          
+          {/* Temporary button for testing - remove after testing */}
+          {currentDay !== 8 && (
+            <Button 
+              onClick={goToDay8}
+              variant="secondary"
+              size="sm"
+              className="ml-auto"
+            >
+              Test Day 8
+            </Button>
+          )}
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
@@ -141,30 +173,10 @@ const PhaseThree = () => {
           {currentDay === 8 ? (
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-lg">Additional Recovery Resources</CardTitle>
+                <CardTitle className="text-lg">Headache Progress Analysis</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div className="border rounded-lg p-4 bg-blue-50 border-blue-100">
-                    <h3 className="font-medium mb-2 text-blue-800">Phase 4 Preparation</h3>
-                    <p className="text-blue-700 mb-3">
-                      Your Phase 4 maintenance plan is now available. This includes long-term strategies to maintain your progress.
-                    </p>
-                    <Button variant="outline" className="bg-white text-blue-700 border-blue-200 hover:bg-blue-50">
-                      View Phase 4 Plan
-                    </Button>
-                  </div>
-                  
-                  <div className="border rounded-lg p-4 bg-purple-50 border-purple-100">
-                    <h3 className="font-medium mb-2 text-purple-800">Download Your Progress Report</h3>
-                    <p className="text-purple-700 mb-3">
-                      A comprehensive report of your progress through all three phases is available for download.
-                    </p>
-                    <Button variant="outline" className="bg-white text-purple-700 border-purple-200 hover:bg-purple-50">
-                      Download Report
-                    </Button>
-                  </div>
-                </div>
+                <HeadacheAnalysis isConnected={true} showInPhaseThree={true} />
               </CardContent>
             </Card>
           ) : (
