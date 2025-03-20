@@ -74,7 +74,7 @@ const PhaseThree = () => {
         toast({
           title: "Incomplete Assessments",
           description: `Please complete the following assessments before proceeding to Day 8: ${incompleteQuestionnaires.join(', ')}`,
-          variant: "warning"
+          variant: "default" // Changed from "warning" to "default" since "warning" is not an allowed variant
         });
       }
     }
@@ -209,3 +209,4 @@ const PhaseThree = () => {
 };
 
 export default PhaseThree;
+
