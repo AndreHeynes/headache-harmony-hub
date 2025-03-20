@@ -21,7 +21,7 @@ export const exercises: Exercise[] = [
     type: "exercise"
   },
   
-  // Scalene stretches - general for everyone
+  // Scalene stretches
   {
     id: "2.0",
     title: "Anterior Scalene Stretch (R)",
@@ -64,14 +64,94 @@ export const exercises: Exercise[] = [
   },
   {
     id: "4.1",
-    title: "Posterior Salene Stretch (L)",
+    title: "Posterior Scalene Stretch (L)",
     description: "Gentle stretch for the left posterior scalene muscle",
     videoUrl: "https://vimeo.com/1055236162",
     isGeneralExercise: true,
     type: "exercise"
   },
   
-  // Chin and neck exercises - general for everyone
+  // Serratus Superior Posterior Stretches
+  {
+    id: "5.0",
+    title: "Serratus Superior Posterior Stretch (L)",
+    description: "Stretch for the left serratus superior posterior muscle",
+    videoUrl: "https://vimeo.com/1055509706",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "5.1",
+    title: "Serratus Superior Posterior Stretch (R)",
+    description: "Stretch for the right serratus superior posterior muscle",
+    videoUrl: "https://vimeo.com/1055496939",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  
+  // Pec Stretches
+  {
+    id: "6.0",
+    title: "Pec Major Stretch (R)",
+    description: "Stretch for the right pectoralis major muscle",
+    videoUrl: "https://vimeo.com/1055538678",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "6.1",
+    title: "Pec Major Stretch (L)",
+    description: "Stretch for the left pectoralis major muscle",
+    videoUrl: "https://vimeo.com/1055538489",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "7.0",
+    title: "Pec Minor Stretch (R)",
+    description: "Stretch for the right pectoralis minor muscle",
+    videoUrl: "https://vimeo.com/1055536253",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "7.1",
+    title: "Pec Minor Stretch (L)",
+    description: "Stretch for the left pectoralis minor muscle",
+    videoUrl: "https://vimeo.com/1055537362",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  
+  // Levator Scapula Stretches
+  {
+    id: "8.0",
+    title: "Levator Scapula Stretch (L)",
+    description: "Stretch for the left levator scapula muscle",
+    videoUrl: "https://vimeo.com/1055495787",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "8.1",
+    title: "Levator Scapula Stretch (R)",
+    description: "Stretch for the right levator scapula muscle",
+    videoUrl: "https://vimeo.com/1055513620",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  
+  // Erector Spinae Stretch
+  {
+    id: "9.1",
+    title: "Erector Spinae Stretch (L)",
+    description: "Stretch for the left erector spinae muscles",
+    videoUrl: "https://vimeo.com/1055516700",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  
+  // Chin and neck exercises
   {
     id: "10.0",
     title: "Chin Retractions",
@@ -81,10 +161,18 @@ export const exercises: Exercise[] = [
     type: "exercise"
   },
   {
+    id: "11.0",
+    title: "Neck Forward Flexion",
+    description: "Exercise for controlled forward neck flexion",
+    videoUrl: "https://vimeo.com/1055534709",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
     id: "12.0",
     title: "Extension SNAG",
     description: "Sustained Natural Apophyseal Glide technique for neck extension",
-    videoUrl: "",
+    videoUrl: "https://vimeo.com/1056026986",
     isGeneralExercise: true,
     type: "exercise"
   },
@@ -100,7 +188,51 @@ export const exercises: Exercise[] = [
     id: "14.0",
     title: "Left Rotation SNAG",
     description: "Sustained Natural Apophyseal Glide technique for left neck rotation",
-    videoUrl: "https://vimeo.com/1055483241",
+    videoUrl: "https://vimeo.com/1056323077",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "15.0",
+    title: "Right Rotation SNAG",
+    description: "Sustained Natural Apophyseal Glide technique for right neck rotation",
+    videoUrl: "https://vimeo.com/1056035754",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  
+  // Archer exercises
+  {
+    id: "16.0",
+    title: "Archer Right",
+    description: "Archer exercise focusing on the right side",
+    videoUrl: "https://vimeo.com/1055531453",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "17.0",
+    title: "Archer Left",
+    description: "Archer exercise focusing on the left side",
+    videoUrl: "https://vimeo.com/1055532091",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  
+  // Neck strength exercises
+  {
+    id: "18.0",
+    title: "Deep Neck Flexors (Start)",
+    description: "Beginning exercise for strengthening deep neck flexor muscles",
+    videoUrl: "https://vimeo.com/1055529323",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "19.0",
+    title: "Neck Extensors (Quadruped) Level 1",
+    description: "Exercise for strengthening neck extensor muscles in quadruped position",
+    videoUrl: "https://vimeo.com/1055528458",
     isGeneralExercise: true,
     type: "exercise"
   },
@@ -178,32 +310,6 @@ export const exercises: Exercise[] = [
     videoUrl: "https://vimeo.com/example",
     includedForTypes: ["4"],
     excludedForTypes: ["6"],
-    type: "exercise"
-  },
-  
-  // General exercises that everyone does
-  {
-    id: "1",
-    title: "Deep Breathing Exercise",
-    description: "Controlled breathing technique to reduce stress and tension",
-    videoUrl: "https://vimeo.com/example",
-    isGeneralExercise: true,
-    type: "exercise"
-  },
-  {
-    id: "2",
-    title: "Posture Correction",
-    description: "Exercise to improve posture and reduce neck strain",
-    videoUrl: "https://vimeo.com/example",
-    isGeneralExercise: true,
-    type: "exercise"
-  },
-  {
-    id: "3",
-    title: "Shoulder Rolls",
-    description: "Simple exercise to relieve tension in shoulders and upper back",
-    videoUrl: "https://vimeo.com/example",
-    isGeneralExercise: true,
     type: "exercise"
   },
   
