@@ -39,12 +39,14 @@ const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
 
   useEffect(() => {
     console.log("PhaseThreeTaskList - day:", day);
+    console.log("PhaseThreeTaskList - completedQuestionnaires:", completedQuestionnaires);
+    
     const phaseTasks = getPhaseThreeTasks(day, completedQuestionnaires);
     console.log("PhaseThreeTaskList - tasks:", phaseTasks);
     
     const nonLinkableTasks = phaseTasks.map(task => ({
       ...task,
-      link: undefined
+      link: day === 8 ? undefined : task.link
     }));
     
     setTasks(nonLinkableTasks);
@@ -66,7 +68,7 @@ const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
       title={title}
       emptyMessage={emptyMessage}
       onTaskClick={() => {}} // Empty function since tasks shouldn't be clickable
-      showIcons={false} // Add this prop to hide icons
+      showIcons={true} // Show icons for better visibility
     />
   );
 };

@@ -31,8 +31,8 @@ const PhaseThreeContent: React.FC<PhaseThreeContentProps> = ({ day }) => {
         }
       });
       
-      console.log("Loaded questionnaires:", completed);
-      console.log("Loaded results:", results);
+      console.log("PhaseThreeContent - Loaded questionnaires:", completed);
+      console.log("PhaseThreeContent - Loaded results:", results);
       
       setCompletedQuestionnaires(completed);
       setQuestionnaireResults(results);
@@ -52,10 +52,12 @@ const PhaseThreeContent: React.FC<PhaseThreeContentProps> = ({ day }) => {
   
   console.log("PhaseThreeContent - Day:", day);
   console.log("PhaseThreeContent - All Completed:", allCompleted);
+  console.log("PhaseThreeContent - Questionnaire results available:", Object.keys(questionnaireResults));
 
   if (day >= 1 && day <= 7) {
     return <DaysOneToSevenContent completedQuestionnaires={completedQuestionnaires} />;
   } else if (day === 8) {
+    console.log("PhaseThreeContent - Rendering DayEightContent");
     return <DayEightContent allCompleted={allCompleted} questionnaireResults={questionnaireResults} />;
   } else {
     return <p>Content for this day is not available.</p>;

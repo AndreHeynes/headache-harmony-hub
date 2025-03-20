@@ -14,6 +14,9 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
   allCompleted,
   questionnaireResults
 }) => {
+  console.log("DayEightContent - allCompleted:", allCompleted);
+  console.log("DayEightContent - questionnaireResults:", questionnaireResults);
+
   if (!allCompleted) {
     return (
       <div className="space-y-4">

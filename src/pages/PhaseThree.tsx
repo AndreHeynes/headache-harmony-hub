@@ -30,6 +30,7 @@ const PhaseThree = () => {
   // Save currentDay to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('phase3-current-day', currentDay.toString());
+    console.log("Current day set to:", currentDay);
   }, [currentDay]);
   
   // Track completed questionnaires
@@ -49,6 +50,7 @@ const PhaseThree = () => {
       });
       
       setCompletedQuestionnaires(completed);
+      console.log("Loaded questionnaires in PhaseThree:", completed);
     };
     
     loadCompletedQuestionnaires();
@@ -93,6 +95,7 @@ const PhaseThree = () => {
 
   // FOR TESTING ONLY: Navigate directly to day 8
   const goToDay8 = () => {
+    console.log("Going to day 8 for testing");
     // Add some mock data for testing
     const questionnaires = ['hit-6', 'midas', 'psfs', 'gpoc'];
     questionnaires.forEach(id => {
@@ -108,6 +111,7 @@ const PhaseThree = () => {
       completed[id] = true;
     });
     setCompletedQuestionnaires(completed);
+    console.log("Set current day to 8 and completed questionnaires:", completed);
   };
 
   return (
@@ -116,17 +120,15 @@ const PhaseThree = () => {
         <div className="flex justify-between items-center mb-8">
           <PhaseHeading title="Consolidating your recovery progress" />
           
-          {/* Temporary button for testing - remove after testing */}
-          {currentDay !== 8 && (
-            <Button 
-              onClick={goToDay8}
-              variant="secondary"
-              size="sm"
-              className="ml-auto"
-            >
-              Test Day 8
-            </Button>
-          )}
+          {/* Test button for Day 8 - always visible for debugging */}
+          <Button 
+            onClick={goToDay8}
+            variant="secondary"
+            size="sm"
+            className="ml-auto"
+          >
+            Test Day 8
+          </Button>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
