@@ -15,7 +15,7 @@ const PhaseTwo = () => {
   const { toast } = useToast();
   const [currentDay, setCurrentDay] = useState(1);
   const [videoDisplayMode, setVideoDisplayMode] = useState<"embedded" | "link">("link");
-  const totalDays = 76;
+  const totalDays = 76; // Updated from 64 to 76
   
   // Initialize currentDay from localStorage or set to 1
   useEffect(() => {
@@ -75,6 +75,13 @@ const PhaseTwo = () => {
     });
   };
 
+  // Function to handle direct day navigation
+  const goToSpecificDay = (day: number) => {
+    if (day >= 1 && day <= totalDays) {
+      setCurrentDay(day);
+    }
+  };
+
   return (
     <PageLayout>
       <div className="flex justify-between items-center mb-8">
@@ -111,7 +118,20 @@ const PhaseTwo = () => {
         <PhaseTimeline currentPhase={2} />
       </div>
       
-      <div className="flex justify-end mb-4">
+      <div className="flex flex-wrap justify-between items-center mb-4 gap-2">
+        <div className="flex items-center">
+          <span className="text-sm mr-2">Jump to day:</span>
+          <select 
+            value={currentDay}
+            onChange={(e) => goToSpecificDay(parseInt(e.target.value, 10))}
+            className="text-sm rounded border p-1"
+          >
+            {Array.from({ length: totalDays }, (_, i) => i + 1).map(day => (
+              <option key={day} value={day}>Day {day}</option>
+            ))}
+          </select>
+        </div>
+        
         <Button 
           onClick={toggleVideoDisplayMode} 
           variant="outline" 

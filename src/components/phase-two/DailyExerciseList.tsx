@@ -29,6 +29,61 @@ const DailyExerciseList: React.FC<DailyExerciseListProps> = ({
   videoDisplayMode = "link"
 }) => {
   const [showExercisesOnReviewDay, setShowExercisesOnReviewDay] = useState(false);
+  const [activeTab, setActiveTab] = useState("all");
+  
+  // Function to categorize exercises
+  const categorizeExercises = (exercises: Exercise[]) => {
+    const categories = {
+      breathing: exercises.filter(e => e.title.toLowerCase().includes("breathing")),
+      stretching: exercises.filter(e => 
+        e.title.toLowerCase().includes("stretch") || 
+        e.title.toLowerCase().includes("scalene") ||
+        e.title.toLowerCase().includes("pec")
+      ),
+      strengthening: exercises.filter(e => 
+        e.title.toLowerCase().includes("flexor") || 
+        e.title.toLowerCase().includes("extensor") || 
+        e.title.toLowerCase().includes("rotator") ||
+        e.title.toLowerCase().includes("shrug")
+      ),
+      mobilization: exercises.filter(e => 
+        e.title.toLowerCase().includes("mobilization") || 
+        e.title.toLowerCase().includes("snag") ||
+        e.title.toLowerCase().includes("neural")
+      ),
+      tmj: exercises.filter(e => 
+        e.title.toLowerCase().includes("tmj") ||
+        e.title.toLowerCase().includes("massage") ||
+        e.title.toLowerCase().includes("temporal") ||
+        e.title.toLowerCase().includes("buccal")
+      ),
+      coordination: exercises.filter(e => 
+        e.title.toLowerCase().includes("coordination") || 
+        e.title.toLowerCase().includes("gaze") ||
+        e.title.toLowerCase().includes("combined") ||
+        e.title.toLowerCase().includes("archer")
+      ),
+      activities: exercises.filter(e => e.type === "activity")
+    };
+    
+    // For exercises that didn't fit in any category
+    const categorized = [
+      ...categories.breathing, 
+      ...categories.stretching,
+      ...categories.strengthening,
+      ...categories.mobilization,
+      ...categories.tmj,
+      ...categories.coordination,
+      ...categories.activities
+    ];
+    
+    const other = exercises.filter(e => !categorized.includes(e));
+    
+    return {
+      ...categories,
+      other
+    };
+  };
   
   if (exercises.length === 0) {
     return (
@@ -88,33 +143,221 @@ const DailyExerciseList: React.FC<DailyExerciseListProps> = ({
         
         {showExercisesOnReviewDay && reviewDayExercises.length > 0 && (
           <Card className="p-6 bg-gradient-to-br from-white to-purple-50/10 mt-4">
-            <div className="space-y-4">
-              {reviewDayExercises.map((exercise) => (
-                <ExerciseItem 
-                  key={exercise.id} 
-                  exercise={exercise} 
-                  videoDisplayMode={videoDisplayMode}
-                />
-              ))}
-            </div>
+            <Tabs defaultValue="all" onValueChange={setActiveTab}>
+              <TabsList className="mb-4">
+                <TabsTrigger value="all">All Exercises</TabsTrigger>
+                <TabsTrigger value="breathing">Breathing</TabsTrigger>
+                <TabsTrigger value="stretching">Stretching</TabsTrigger>
+                <TabsTrigger value="strengthening">Strengthening</TabsTrigger>
+                <TabsTrigger value="tmj">TMJ</TabsTrigger>
+                <TabsTrigger value="activities">Activities</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="all">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {reviewDayExercises.map((exercise) => (
+                    <ExerciseItem 
+                      key={exercise.id} 
+                      exercise={exercise}
+                      videoDisplayMode={videoDisplayMode}
+                    />
+                  ))}
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="breathing">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {categorizeExercises(reviewDayExercises).breathing.map((exercise) => (
+                    <ExerciseItem 
+                      key={exercise.id} 
+                      exercise={exercise}
+                      videoDisplayMode={videoDisplayMode}
+                    />
+                  ))}
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="stretching">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {categorizeExercises(reviewDayExercises).stretching.map((exercise) => (
+                    <ExerciseItem 
+                      key={exercise.id} 
+                      exercise={exercise}
+                      videoDisplayMode={videoDisplayMode}
+                    />
+                  ))}
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="strengthening">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {categorizeExercises(reviewDayExercises).strengthening.map((exercise) => (
+                    <ExerciseItem 
+                      key={exercise.id} 
+                      exercise={exercise}
+                      videoDisplayMode={videoDisplayMode}
+                    />
+                  ))}
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="tmj">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {categorizeExercises(reviewDayExercises).tmj.map((exercise) => (
+                    <ExerciseItem 
+                      key={exercise.id} 
+                      exercise={exercise}
+                      videoDisplayMode={videoDisplayMode}
+                    />
+                  ))}
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="activities">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {categorizeExercises(reviewDayExercises).activities.map((exercise) => (
+                    <ExerciseItem 
+                      key={exercise.id} 
+                      exercise={exercise}
+                      videoDisplayMode={videoDisplayMode}
+                    />
+                  ))}
+                </div>
+              </TabsContent>
+            </Tabs>
           </Card>
         )}
       </div>
     );
   }
   
-  // Regular exercise days
+  // Regular exercise days - show in a grid with tabs for categories
+  const categories = categorizeExercises(exercises);
+  
   return (
     <Card className="p-6 bg-gradient-to-br from-white to-purple-50/10">
-      <div className="space-y-4">
-        {exercises.map((exercise) => (
-          <ExerciseItem 
-            key={exercise.id} 
-            exercise={exercise} 
-            videoDisplayMode={videoDisplayMode}
-          />
-        ))}
-      </div>
+      <Tabs defaultValue="all" onValueChange={setActiveTab}>
+        <TabsList className="mb-4">
+          <TabsTrigger value="all">All Exercises</TabsTrigger>
+          {categories.breathing.length > 0 && (
+            <TabsTrigger value="breathing">Breathing</TabsTrigger>
+          )}
+          {categories.stretching.length > 0 && (
+            <TabsTrigger value="stretching">Stretching</TabsTrigger>
+          )}
+          {categories.strengthening.length > 0 && (
+            <TabsTrigger value="strengthening">Strengthening</TabsTrigger>
+          )}
+          {categories.mobilization.length > 0 && (
+            <TabsTrigger value="mobilization">Mobilization</TabsTrigger>
+          )}
+          {categories.tmj.length > 0 && (
+            <TabsTrigger value="tmj">TMJ</TabsTrigger>
+          )}
+          {categories.coordination.length > 0 && (
+            <TabsTrigger value="coordination">Coordination</TabsTrigger>
+          )}
+          {categories.activities.length > 0 && (
+            <TabsTrigger value="activities">Activities</TabsTrigger>
+          )}
+        </TabsList>
+        
+        <TabsContent value="all">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {exercises.map((exercise) => (
+              <ExerciseItem 
+                key={exercise.id} 
+                exercise={exercise}
+                videoDisplayMode={videoDisplayMode}
+              />
+            ))}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="breathing">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {categories.breathing.map((exercise) => (
+              <ExerciseItem 
+                key={exercise.id} 
+                exercise={exercise}
+                videoDisplayMode={videoDisplayMode}
+              />
+            ))}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="stretching">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {categories.stretching.map((exercise) => (
+              <ExerciseItem 
+                key={exercise.id} 
+                exercise={exercise}
+                videoDisplayMode={videoDisplayMode}
+              />
+            ))}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="strengthening">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {categories.strengthening.map((exercise) => (
+              <ExerciseItem 
+                key={exercise.id} 
+                exercise={exercise}
+                videoDisplayMode={videoDisplayMode}
+              />
+            ))}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="mobilization">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {categories.mobilization.map((exercise) => (
+              <ExerciseItem 
+                key={exercise.id} 
+                exercise={exercise}
+                videoDisplayMode={videoDisplayMode}
+              />
+            ))}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="tmj">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {categories.tmj.map((exercise) => (
+              <ExerciseItem 
+                key={exercise.id} 
+                exercise={exercise}
+                videoDisplayMode={videoDisplayMode}
+              />
+            ))}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="coordination">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {categories.coordination.map((exercise) => (
+              <ExerciseItem 
+                key={exercise.id} 
+                exercise={exercise}
+                videoDisplayMode={videoDisplayMode}
+              />
+            ))}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="activities">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {categories.activities.map((exercise) => (
+              <ExerciseItem 
+                key={exercise.id} 
+                exercise={exercise}
+                videoDisplayMode={videoDisplayMode}
+              />
+            ))}
+          </div>
+        </TabsContent>
+      </Tabs>
     </Card>
   );
 };
