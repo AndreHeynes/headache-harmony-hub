@@ -2,7 +2,15 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const ProgressCircle = () => {
+interface ProgressCircleProps {
+  value?: number;
+}
+
+const ProgressCircle: React.FC<ProgressCircleProps> = ({ value = 45 }) => {
+  // Calculate the stroke-dashoffset based on the value
+  const circumference = 2 * Math.PI * 60;
+  const strokeDashoffset = circumference - (value / 100) * circumference;
+
   return (
     <Card>
       <CardHeader className="pb-2">
@@ -27,12 +35,12 @@ const ProgressCircle = () => {
                 fill="none" 
                 stroke="#1f2937" 
                 strokeWidth="8" 
-                strokeDasharray="377" 
-                strokeDashoffset="207" 
+                strokeDasharray={`${circumference}`} 
+                strokeDashoffset={`${strokeDashoffset}`} 
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-2xl font-medium">45%</span>
+              <span className="text-2xl font-medium">{value}%</span>
             </div>
           </div>
         </div>
