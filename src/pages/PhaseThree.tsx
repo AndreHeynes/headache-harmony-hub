@@ -63,6 +63,23 @@ const PhaseThree = () => {
     };
   }, []);
   
+  // Show a reminder toast when user reaches day 7 and hasn't completed all questionnaires
+  useEffect(() => {
+    if (currentDay === 7) {
+      const incompleteQuestionnaires = ['hit-6', 'midas', 'psfs', 'gpoc'].filter(
+        id => !completedQuestionnaires[id]
+      );
+      
+      if (incompleteQuestionnaires.length > 0) {
+        toast({
+          title: "Incomplete Assessments",
+          description: `Please complete the following assessments before proceeding to Day 8: ${incompleteQuestionnaires.join(', ')}`,
+          variant: "warning"
+        });
+      }
+    }
+  }, [currentDay, completedQuestionnaires, toast]);
+  
   const goToNextDay = () => {
     if (currentDay < totalDays) {
       // If going to day 8, check if all questionnaires are completed
@@ -171,7 +188,7 @@ const PhaseThree = () => {
             </CardContent>
           </Card>
           
-          {/* Only show external tracking for day 8 if specifically on that day, otherwise show the normal external tracking */}
+          {/* Only show headache analysis for day 8, otherwise show the normal external tracking */}
           {currentDay === 8 ? (
             <Card>
               <CardHeader className="pb-2">

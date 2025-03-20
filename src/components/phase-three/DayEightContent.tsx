@@ -2,8 +2,8 @@
 import React from "react";
 import QuestionnaireOutcomeFeedback from "@/components/questionnaire/QuestionnaireOutcomeFeedback";
 import HeadacheAnalysis from "@/components/phase/HeadacheAnalysis";
-import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, ArrowRight, ChevronRight, TrendingDown } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CheckCircle, ArrowRight, ChevronRight, TrendingDown, ExternalLink } from "lucide-react";
 
 interface DayEightContentProps {
   allCompleted: boolean;
@@ -74,13 +74,8 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
       </div>
       
       <div className="mb-8">
-        <h3 className="font-medium text-lg mb-4">Assessment Results</h3>
+        <h3 className="font-medium text-lg mb-4">Outcome</h3>
         <QuestionnaireOutcomeFeedback questionnaireResults={questionnaireResults} />
-      </div>
-      
-      <div className="mb-8">
-        <h3 className="font-medium text-lg mb-4">Headache Progress Analysis</h3>
-        <HeadacheAnalysis isConnected={true} showInPhaseThree={true} />
       </div>
       
       <Card className="border-green-100 bg-green-50">
