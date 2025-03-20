@@ -3,7 +3,14 @@ import React from "react";
 import QuestionnaireOutcomeFeedback from "@/components/questionnaire/QuestionnaireOutcomeFeedback";
 import HeadacheAnalysis from "@/components/phase/HeadacheAnalysis";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, ArrowRight, ChevronRight, TrendingDown, ExternalLink } from "lucide-react";
+import { 
+  ActivitySquare, 
+  Lightbulb, 
+  Brain, 
+  Gauge, 
+  ScrollText, 
+  ArrowRight
+} from "lucide-react";
 
 interface DayEightContentProps {
   allCompleted: boolean;
@@ -75,37 +82,76 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
       
       <div className="mb-8">
         <h3 className="font-medium text-lg mb-4">Outcome</h3>
-        <QuestionnaireOutcomeFeedback questionnaireResults={questionnaireResults} />
-      </div>
-      
-      <Card className="border-green-100 bg-green-50">
-        <CardContent className="pt-6">
-          <h3 className="font-medium text-lg text-green-800 mb-3">Maintenance Recommendations</h3>
-          <div className="space-y-3">
-            <div className="flex">
-              <ChevronRight className="h-5 w-5 text-green-600 mt-0.5 mr-2 flex-shrink-0" />
-              <p className="text-green-800">Continue your personalized exercise routine 3-4 times per week</p>
-            </div>
-            <div className="flex">
-              <ChevronRight className="h-5 w-5 text-green-600 mt-0.5 mr-2 flex-shrink-0" />
-              <p className="text-green-800">Maintain regular sleep schedule and stress management practices</p>
-            </div>
-            <div className="flex">
-              <ChevronRight className="h-5 w-5 text-green-600 mt-0.5 mr-2 flex-shrink-0" />
-              <p className="text-green-800">Continue tracking headaches using the connected app</p>
-            </div>
-            <div className="flex">
-              <ChevronRight className="h-5 w-5 text-green-600 mt-0.5 mr-2 flex-shrink-0" />
-              <p className="text-green-800">Schedule follow-up assessment in 3 months</p>
+        <div className="space-y-5">
+          {/* HIT-6 Interpretation */}
+          <div className="rounded-lg border p-5 bg-emerald-50 border-emerald-200">
+            <div className="flex items-start">
+              <div className="mr-4">
+                <Gauge className="h-8 w-8 text-indigo-500" />
+              </div>
+              <div>
+                <h3 className="font-medium text-lg mb-2 text-emerald-800">
+                  Headache Impact
+                </h3>
+                <p className="text-neutral-700">
+                  Your headaches currently have a mild to moderate impact on your daily activities.
+                </p>
+              </div>
             </div>
           </div>
           
-          <div className="mt-6 flex items-center justify-between">
-            <p className="text-green-800 font-medium">Moving to Phase 4: Long-term Maintenance</p>
-            <ArrowRight className="h-5 w-5 text-green-600" />
+          {/* MIDAS Interpretation */}
+          <div className="rounded-lg border p-5 bg-blue-50 border-blue-200">
+            <div className="flex items-start">
+              <div className="mr-4">
+                <ActivitySquare className="h-8 w-8 text-purple-500" />
+              </div>
+              <div>
+                <h3 className="font-medium text-lg mb-2 text-blue-800">
+                  Migraine Disability Assessment
+                </h3>
+                <p className="text-neutral-700">
+                  Your migraines are causing mild disability. Your program has helped minimize this impact.
+                </p>
+              </div>
+            </div>
           </div>
-        </CardContent>
-      </Card>
+          
+          {/* GPOC Interpretation */}
+          <div className="rounded-lg border p-5 bg-blue-50 border-blue-200">
+            <div className="flex items-start">
+              <div className="mr-4">
+                <ArrowRight className="h-8 w-8 text-blue-500" />
+              </div>
+              <div>
+                <h3 className="font-medium text-lg mb-2 text-blue-800">
+                  Global Perception of Change
+                </h3>
+                <p className="text-neutral-700">
+                  You've noticed moderate improvements in your headache condition since beginning treatment.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          {/* PSFS Interpretation */}
+          <div className="rounded-lg border p-5 bg-emerald-50 border-emerald-200">
+            <div className="flex items-start">
+              <div className="mr-4">
+                <Lightbulb className="h-8 w-8 text-emerald-500" />
+              </div>
+              <div>
+                <h3 className="font-medium text-lg mb-2 text-emerald-800">
+                  Patient-Specific Functional Scale
+                </h3>
+                <p className="text-neutral-700">
+                  Your ability to perform the key activities you identified has improved significantly during the program.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
