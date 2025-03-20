@@ -1,6 +1,5 @@
 
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import TaskList from "@/components/phase/TaskList";
 import { Task } from "@/types/task";
 import { getPhaseThreeTasks, CompletedQuestionnairesMap } from "@/utils/phaseTaskUtils";
@@ -10,7 +9,6 @@ interface PhaseThreeTaskListProps {
 }
 
 const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
-  const navigate = useNavigate();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [completedQuestionnaires, setCompletedQuestionnaires] = useState<CompletedQuestionnairesMap>({});
   
@@ -42,14 +40,16 @@ const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
 
   useEffect(() => {
     // Generate tasks for Phase 3
-    setTasks(getPhaseThreeTasks(day, completedQuestionnaires));
+    const phaseTasks = getPhaseThreeTasks(day, completedQuestionnaires);
+    
+    // Remove links from tasks to make assessments not clickable
+    const nonLinkableTasks = phaseTasks.map(task => ({
+      ...task,
+      link: undefined
+    }));
+    
+    setTasks(nonLinkableTasks);
   }, [day, completedQuestionnaires]);
-  
-  const handleTaskClick = (task: Task) => {
-    if (task.link) {
-      navigate(task.link);
-    }
-  };
 
   // For day 8, show message about completing assessments instead of tasks
   const emptyMessage = day === 8 
@@ -63,7 +63,8 @@ const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
       tasks={tasks}
       title="Today's Tasks"
       emptyMessage={emptyMessage}
-      onTaskClick={handleTaskClick}
+      onTaskClick={() => {}} // Empty function since tasks shouldn't be clickable
+      showIcons={false} // Add this prop to hide icons
     />
   );
 };

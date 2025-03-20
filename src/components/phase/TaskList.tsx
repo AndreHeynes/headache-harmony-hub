@@ -9,13 +9,15 @@ interface TaskListProps {
   title?: string;
   emptyMessage?: string;
   onTaskClick?: (task: Task) => void;
+  showIcons?: boolean;
 }
 
 const TaskList: React.FC<TaskListProps> = ({
   tasks,
   title = "Today's Tasks",
   emptyMessage = "No tasks for today.",
-  onTaskClick
+  onTaskClick,
+  showIcons = true
 }) => {
   return (
     <Card>
@@ -33,6 +35,7 @@ const TaskList: React.FC<TaskListProps> = ({
                 status={task.status}
                 type={task.type}
                 onClick={() => onTaskClick && onTaskClick(task)}
+                showIcon={showIcons}
               />
             ))
           ) : (

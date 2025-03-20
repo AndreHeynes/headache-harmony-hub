@@ -8,6 +8,7 @@ interface TaskItemProps {
   onClick: () => void;
   status?: "not-started" | "in-progress" | "completed";
   type?: "default" | "questionnaire" | "document" | "video";
+  showIcon?: boolean;
 }
 
 const TaskItem = ({ 
@@ -15,9 +16,12 @@ const TaskItem = ({
   completed, 
   onClick, 
   status = "not-started", 
-  type = "default" 
+  type = "default",
+  showIcon = true
 }: TaskItemProps) => {
   const renderStatusIcon = () => {
+    if (!showIcon) return null;
+    
     // Choose icon based on task type
     if (type === "questionnaire") {
       return <FileQuestion className={`mr-3 h-5 w-5 ${getIconColorClass()}`} />;
