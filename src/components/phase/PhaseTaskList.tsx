@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TaskList from "./TaskList";
 import { Task } from "@/types/task";
-import { getPhaseOneTasks, CompletedQuestionnairesMap } from "@/utils/phaseTaskUtils";
+import { getPhaseOneTasks, CompletedQuestionnairesMap } from "@/utils/phase-tasks";
 
 interface PhaseTaskListProps {
   day?: number;

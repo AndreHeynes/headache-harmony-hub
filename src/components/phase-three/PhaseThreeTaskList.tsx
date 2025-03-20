@@ -1,8 +1,7 @@
-
 import React, { useEffect, useState } from "react";
 import TaskList from "@/components/phase/TaskList";
 import { Task } from "@/types/task";
-import { getPhaseThreeTasks, CompletedQuestionnairesMap } from "@/utils/phaseTaskUtils";
+import { getPhaseThreeTasks, CompletedQuestionnairesMap } from "@/utils/phase-tasks";
 
 interface PhaseThreeTaskListProps {
   day: number;
@@ -13,7 +12,6 @@ const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
   const [completedQuestionnaires, setCompletedQuestionnaires] = useState<CompletedQuestionnairesMap>({});
   
   useEffect(() => {
-    // Load completed questionnaires from localStorage
     const loadCompletedQuestionnaires = () => {
       const questionnaires = ['hit-6', 'midas', 'psfs', 'gpoc'];
       const completed: CompletedQuestionnairesMap = {};
@@ -30,7 +28,6 @@ const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
     
     loadCompletedQuestionnaires();
     
-    // Listen for changes to localStorage
     window.addEventListener('storage', loadCompletedQuestionnaires);
     
     return () => {
@@ -39,10 +36,8 @@ const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
   }, []);
 
   useEffect(() => {
-    // Generate tasks for Phase 3
     const phaseTasks = getPhaseThreeTasks(day, completedQuestionnaires);
     
-    // Remove links from tasks to make assessments not clickable
     const nonLinkableTasks = phaseTasks.map(task => ({
       ...task,
       link: undefined
@@ -51,14 +46,12 @@ const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
     setTasks(nonLinkableTasks);
   }, [day, completedQuestionnaires]);
 
-  // For day 8, show message about completing assessments instead of tasks
   const emptyMessage = day === 8 
     ? (Object.keys(completedQuestionnaires).length === 4
       ? "All assessments completed. Review your feedback below."
       : "Please complete all assessments to view your feedback.")
     : "No tasks for today.";
 
-  // For day 8, use a different title
   const title = day === 8 ? "Program Completion" : "Today's Tasks";
 
   return (
