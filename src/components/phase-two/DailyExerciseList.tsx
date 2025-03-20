@@ -10,7 +10,11 @@ import {
   getDay21Exercises, 
   getDay28Exercises,
   getDay35Exercises,
-  getDay42Exercises
+  getDay42Exercises,
+  getDay49Exercises,
+  getDay56Exercises,
+  getDay63Exercises,
+  getDay70Exercises
 } from "@/utils/exercises/schedules";
 
 interface DailyExerciseListProps {
@@ -54,6 +58,14 @@ const DailyExerciseList: React.FC<DailyExerciseListProps> = ({
       reviewDayExercises = getDay35Exercises();
     } else if (day === 42) {
       reviewDayExercises = getDay42Exercises();
+    } else if (day === 49) {
+      reviewDayExercises = getDay49Exercises();
+    } else if (day === 56) {
+      reviewDayExercises = getDay56Exercises();
+    } else if (day === 63) {
+      reviewDayExercises = getDay63Exercises();
+    } else if (day === 70) {
+      reviewDayExercises = getDay70Exercises();
     }
         
     return (

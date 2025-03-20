@@ -365,6 +365,81 @@ export const exercises: Exercise[] = [
     type: "exercise"
   },
   
+  // Additional advanced exercises for days 50+
+  {
+    id: "21.2",
+    title: "Neck Extensors (Inclined Sitting) Level 3",
+    description: "Advanced exercise for strengthening neck extensor muscles in inclined sitting position",
+    videoUrl: "https://vimeo.com/1064046071",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "42.0",
+    title: "Combined Movement Level 2",
+    description: "Combined movement exercise - advanced level",
+    videoUrl: "https://vimeo.com/1064046071",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "43.0",
+    title: "Combined Movement Level 3",
+    description: "Combined movement exercise - expert level",
+    videoUrl: "https://vimeo.com/1064047181",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "46.0",
+    title: "Gaze Stability Level 1",
+    description: "Beginning exercise for improving gaze stability",
+    videoUrl: "https://vimeo.com/1064047552",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "46.1",
+    title: "Gaze Stability Level 2",
+    description: "Advanced exercise for improving gaze stability",
+    videoUrl: "https://vimeo.com/1064048874",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "48.0",
+    title: "Eye/Head Coordination Level 1",
+    description: "Beginning exercise for improving eye and head coordination",
+    videoUrl: "https://vimeo.com/1064048022",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "48.1",
+    title: "Eye/Head Coordination Level 2",
+    description: "Advanced exercise for improving eye and head coordination",
+    videoUrl: "https://vimeo.com/1064049805",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "50.0",
+    title: "Trunk/Head Coordination",
+    description: "Exercise for improving coordination between trunk and head movements",
+    videoUrl: "https://vimeo.com/1064048394",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "57.0",
+    title: "Neural Mobility Level 2",
+    description: "Advanced neural mobility exercise",
+    videoUrl: "https://vimeo.com/placeholder",
+    includedForTypes: ["4"],
+    excludedForTypes: ["6"],
+    type: "exercise"
+  },
+  
   // TMJ specific exercises - for Type 6
   {
     id: "51.0",

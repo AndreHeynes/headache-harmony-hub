@@ -15,7 +15,7 @@ const PhaseTwo = () => {
   const { toast } = useToast();
   const [currentDay, setCurrentDay] = useState(1);
   const [videoDisplayMode, setVideoDisplayMode] = useState<"embedded" | "link">("link");
-  const totalDays = 64;
+  const totalDays = 76;
   
   // Initialize currentDay from localStorage or set to 1
   useEffect(() => {
