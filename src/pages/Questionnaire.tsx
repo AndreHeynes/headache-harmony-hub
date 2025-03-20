@@ -22,6 +22,23 @@ const Questionnaire = () => {
     
     // In a real app, you'd fetch from a database or local storage
     const savedResponse = localStorage.getItem(`questionnaire-${id}`);
+    
+    // Special handling for PSFS in Phase 3 - load activities from Phase 1
+    if (id === 'psfs') {
+      const savedActivities = localStorage.getItem('psfs-activities');
+      if (savedActivities) {
+        try {
+          const activities = JSON.parse(savedActivities);
+          setSavedResponses(prev => ({
+            ...prev,
+            'savedActivities': activities
+          }));
+        } catch (e) {
+          console.error("Error parsing saved PSFS activities");
+        }
+      }
+    }
+    
     if (savedResponse) {
       try {
         const parsed = JSON.parse(savedResponse);
@@ -31,7 +48,11 @@ const Questionnaire = () => {
           answers[answer.questionId] = answer.value;
         });
         
-        setSavedResponses(answers);
+        setSavedResponses(prev => ({
+          ...prev,
+          ...answers
+        }));
+        
         toast.info("Previous responses loaded");
       } catch (e) {
         console.error("Error parsing saved responses");
@@ -54,7 +75,28 @@ const Questionnaire = () => {
     console.log("Questionnaire completed:", response);
     
     // Show success message
-    toast.success("Questionnaire completed successfully!");
+    if (id === 'gpoc') {
+      const rating = response.answers.find(a => a.questionId === 'gpoc-q1')?.value;
+      let feedbackText = "Thank you for completing the Global Perception of Change questionnaire.";
+      
+      // Add specific feedback based on rating
+      if (rating && rating <= 3) {
+        feedbackText += " We're glad to see you've experienced improvement!";
+      } else if (rating === 4) {
+        feedbackText += " We'll continue working together on your progress.";
+      } else if (rating && rating > 4) {
+        feedbackText += " We'll adjust your plan to better address your needs.";
+      }
+      
+      toast.success(feedbackText);
+    } else {
+      toast.success("Questionnaire completed successfully!");
+    }
+    
+    // Navigate back to Phase 3
+    setTimeout(() => {
+      navigate('/phase-three');
+    }, 2000);
   };
   
   const handleSaveProgress = (partialResponse: Partial<QuestionnaireResponse>) => {

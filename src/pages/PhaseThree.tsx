@@ -10,6 +10,7 @@ import PhaseThreeContent from "@/components/phase-three/PhaseThreeContent";
 import PhaseThreeTaskList from "@/components/phase-three/PhaseThreeTaskList";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const PhaseThree = () => {
   const { toast } = useToast();
@@ -49,37 +50,10 @@ const PhaseThree = () => {
     }
   };
 
-  // Function to handle direct day navigation
-  const goToSpecificDay = (day: number) => {
-    if (day >= 1 && day <= totalDays) {
-      setCurrentDay(day);
-    }
-  };
-
   return (
     <PageLayout>
       <div className="flex justify-between items-center mb-8">
         <PhaseHeading title="Consolidating your recovery progress" />
-        <div className="flex space-x-2">
-          <Button 
-            onClick={goToPreviousDay}
-            disabled={currentDay === 1}
-            variant="outline"
-            size="sm"
-          >
-            <ArrowLeft className="h-4 w-4 mr-1" />
-            Previous
-          </Button>
-          <Button 
-            onClick={goToNextDay}
-            disabled={currentDay === totalDays}
-            variant="outline"
-            size="sm"
-          >
-            Next
-            <ArrowRight className="h-4 w-4 ml-1" />
-          </Button>
-        </div>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
@@ -91,29 +65,36 @@ const PhaseThree = () => {
         <PhaseThreeTaskList day={currentDay} />
         <PhaseTimeline currentPhase={3} />
       </div>
-      
-      <div className="flex flex-wrap justify-between items-center mb-4 gap-2">
-        <div className="flex items-center">
-          <span className="text-sm mr-2">Jump to day:</span>
-          <select 
-            value={currentDay}
-            onChange={(e) => goToSpecificDay(parseInt(e.target.value, 10))}
-            className="text-sm rounded border p-1"
-          >
-            {Array.from({ length: totalDays }, (_, i) => i + 1).map(day => (
-              <option key={day} value={day}>Day {day}</option>
-            ))}
-          </select>
-        </div>
-      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg border shadow-sm">
-          <div className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Day {currentDay} Content</h3>
+        <Card>
+          <CardHeader className="pb-2 flex justify-between items-center">
+            <CardTitle className="text-lg">Day {currentDay} Content</CardTitle>
+            <div className="flex space-x-2">
+              <Button 
+                onClick={goToPreviousDay}
+                disabled={currentDay === 1}
+                variant="outline"
+                size="sm"
+              >
+                <ArrowLeft className="h-4 w-4 mr-1" />
+                Previous
+              </Button>
+              <Button 
+                onClick={goToNextDay}
+                disabled={currentDay === totalDays}
+                variant="outline"
+                size="sm"
+              >
+                Next
+                <ArrowRight className="h-4 w-4 ml-1" />
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent>
             <PhaseThreeContent day={currentDay} />
-          </div>
-        </div>
+          </CardContent>
+        </Card>
         <ExternalTracking phase={3} />
       </div>
     </PageLayout>

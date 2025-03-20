@@ -1,6 +1,8 @@
 
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 interface PhaseThreeContentProps {
   day: number;
@@ -26,6 +28,47 @@ const PhaseThreeContent: React.FC<PhaseThreeContentProps> = ({ day }) => {
                 questionnaires from Phase 1. This will help us measure your 
                 progress and adjust your maintenance plan accordingly.
               </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <div className="border rounded-lg p-4">
+                <h3 className="font-medium mb-2">HIT-6 Assessment</h3>
+                <p className="text-neutral-500 mb-3">
+                  Complete the Headache Impact Test to measure how headaches affect your daily activities.
+                </p>
+                <Link to="/questionnaire/hit-6">
+                  <Button variant="outline" className="w-full">Complete HIT-6</Button>
+                </Link>
+              </div>
+              
+              <div className="border rounded-lg p-4">
+                <h3 className="font-medium mb-2">MIDAS Assessment</h3>
+                <p className="text-neutral-500 mb-3">
+                  Evaluate the impact of headaches on your work, home, and social life.
+                </p>
+                <Link to="/questionnaire/midas">
+                  <Button variant="outline" className="w-full">Complete MIDAS</Button>
+                </Link>
+              </div>
+              
+              <div className="border rounded-lg p-4">
+                <h3 className="font-medium mb-2">PSFS Assessment</h3>
+                <p className="text-neutral-500 mb-3">
+                  Rate your ability to perform the specific activities you identified in Phase 1.
+                </p>
+                <Link to="/questionnaire/psfs">
+                  <Button variant="outline" className="w-full">Complete PSFS</Button>
+                </Link>
+              </div>
+              
+              <div className="border rounded-lg p-4">
+                <h3 className="font-medium mb-2">Global Perception of Change</h3>
+                <p className="text-neutral-500 mb-3">
+                  Rate your overall perception of change since beginning the program.
+                </p>
+                <Link to="/questionnaire/gpoc">
+                  <Button variant="outline" className="w-full">Complete GPOC</Button>
+                </Link>
+              </div>
             </div>
           </div>
         );

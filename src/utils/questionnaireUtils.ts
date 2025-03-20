@@ -9,6 +9,7 @@ import { hslocQuestionnaire } from "@/data/questionnaires/hsloc";
 import { hbQuestionnaire } from "@/data/questionnaires/hb";
 import { pscQuestionnaire } from "@/data/questionnaires/psc";
 import { mkqQuestionnaire } from "@/data/questionnaires/mkq";
+import { gpocQuestionnaire } from "@/data/questionnaires/gpoc";
 
 /**
  * Returns the appropriate questionnaire based on the provided ID
@@ -35,6 +36,8 @@ export const getQuestionnaire = (id?: string): Questionnaire | null => {
       return pscQuestionnaire;
     case "mkq":
       return mkqQuestionnaire;
+    case "gpoc":
+      return gpocQuestionnaire;
     default:
       return null;
   }
