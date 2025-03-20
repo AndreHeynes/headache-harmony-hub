@@ -5,6 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 interface QuestionnaireSectionProps {
   questions: Question[];
@@ -109,6 +110,27 @@ const QuestionnaireSection: React.FC<QuestionnaireSectionProps> = ({
           </div>
         );
       case "text":
+        // Check if this is a comment field that should use a textarea
+        if (question.id === "gpoc-comments") {
+          return (
+            <div className="mb-6">
+              <Label htmlFor={question.id} className="block mb-2">
+                {question.text}
+              </Label>
+              {question.info && (
+                <p className="text-sm text-neutral-500 mb-2">{question.info}</p>
+              )}
+              <Textarea
+                id={question.id}
+                value={answers[question.id] || ""}
+                onChange={(e) => onAnswerChange(question.id, e.target.value)}
+                className="w-full"
+                placeholder="Enter your comments here"
+              />
+            </div>
+          );
+        }
+        
         return (
           <div className="mb-6">
             <Label htmlFor={question.id} className="block mb-2">

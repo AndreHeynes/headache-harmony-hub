@@ -28,7 +28,7 @@ export const gpocQuestionnaire: Questionnaire = {
         },
         {
           id: "gpoc-comments",
-          type: "textarea",
+          type: "text", // Changed from "textarea" to "text" which is an allowed QuestionType
           text: "Comments (optional)",
           required: false
         }
@@ -36,6 +36,6 @@ export const gpocQuestionnaire: Questionnaire = {
     }
   ],
   interpretations: {
-    custom: "SimpleCompletion"
+    ranges: [] // Empty ranges array instead of 'custom' property to match the expected type
   }
 };

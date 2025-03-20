@@ -76,16 +76,20 @@ const Questionnaire = () => {
     
     // Show success message
     if (id === 'gpoc') {
-      const rating = response.answers.find(a => a.questionId === 'gpoc-q1')?.value;
+      const ratingAnswer = response.answers.find(a => a.questionId === 'gpoc-q1');
+      const rating = ratingAnswer ? Number(ratingAnswer.value) : null;
+      
       let feedbackText = "Thank you for completing the Global Perception of Change questionnaire.";
       
-      // Add specific feedback based on rating
-      if (rating && rating <= 3) {
-        feedbackText += " We're glad to see you've experienced improvement!";
-      } else if (rating === 4) {
-        feedbackText += " We'll continue working together on your progress.";
-      } else if (rating && rating > 4) {
-        feedbackText += " We'll adjust your plan to better address your needs.";
+      // Add specific feedback based on rating only if it's a valid number
+      if (rating !== null) {
+        if (rating <= 3) {
+          feedbackText += " We're glad to see you've experienced improvement!";
+        } else if (rating === 4) {
+          feedbackText += " We'll continue working together on your progress.";
+        } else if (rating > 4) {
+          feedbackText += " We'll adjust your plan to better address your needs.";
+        }
       }
       
       toast.success(feedbackText);

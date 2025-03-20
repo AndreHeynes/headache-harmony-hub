@@ -25,7 +25,7 @@ const QuestionnaireInterpretation: React.FC<QuestionnaireInterpretationProps> = 
   recommendedExercises = [],
 }) => {
   // If no score and no group scores for questionnaires that need them
-  if (!score && !Object.keys(groupScores).length && questionnaire.id !== 'fht' && questionnaire.id !== 'hb') {
+  if (!score && !Object.keys(groupScores).length && questionnaire.id !== 'fht' && questionnaire.id !== 'hb' && questionnaire.id !== 'gpoc') {
     return <SimpleCompletion />;
   }
 
@@ -62,6 +62,10 @@ const QuestionnaireInterpretation: React.FC<QuestionnaireInterpretationProps> = 
     case 'mkq':
       // MKQ questionnaire completion message
       return <SimpleCompletion customMessage="Thank you for completing the Medication Knowledge Questionnaire. This information will help us understand your current medication management." />;
+    
+    case 'gpoc':
+      // GPOC questionnaire completion message
+      return <SimpleCompletion customMessage="Thank you for completing the Global Perception of Change questionnaire. Your feedback helps us understand how your condition has changed since beginning treatment." />;
     
     default:
       // Default interpretation for standard questionnaires
