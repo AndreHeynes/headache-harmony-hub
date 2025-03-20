@@ -15,7 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 const PhaseThree = () => {
   const { toast } = useToast();
   const [currentDay, setCurrentDay] = useState(1);
-  const totalDays = 7;
+  const totalDays = 8; // Updated to 8 days to include feedback day
   
   // Initialize currentDay from localStorage or set to 1
   useEffect(() => {
@@ -30,8 +30,47 @@ const PhaseThree = () => {
     localStorage.setItem('phase3-current-day', currentDay.toString());
   }, [currentDay]);
   
+  // Track completed questionnaires
+  const [completedQuestionnaires, setCompletedQuestionnaires] = useState<Record<string, boolean>>({});
+  
+  useEffect(() => {
+    // Load completed questionnaires from localStorage
+    const loadCompletedQuestionnaires = () => {
+      const questionnaires = ['hit-6', 'midas', 'psfs', 'gpoc'];
+      const completed: Record<string, boolean> = {};
+      
+      questionnaires.forEach(id => {
+        const savedResponse = localStorage.getItem(`questionnaire-${id}`);
+        if (savedResponse) {
+          completed[id] = true;
+        }
+      });
+      
+      setCompletedQuestionnaires(completed);
+    };
+    
+    loadCompletedQuestionnaires();
+    
+    // Listen for changes to localStorage
+    window.addEventListener('storage', loadCompletedQuestionnaires);
+    
+    return () => {
+      window.removeEventListener('storage', loadCompletedQuestionnaires);
+    };
+  }, []);
+  
   const goToNextDay = () => {
     if (currentDay < totalDays) {
+      // If going to day 8, check if all questionnaires are completed
+      if (currentDay === 7 && Object.keys(completedQuestionnaires).length < 4) {
+        toast({
+          title: "Assessments Incomplete",
+          description: "Please complete all assessments before proceeding to view your feedback.",
+          variant: "destructive"
+        });
+        return;
+      }
+      
       setCurrentDay(currentDay + 1);
       
       // Show completion toast for final day

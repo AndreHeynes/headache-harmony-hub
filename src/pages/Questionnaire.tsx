@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PageLayout from "@/components/layout/PageLayout";
@@ -18,8 +19,10 @@ const Questionnaire = () => {
   useEffect(() => {
     if (!id) return;
     
+    // Load any previous responses for this questionnaire
     const savedResponse = localStorage.getItem(`questionnaire-${id}`);
     
+    // Special handling for PSFS activities
     if (id === 'psfs') {
       const savedActivities = localStorage.getItem('psfs-activities');
       if (savedActivities) {
@@ -29,6 +32,16 @@ const Questionnaire = () => {
             ...prev,
             'savedActivities': activities
           }));
+          
+          // Pre-populate activity names from Phase 1
+          activities.forEach((activity: any) => {
+            if (activity.id.includes("activity")) {
+              setSavedResponses(prev => ({
+                ...prev,
+                [activity.id]: activity.text
+              }));
+            }
+          });
         } catch (e) {
           console.error("Error parsing saved PSFS activities");
         }

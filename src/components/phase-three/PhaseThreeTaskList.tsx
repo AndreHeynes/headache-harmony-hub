@@ -1,151 +1,72 @@
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 
 interface PhaseThreeTaskListProps {
   day: number;
 }
 
 const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
-  // Tasks for each day
-  const getDayTasks = (day: number) => {
-    switch (day) {
-      case 1:
-        return [
-          {
-            id: 1,
-            title: "Complete HIT-6 Assessment",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          },
-          {
-            id: 2,
-            title: "Complete MIDAS Assessment",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          },
-          {
-            id: 3,
-            title: "Complete PSFS Assessment",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          },
-          {
-            id: 4,
-            title: "Complete Global Perception of Change",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          }
-        ];
-      case 2:
-        return [
-          {
-            id: 1,
-            title: "Review Headache Diary",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          },
-          {
-            id: 2,
-            title: "Complete Progress Analysis Worksheet",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          },
-          {
-            id: 3,
-            title: "Watch Progress Assessment Video",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          }
-        ];
-      case 3:
-        return [
-          {
-            id: 1,
-            title: "Create Maintenance Exercise Schedule",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          },
-          {
-            id: 2,
-            title: "Record Most Effective Exercises",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          },
-          {
-            id: 3,
-            title: "Watch Maintenance Planning Video",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          }
-        ];
-      case 4:
-        return [
-          {
-            id: 1,
-            title: "Update Trigger Journal",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          },
-          {
-            id: 2,
-            title: "Complete Trigger Response Plan",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          },
-          {
-            id: 3,
-            title: "Watch Trigger Management Video",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          }
-        ];
-      case 5:
-        return [
-          {
-            id: 1,
-            title: "Create Relapse Prevention Plan",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          },
-          {
-            id: 2,
-            title: "Identify Personal Warning Signs",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          },
-          {
-            id: 3,
-            title: "Watch Relapse Prevention Video",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          }
-        ];
-      case 6:
-        return [
-          {
-            id: 1,
-            title: "Complete Healthcare Communication Worksheet",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          },
-          {
-            id: 2,
-            title: "Prepare Questions for Healthcare Provider",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          },
-          {
-            id: 3,
-            title: "Watch Self-Advocacy Video",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          }
-        ];
-      case 7:
-        return [
-          {
-            id: 1,
-            title: "Review Maintenance Plan",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          },
-          {
-            id: 2,
-            title: "Complete Phase 3 Feedback Survey",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          },
-          {
-            id: 3,
-            title: "Watch Phase 4 Introduction Video",
-            status: "not-started" as "not-started" | "in-progress" | "completed"
-          }
-        ];
-      default:
-        return [];
-    }
-  };
+  const [completedQuestionnaires, setCompletedQuestionnaires] = useState<Record<string, boolean>>({});
+  
+  useEffect(() => {
+    // Load completed questionnaires from localStorage
+    const loadCompletedQuestionnaires = () => {
+      const questionnaires = ['hit-6', 'midas', 'psfs', 'gpoc'];
+      const completed: Record<string, boolean> = {};
+      
+      questionnaires.forEach(id => {
+        const savedResponse = localStorage.getItem(`questionnaire-${id}`);
+        if (savedResponse) {
+          completed[id] = true;
+        }
+      });
+      
+      setCompletedQuestionnaires(completed);
+    };
+    
+    loadCompletedQuestionnaires();
+    
+    // Listen for changes to localStorage
+    window.addEventListener('storage', loadCompletedQuestionnaires);
+    
+    return () => {
+      window.removeEventListener('storage', loadCompletedQuestionnaires);
+    };
+  }, []);
 
-  const tasks = getDayTasks(day);
+  // Common tasks for all days in Phase 3
+  const getTasks = () => [
+    {
+      id: 1,
+      title: "Complete HIT-6 Assessment",
+      status: completedQuestionnaires['hit-6'] ? "completed" : "not-started" as "not-started" | "in-progress" | "completed",
+      questionnaire: "hit-6"
+    },
+    {
+      id: 2,
+      title: "Complete MIDAS Assessment",
+      status: completedQuestionnaires['midas'] ? "completed" : "not-started" as "not-started" | "in-progress" | "completed",
+      questionnaire: "midas"
+    },
+    {
+      id: 3,
+      title: "Complete PSFS Assessment",
+      status: completedQuestionnaires['psfs'] ? "completed" : "not-started" as "not-started" | "in-progress" | "completed",
+      questionnaire: "psfs"
+    },
+    {
+      id: 4,
+      title: "Complete Global Perception of Change",
+      status: completedQuestionnaires['gpoc'] ? "completed" : "not-started" as "not-started" | "in-progress" | "completed",
+      questionnaire: "gpoc"
+    }
+  ];
+
+  // Day 8 will show a different set of tasks
+  const tasks = day === 8 ? [] : getTasks();
+  const allCompleted = Object.keys(completedQuestionnaires).length === 4;
 
   return (
     <Card>
@@ -154,32 +75,40 @@ const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {tasks.length > 0 ? (
-            tasks.map(task => (
-              <div 
-                key={task.id}
-                className="flex items-center justify-between p-2 hover:bg-neutral-50 rounded transition-colors"
-              >
-                <span className={task.status === "completed" ? "line-through text-neutral-500" : ""}>
-                  {task.title}
-                </span>
-                <span className={`text-xs px-2 py-1 rounded-full ${
-                  task.status === "completed" 
-                    ? "bg-neutral-800 text-white" 
-                    : task.status === "in-progress" 
-                      ? "bg-neutral-400 text-white"
-                      : "bg-neutral-200 text-neutral-700"
-                }`}>
-                  {task.status === "completed" 
-                    ? "Completed" 
-                    : task.status === "in-progress" 
-                      ? "In Progress"
-                      : "Not Started"}
-                </span>
-              </div>
-            ))
+          {day < 8 ? (
+            tasks.length > 0 ? (
+              tasks.map(task => (
+                <div 
+                  key={task.id}
+                  className="flex items-center justify-between p-2 hover:bg-neutral-50 rounded transition-colors"
+                >
+                  <span className={task.status === "completed" ? "line-through text-neutral-500" : ""}>
+                    {task.title}
+                  </span>
+                  <span className={`text-xs px-2 py-1 rounded-full ${
+                    task.status === "completed" 
+                      ? "bg-neutral-800 text-white" 
+                      : task.status === "in-progress" 
+                        ? "bg-neutral-400 text-white"
+                        : "bg-neutral-200 text-neutral-700"
+                  }`}>
+                    {task.status === "completed" 
+                      ? "Completed" 
+                      : task.status === "in-progress" 
+                        ? "In Progress"
+                        : "Not Started"}
+                  </span>
+                </div>
+              ))
+            ) : (
+              <p className="text-neutral-500 italic">No tasks for today.</p>
+            )
           ) : (
-            <p className="text-neutral-500 italic">No tasks for today.</p>
+            <p className="text-neutral-500">
+              {allCompleted 
+                ? "All assessments completed. Review your feedback below." 
+                : "Please complete all assessments to view your feedback."}
+            </p>
           )}
         </div>
       </CardContent>
