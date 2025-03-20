@@ -1,13 +1,14 @@
 
 import React from "react";
-import { Circle, CheckCircle, Clock, FileText, FileQuestion, Video } from "lucide-react";
+import { Circle, CheckCircle, Clock, FileText, FileQuestion, Video, AlertTriangle, FileCode } from "lucide-react";
+import { TaskType } from "@/types/task";
 
 interface TaskItemProps {
   title: string;
   completed: boolean;
   onClick: () => void;
   status?: "not-started" | "in-progress" | "completed";
-  type?: "default" | "questionnaire" | "document" | "video";
+  type?: TaskType;
   showIcon?: boolean;
 }
 
@@ -29,6 +30,10 @@ const TaskItem = ({
       return <FileText className={`mr-3 h-5 w-5 ${getIconColorClass()}`} />;
     } else if (type === "video") {
       return <Video className={`mr-3 h-5 w-5 ${getIconColorClass()}`} />;
+    } else if (type === "content") {
+      return <FileCode className={`mr-3 h-5 w-5 ${getIconColorClass()}`} />;
+    } else if (type === "warning") {
+      return <AlertTriangle className={`mr-3 h-5 w-5 text-amber-500`} />;
     }
     
     // Choose icon based on status
