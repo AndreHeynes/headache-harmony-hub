@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PageLayout from "@/components/layout/PageLayout";
@@ -16,14 +15,11 @@ const Questionnaire = () => {
   
   const questionnaire = getQuestionnaire(id);
   
-  // Load any previously saved responses
   useEffect(() => {
     if (!id) return;
     
-    // In a real app, you'd fetch from a database or local storage
     const savedResponse = localStorage.getItem(`questionnaire-${id}`);
     
-    // Special handling for PSFS in Phase 3 - load activities from Phase 1
     if (id === 'psfs') {
       const savedActivities = localStorage.getItem('psfs-activities');
       if (savedActivities) {
@@ -61,34 +57,29 @@ const Questionnaire = () => {
   }, [id]);
   
   const handleQuestionnaireComplete = (response: QuestionnaireResponse) => {
-    // Save completed response
     localStorage.setItem(`questionnaire-${id}`, JSON.stringify(response));
     
-    // For PSFS, save activities separately for reuse in Phase 3
     if (id === 'psfs' && response.savedActivities) {
       localStorage.setItem('psfs-activities', JSON.stringify(response.savedActivities));
     }
     
-    // Dispatch a storage event so other tabs can be notified
     window.dispatchEvent(new Event('storage'));
     
     console.log("Questionnaire completed:", response);
     
-    // Show success message
     if (id === 'gpoc') {
       const ratingAnswer = response.answers.find(a => a.questionId === 'gpoc-q1');
       const rating = ratingAnswer ? Number(ratingAnswer.value) : null;
       
-      let feedbackText = "Thank you for completing the Global Perception of Change questionnaire.";
+      let feedbackText = "Thank you for completing the Global Impression of Change questionnaire.";
       
-      // Add specific feedback based on rating only if it's a valid number
       if (rating !== null) {
         if (rating <= 3) {
-          feedbackText += " We're glad to see you've experienced improvement!";
+          feedbackText += " We'll work to improve your outcomes moving forward.";
         } else if (rating === 4) {
           feedbackText += " We'll continue working together on your progress.";
         } else if (rating > 4) {
-          feedbackText += " We'll adjust your plan to better address your needs.";
+          feedbackText += " We're glad to see you've experienced improvement!";
         }
       }
       
@@ -97,14 +88,12 @@ const Questionnaire = () => {
       toast.success("Questionnaire completed successfully!");
     }
     
-    // Navigate back to Phase 3
     setTimeout(() => {
       navigate('/phase-three');
     }, 2000);
   };
   
   const handleSaveProgress = (partialResponse: Partial<QuestionnaireResponse>) => {
-    // Save progress
     localStorage.setItem(`questionnaire-${id}-progress`, JSON.stringify(partialResponse));
     toast.success("Progress saved");
   };
