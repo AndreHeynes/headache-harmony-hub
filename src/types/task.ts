@@ -1,6 +1,6 @@
 
 export type TaskStatus = "not-started" | "in-progress" | "completed";
-export type TaskType = "default" | "questionnaire" | "document" | "video";
+export type TaskType = "default" | "questionnaire" | "document" | "video" | "content" | "warning";
 
 export interface Task {
   id: number;
