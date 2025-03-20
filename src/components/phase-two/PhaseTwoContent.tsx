@@ -1,7 +1,6 @@
-
 import React from "react";
 import DailyExerciseList from "./DailyExerciseList";
-import { getExercisesForDay } from "@/utils/exerciseUtils";
+import { getExercisesForDay } from "@/utils/exercises/schedules";
 
 interface PhaseTwoContentProps {
   day: number;

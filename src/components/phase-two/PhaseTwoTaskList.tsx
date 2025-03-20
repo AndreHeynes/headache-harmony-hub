@@ -1,9 +1,8 @@
-
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, Circle } from "lucide-react";
 import { QuestionnaireResponse } from "@/types/questionnaire";
-import { getExercisesForDay } from "@/utils/exerciseUtils";
+import { getExercisesForDay } from "@/utils/exercises/schedules";
 
 interface PhaseTwoTaskListProps {
   day: number;
@@ -13,7 +12,6 @@ const PhaseTwoTaskList: React.FC<PhaseTwoTaskListProps> = ({ day }) => {
   const [fhtResponse, setFhtResponse] = useState<QuestionnaireResponse | undefined>(undefined);
   const [completedTasks, setCompletedTasks] = useState<Record<string, boolean>>({});
   
-  // Load FHT questionnaire response from localStorage
   useEffect(() => {
     const savedFht = localStorage.getItem('questionnaire-fht');
     if (savedFht) {
@@ -25,7 +23,6 @@ const PhaseTwoTaskList: React.FC<PhaseTwoTaskListProps> = ({ day }) => {
       }
     }
     
-    // Load completed tasks from localStorage
     const savedTasks = localStorage.getItem(`phase2-day${day}-tasks`);
     if (savedTasks) {
       try {
@@ -36,10 +33,8 @@ const PhaseTwoTaskList: React.FC<PhaseTwoTaskListProps> = ({ day }) => {
     }
   }, [day]);
   
-  // Get exercises for the current day
   const exercises = getExercisesForDay(day, fhtResponse);
   
-  // For weekly review days, show different tasks
   const isWeeklyReviewDay = day % 7 === 0;
   
   if (isWeeklyReviewDay) {

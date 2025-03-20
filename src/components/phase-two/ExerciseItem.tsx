@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Dumbbell, FileText, Pencil, CheckSquare, Info } from "lucide-react";
 import ExerciseVideo from "./ExerciseVideo";
-import { Exercise } from "@/utils/exerciseUtils";
+import { Exercise } from "@/utils/exercises/types";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Badge } from "@/components/ui/badge";

@@ -1,7 +1,7 @@
 
 import React from "react";
 import ExerciseItem from "./ExerciseItem";
-import { Exercise } from "@/utils/exerciseUtils";
+import { Exercise } from "@/utils/exercises/types";
 import { Card } from "@/components/ui/card";
 
 interface DailyExerciseListProps {
