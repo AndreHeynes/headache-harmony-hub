@@ -219,7 +219,7 @@ export const exercises: Exercise[] = [
     type: "exercise"
   },
   
-  // Neck strength exercises
+  // Neck strength exercises - beginner
   {
     id: "18.0",
     title: "Deep Neck Flexors (Start)",
@@ -233,6 +233,134 @@ export const exercises: Exercise[] = [
     title: "Neck Extensors (Quadruped) Level 1",
     description: "Exercise for strengthening neck extensor muscles in quadruped position",
     videoUrl: "https://vimeo.com/1055528458",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  
+  // Neck strength exercises - intermediate
+  {
+    id: "18.2",
+    title: "Deep Neck Flexors Level 1",
+    description: "Intermediate exercise for strengthening deep neck flexor muscles",
+    videoUrl: "https://vimeo.com/1056346548",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "19.2",
+    title: "Neck Extensors (In Sitting) Level 1",
+    description: "Intermediate exercise for strengthening neck extensor muscles in sitting position",
+    videoUrl: "https://vimeo.com/1056349026",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "23.1",
+    title: "Scapular Shrug Level 2",
+    description: "Intermediate exercise for strengthening scapular muscles",
+    videoUrl: "https://vimeo.com/1056354815",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  
+  // Neck strength exercises - advanced
+  {
+    id: "18.3",
+    title: "Deep Neck Flexors Level 3",
+    description: "Advanced exercise for strengthening deep neck flexor muscles",
+    videoUrl: "https://vimeo.com/1056345656",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "20.0",
+    title: "Neck Extensors (Quadruped) Level 2",
+    description: "Advanced exercise for strengthening neck extensor muscles in quadruped position",
+    videoUrl: "https://vimeo.com/1056350830",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "22.2",
+    title: "Neck Rotators (In Sitting) Level 3",
+    description: "Advanced exercise for strengthening neck rotator muscles in sitting position",
+    videoUrl: "https://vimeo.com/1056356041",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  
+  // Neck strength exercises - very advanced
+  {
+    id: "18.4",
+    title: "Deep Neck Flexors Level 4",
+    description: "Very advanced exercise for strengthening deep neck flexor muscles",
+    videoUrl: "https://vimeo.com/1064035960",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "20.1",
+    title: "Neck Extensors (Plank) Level 2",
+    description: "Very advanced exercise for strengthening neck extensor muscles in plank position",
+    videoUrl: "https://vimeo.com/1064036584",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "21.0",
+    title: "Neck Extensors (Quadruped) Level 3",
+    description: "Very advanced exercise for strengthening neck extensor muscles in quadruped position",
+    videoUrl: "https://vimeo.com/1064036904",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "22.1",
+    title: "Neck Rotators (Quadruped) Level 3",
+    description: "Very advanced exercise for strengthening neck rotator muscles in quadruped position",
+    videoUrl: "https://vimeo.com/1064037851",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "22.0",
+    title: "Neck Rotators (Plank) Level 1",
+    description: "Very advanced exercise for strengthening neck rotator muscles in plank position",
+    videoUrl: "https://vimeo.com/1064039520",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "23.3",
+    title: "Scapular Shrug Level 4",
+    description: "Very advanced exercise for strengthening scapular muscles",
+    videoUrl: "https://vimeo.com/1064040975",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  
+  // Combined movement exercises
+  {
+    id: "41.0",
+    title: "Combined Movement (R) Level 1",
+    description: "Combined movement exercise focusing on the right side",
+    videoUrl: "https://vimeo.com/1064041454",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "41.1",
+    title: "Combined Movement (L) Level 1",
+    description: "Combined movement exercise focusing on the left side",
+    videoUrl: "https://vimeo.com/1064041845",
+    isGeneralExercise: true,
+    type: "exercise"
+  },
+  {
+    id: "20.2",
+    title: "Neck Extensors (Inclined Sitting) Level 2",
+    description: "Advanced exercise for strengthening neck extensor muscles in inclined sitting position",
+    videoUrl: "https://vimeo.com/1064043285",
     isGeneralExercise: true,
     type: "exercise"
   },
@@ -366,6 +494,15 @@ export const exercises: Exercise[] = [
     type: "activity",
     activitySheetName: "AS 5.1 Medication Management",
     activitySheetId: "medication-management",
+    requiresInput: true
+  },
+  {
+    id: "mhej",
+    title: "Mindful Headache Experience Journal",
+    description: "Journal for tracking your mindful experiences with headaches",
+    type: "activity",
+    activitySheetName: "Mindful Headache Experience Journal",
+    activitySheetId: "mindful-headache-journal",
     requiresInput: true
   }
 ];

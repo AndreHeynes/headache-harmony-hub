@@ -4,7 +4,14 @@ import ExerciseItem from "./ExerciseItem";
 import { Exercise } from "@/utils/exercises/types";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getDay7Exercises, getDay14Exercises } from "@/utils/exercises/schedules";
+import { 
+  getDay7Exercises, 
+  getDay14Exercises, 
+  getDay21Exercises, 
+  getDay28Exercises,
+  getDay35Exercises,
+  getDay42Exercises
+} from "@/utils/exercises/schedules";
 
 interface DailyExerciseListProps {
   exercises: Exercise[];
@@ -32,18 +39,29 @@ const DailyExerciseList: React.FC<DailyExerciseListProps> = ({
   // Weekly review days
   if (day % 7 === 0) {
     // Get specific exercises for weekly review days
-    const reviewDayExercises = day === 7 
-      ? getDay7Exercises()
-      : day === 14 
-        ? getDay14Exercises() 
-        : [];
+    let reviewDayExercises: Exercise[] = [];
+    const weekNumber = Math.floor(day / 7);
+    
+    if (day === 7) {
+      reviewDayExercises = getDay7Exercises();
+    } else if (day === 14) {
+      reviewDayExercises = getDay14Exercises();
+    } else if (day === 21) {
+      reviewDayExercises = getDay21Exercises();
+    } else if (day === 28) {
+      reviewDayExercises = getDay28Exercises();
+    } else if (day === 35) {
+      reviewDayExercises = getDay35Exercises();
+    } else if (day === 42) {
+      reviewDayExercises = getDay42Exercises();
+    }
         
     return (
       <div className="space-y-4">
         <div className="bg-blue-50/50 p-6 rounded-lg border border-blue-100">
           <h3 className="font-medium text-blue-800 mb-2">Weekly Review Day</h3>
           <p className="text-blue-700 mb-4">
-            Today is your weekly review day (Week {Math.floor(day / 7)}). Take some time to reflect on your progress
+            Today is your weekly review day (Week {weekNumber}). Take some time to reflect on your progress
             and make note of any changes in your symptoms. Continue with your tracking
             and consider which exercises have been most helpful this week.
           </p>

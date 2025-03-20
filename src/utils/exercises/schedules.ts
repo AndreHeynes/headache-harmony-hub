@@ -150,18 +150,388 @@ export const getExercisesForDay = (
     );
   }
   
-  // For weekly review days (7, 14, etc.)
-  else if (day % 7 === 0) {
-    // Weekly review days are handled in the component with special UI
-    // Return activity sheets for review
-    return exercises.filter(ex => ex.type === "activity").slice(0, 6);
+  // Day 15 exercises
+  else if (day === 15) {
+    const dayExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                           "10.0", "11.0", "12.0", "14.0", "18.2", "19.2", "23.1",
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
   }
   
-  // For days not explicitly defined yet, use the pattern from week 1 and 2
-  // This is a fallback for days beyond 14
+  // Day 16 exercises
+  else if (day === 16) {
+    const dayExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.1", "4.0", "4.1", 
+                           "18.2", "19.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 17 exercises
+  else if (day === 17) {
+    const dayExerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", 
+                           "11.0", "16.0", "17.0", "18.2", "19.2", "23.1", 
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 18 exercises
+  else if (day === 18) {
+    const dayExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                           "18.2", "19.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 19 exercises
+  else if (day === 19) {
+    const dayExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.1", "4.0", "4.1", 
+                           "10.0", "11.0", "12.0", "15.0", "18.2", "19.2", "23.1",
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 20 exercises
+  else if (day === 20) {
+    const dayExerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", 
+                           "11.0", "16.0", "17.0", "18.2", "19.2", "23.1",
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 21 exercises - Week 3 review
+  else if (day === 21) {
+    const dayExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                           "18.2", "19.2", "23.1", 
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 22 exercises
+  else if (day === 22) {
+    const dayExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.1", "4.0", "4.1", 
+                           "18.3", "20.0", "53.0", "54.0", "51.0", "51.1", "52.0",
+                           "56.1", "56.2"];
+    const dayActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 23 exercises
+  else if (day === 23) {
+    const dayExerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", 
+                           "10.0", "11.0", "12.0", "14.0", "18.3", "20.0", "22.2",
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 24 exercises
+  else if (day === 24) {
+    const dayExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                           "11.0", "16.0", "17.0", "18.3", "20.0",
+                           "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
+    const dayActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 25 exercises
+  else if (day === 25) {
+    const dayExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.1", "4.0", "4.1", 
+                           "18.3", "20.0", "22.2",
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 26 exercises
+  else if (day === 26) {
+    const dayExerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", 
+                           "18.3", "20.0", "53.0", "54.0", "51.0", "51.1", "52.0",
+                           "56.1", "56.2"];
+    const dayActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 27 exercises
+  else if (day === 27) {
+    const dayExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                           "10.0", "11.0", "12.0", "15.0", "18.3", "20.0", "22.2",
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 28 exercises - Week 4 review
+  else if (day === 28) {
+    const dayExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.1", "4.0", "4.1", 
+                           "11.0", "16.0", "17.0", "18.3", "20.0", "22.2",
+                           "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
+    const dayActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 29 exercises
+  else if (day === 29) {
+    const dayExerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", 
+                           "10.0", "11.0", "12.0", "14.0", "18.4", "20.1", "21.0", "22.1",
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 30 exercises
+  else if (day === 30) {
+    const dayExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                           "18.4", "20.1", "21.0", "22.1", "22.0",
+                           "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
+    const dayActivityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 31 exercises
+  else if (day === 31) {
+    const dayExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.1", "4.0", "4.1", 
+                           "11.0", "16.0", "17.0", "18.4", "20.1", "21.0", "22.1",
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 32 exercises
+  else if (day === 32) {
+    const dayExerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", 
+                           "18.4", "20.1", "21.0", "22.1", "22.0",
+                           "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
+    const dayActivityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 33 exercises
+  else if (day === 33) {
+    const dayExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                           "10.0", "11.0", "12.0", "15.0", "18.4", "20.1", "21.0", "22.1", "22.0",
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 34 exercises
+  else if (day === 34) {
+    const dayExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.1", "4.0", "4.1", 
+                           "11.0", "16.0", "17.0", "18.4", "20.1", "21.0", "22.1", "22.0", "22.2",
+                           "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
+    const dayActivityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 35 exercises - Week 5 review
+  else if (day === 35) {
+    const dayExerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", 
+                           "18.4", "20.1", "21.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-3", "as-4"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 36 exercises
+  else if (day === 36) {
+    const dayExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                           "18.4", "20.1", "21.0", "22.1", "22.0", "23.3",
+                           "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
+    const dayActivityIds = ["as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 37 exercises
+  else if (day === 37) {
+    const dayExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.1", "4.0", "4.1", 
+                           "10.0", "11.0", "12.0", "14.0", "18.4", "20.1", "21.0", "22.1", "41.0", "41.1",
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-4", "as-5.1", "mhej"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 38 exercises
+  else if (day === 38) {
+    const dayExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.1", "4.0", "4.1", 
+                           "11.0", "16.0", "17.0", "18.4", "20.1", "21.0", "22.1",
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 39 exercises
+  else if (day === 39) {
+    const dayExerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", 
+                           "18.4", "20.1", "21.0", "22.1", "22.0",
+                           "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
+    const dayActivityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 40 exercises
+  else if (day === 40) {
+    const dayExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                           "10.0", "11.0", "12.0", "15.0", "18.4", "20.1", "21.0", "22.1", "22.0",
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 41 exercises
+  else if (day === 41) {
+    const dayExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.1", "4.0", "4.1", 
+                           "11.0", "16.0", "17.0", "18.4", "20.1", "21.0", "22.1", "22.0",
+                           "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
+    const dayActivityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 42 exercises - Week 6 review
+  else if (day === 42) {
+    const dayExerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", 
+                           "18.4", "20.1", "21.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-3", "as-4"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 43 exercises
+  else if (day === 43) {
+    const dayExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                           "18.3", "20.2", "22.1", "22.0", "23.3",
+                           "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
+    const dayActivityIds = ["as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // Day 44 exercises
+  else if (day === 44) {
+    const dayExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.1", "4.0", "4.1", 
+                           "10.0", "11.0", "12.0", "14.0", "18.4", "20.1", "21.0", "22.1", "41.0", "41.1",
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const dayActivityIds = ["as-4", "as-5.1"];
+    
+    return exercises.filter(ex => 
+      dayExerciseIds.includes(ex.id) || dayActivityIds.includes(ex.id)
+    );
+  }
+  
+  // For weekly review days (7, 14, etc.)
+  else if (day % 7 === 0) {
+    // Select the appropriate weekly review function based on week number
+    if (day === 7) {
+      return getDay7Exercises();
+    } else if (day === 14) {
+      return getDay14Exercises();
+    } else if (day === 21) {
+      return getDay21Exercises();
+    } else if (day === 28) {
+      return getDay28Exercises();
+    } else if (day === 35) {
+      return getDay35Exercises();
+    } else if (day === 42) {
+      return getDay42Exercises();
+    } else {
+      // For other weekly review days, use a default set of exercises
+      return exercises.filter(ex => ex.type === "activity").slice(0, 6);
+    }
+  }
+  
+  // For days not explicitly defined yet, use the pattern from weeks 1-6
+  // This is a fallback for days beyond 44
   else {
-    // Map to the equivalent day in the first two weeks
-    const equivalentDay = ((day - 1) % 14) + 1;
+    // Map to the equivalent day in the first six weeks
+    const equivalentDay = ((day - 1) % 42) + 1;
     return getExercisesForDay(equivalentDay, fhtResponse);
   }
 };
@@ -190,5 +560,59 @@ export const getDay14Exercises = (fhtResponse?: QuestionnaireResponse): Exercise
   
   return exercises.filter(ex => 
     day14ExerciseIds.includes(ex.id) || day14ActivityIds.includes(ex.id)
+  );
+};
+
+/**
+ * Get exercises for day 21 (third weekly review day)
+ */
+export const getDay21Exercises = (fhtResponse?: QuestionnaireResponse): Exercise[] => {
+  const day21ExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                           "18.2", "19.2", "23.1", 
+                           "53.0", "54.0", "51.0", "51.1", "52.0"];
+  const day21ActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+  
+  return exercises.filter(ex => 
+    day21ExerciseIds.includes(ex.id) || day21ActivityIds.includes(ex.id)
+  );
+};
+
+/**
+ * Get exercises for day 28 (fourth weekly review day)
+ */
+export const getDay28Exercises = (fhtResponse?: QuestionnaireResponse): Exercise[] => {
+  const day28ExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.1", "4.0", "4.1", 
+                           "11.0", "16.0", "17.0", "18.3", "20.0", "22.2",
+                           "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
+  const day28ActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
+  
+  return exercises.filter(ex => 
+    day28ExerciseIds.includes(ex.id) || day28ActivityIds.includes(ex.id)
+  );
+};
+
+/**
+ * Get exercises for day 35 (fifth weekly review day)
+ */
+export const getDay35Exercises = (fhtResponse?: QuestionnaireResponse): Exercise[] => {
+  const day35ExerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", 
+                           "18.4", "20.1", "21.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
+  const day35ActivityIds = ["as-3", "as-4"];
+  
+  return exercises.filter(ex => 
+    day35ExerciseIds.includes(ex.id) || day35ActivityIds.includes(ex.id)
+  );
+};
+
+/**
+ * Get exercises for day 42 (sixth weekly review day)
+ */
+export const getDay42Exercises = (fhtResponse?: QuestionnaireResponse): Exercise[] => {
+  const day42ExerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", 
+                           "18.4", "20.1", "21.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
+  const day42ActivityIds = ["as-3", "as-4"];
+  
+  return exercises.filter(ex => 
+    day42ExerciseIds.includes(ex.id) || day42ActivityIds.includes(ex.id)
   );
 };
