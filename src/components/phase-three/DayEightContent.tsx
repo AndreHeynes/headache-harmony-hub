@@ -9,7 +9,9 @@ import {
   Brain, 
   Gauge, 
   ScrollText, 
-  ArrowRight
+  ArrowRight,
+  TrendingDown,
+  CheckCircle
 } from "lucide-react";
 
 interface DayEightContentProps {
