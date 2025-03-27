@@ -6,25 +6,19 @@ import PhaseProgress from "@/components/phase-four/PhaseProgress";
 import GoalSettingSection from "@/components/phase-four/GoalSettingSection";
 import ExerciseLibrary from "@/components/phase-four/ExerciseLibrary";
 import ProgramBuilder from "@/components/phase-four/ProgramBuilder";
-import { Button } from "@/components/ui/button";
-import { HelpCircle } from "lucide-react";
 
 const PhaseFour = () => {
   return (
     <PageLayout>
-      <div className="max-w-7xl mx-auto">
+      <div className="min-h-screen bg-gray-900 text-gray-100">
         <PhaseHeader />
         <PhaseProgress />
-        <GoalSettingSection />
-        <ExerciseLibrary />
-        <ProgramBuilder />
         
-        {/* Floating Help Button */}
-        <div className="fixed bottom-24 right-6">
-          <Button size="icon" className="rounded-full h-12 w-12 shadow-lg">
-            <HelpCircle className="h-6 w-6" />
-          </Button>
-        </div>
+        <main className="container mx-auto px-4 pt-40 pb-20">
+          <GoalSettingSection />
+          <ExerciseLibrary />
+          <ProgramBuilder />
+        </main>
       </div>
     </PageLayout>
   );
