@@ -4,9 +4,15 @@ import { Button } from "@/components/ui/button";
 
 interface TestDayButtonProps {
   onClick: () => void;
+  phase?: number;
+  day?: number;
 }
 
-const TestDayButton: React.FC<TestDayButtonProps> = ({ onClick }) => {
+const TestDayButton: React.FC<TestDayButtonProps> = ({ 
+  onClick, 
+  phase = 3, 
+  day = 8 
+}) => {
   return (
     <Button 
       onClick={onClick}
@@ -14,7 +20,7 @@ const TestDayButton: React.FC<TestDayButtonProps> = ({ onClick }) => {
       size="sm"
       className="ml-auto"
     >
-      Test Day 8
+      Test {phase === 4 ? "Phase 4" : `Day ${day}`}
     </Button>
   );
 };
