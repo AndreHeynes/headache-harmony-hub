@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { CookieConsent } from "@/components/compliance/CookieConsent";
 
 const Index = () => {
   return (
@@ -9,8 +10,8 @@ const Index = () => {
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <img 
-              src="/lovable-uploads/a957b5b3-75be-40aa-8bb5-84ef9cca0f5e.png" 
-              alt="Recover & Reclaim Logo" 
+              src="/lovable-uploads/37b87337-8892-418a-932d-e700a3a4568d.png" 
+              alt="Recover From Headache Logo" 
               className="w-8 h-8"
             />
             <span className="text-xl text-neutral-800">Recover & Reclaim</span>
@@ -37,8 +38,8 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
               <img 
-                src="/lovable-uploads/a957b5b3-75be-40aa-8bb5-84ef9cca0f5e.png" 
-                alt="Recover & Reclaim Logo" 
+                src="/lovable-uploads/37b87337-8892-418a-932d-e700a3a4568d.png" 
+                alt="Recover From Headache Logo" 
                 className="w-64 h-64 mx-auto mb-8"
               />
               <h1 className="text-4xl md:text-5xl mb-4 text-neutral-900">Recover from Headache, Reclaim Your Life!</h1>
@@ -126,6 +127,8 @@ const Index = () => {
           </div>
         </div>
       </footer>
+      
+      <CookieConsent />
     </div>
   );
 };
