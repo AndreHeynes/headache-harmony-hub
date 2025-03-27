@@ -7,7 +7,7 @@ const PhaseHeader = () => {
     <div className="fixed w-full bg-gray-800 border-b border-gray-700 z-50 top-0 left-0">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-8">
-          <h1 className="text-2xl font-bold">Exercise Program Builder</h1>
+          <h1 className="text-2xl font-bold">Maintain Your Gains!</h1>
           <div className="flex items-center space-x-2 bg-gray-700 px-3 py-1 rounded-full">
             <Clock className="h-4 w-4" />
             <span>Access expires in: 59 days 23 hours</span>

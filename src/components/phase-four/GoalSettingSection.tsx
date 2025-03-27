@@ -1,12 +1,16 @@
 
 import React from "react";
 import { Textarea } from "@/components/ui/textarea";
+import { Link } from "react-router-dom";
 
 const GoalSettingSection = () => {
   return (
     <section className="bg-gray-800 rounded-xl p-8 mb-8">
       <div className="max-w-3xl">
-        <h2 className="text-2xl font-bold mb-6">Define Your SMART Goal</h2>
+        <div className="flex flex-col mb-6">
+          <h2 className="text-2xl font-bold">Define Your SMART Goal</h2>
+          <p className="text-sm text-gray-400 mt-1">In 1981, George T. Doran wrote a paper titled, "There's a S.M.A.R.T. Way to Write Management's Goals and Objectives."</p>
+        </div>
         <div className="mb-8">
           <Textarea 
             className="w-full bg-gray-700 border border-gray-600 rounded-lg p-4 text-gray-100" 

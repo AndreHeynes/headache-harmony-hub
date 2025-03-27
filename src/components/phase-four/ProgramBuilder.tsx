@@ -2,6 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Check, ChevronDown, Clock, Minus, Plus } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const ProgramBuilder = () => {
   return (
@@ -94,7 +95,17 @@ const ProgramBuilder = () => {
         {/* Sleep Hygiene Form */}
         <div className="bg-gray-700 rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-medium">Sleep Hygiene (AS3)</h3>
+            <div className="flex items-center">
+              <h3 className="text-lg font-medium">Sleep Hygiene (AS3)</h3>
+              <Link 
+                to="/phase-two" 
+                className="ml-3 text-blue-400 hover:text-blue-300 text-sm flex items-center"
+                title="View Activity Sheet 3 from Phase 2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                <span className="ml-1">View Original</span>
+              </Link>
+            </div>
             <Button variant="ghost" size="icon">
               <ChevronDown className="h-4 w-4" />
             </Button>
@@ -127,7 +138,17 @@ const ProgramBuilder = () => {
         {/* Trigger Management Form */}
         <div className="bg-gray-700 rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-medium">Trigger Management (AS4)</h3>
+            <div className="flex items-center">
+              <h3 className="text-lg font-medium">Trigger Management (AS4)</h3>
+              <Link 
+                to="/phase-two" 
+                className="ml-3 text-blue-400 hover:text-blue-300 text-sm flex items-center"
+                title="View Activity Sheet 4 from Phase 2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                <span className="ml-1">View Original</span>
+              </Link>
+            </div>
             <Button variant="ghost" size="icon">
               <ChevronDown className="h-4 w-4" />
             </Button>
@@ -220,11 +241,7 @@ const ProgramBuilder = () => {
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex justify-between items-center">
-        <Button variant="outline" className="px-6 py-3">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-2"><path d="m15 18-6-6 6-6"/></svg>
-          Previous
-        </Button>
+      <div className="flex justify-end items-center">
         <Button className="px-6 py-3 bg-green-600 hover:bg-green-700">
           Complete Program
           <Check className="ml-2 h-4 w-4" />
