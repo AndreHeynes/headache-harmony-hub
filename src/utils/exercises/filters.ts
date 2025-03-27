@@ -2,7 +2,6 @@
 import { Exercise } from "./types";
 import { QuestionnaireResponse } from "@/types/questionnaire";
 import { exercises } from "./data";
-import { typeToExcludedExercises } from "./types";
 
 /**
  * Gets recommended exercises based on FHT questionnaire responses
