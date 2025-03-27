@@ -2,7 +2,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, ChevronDown, Play } from "lucide-react";
+import { Check, ChevronDown, Play, Clock } from "lucide-react";
 
 const exerciseCategories = [
   { id: "all", name: "All Exercises", active: true },
