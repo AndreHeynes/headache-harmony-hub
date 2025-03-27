@@ -1,15 +1,18 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Brain } from "lucide-react";
 
 const PageHeader = () => {
   return (
     <header className="fixed top-0 left-0 right-0 bg-white border-b border-neutral-200 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <Brain className="w-6 h-6 text-neutral-800" />
-          <span className="text-xl text-neutral-800">MigraineTracker</span>
+          <img 
+            src="/lovable-uploads/a957b5b3-75be-40aa-8bb5-84ef9cca0f5e.png" 
+            alt="Recover & Reclaim Logo" 
+            className="w-10 h-10"
+          />
+          <span className="text-xl text-neutral-800">Recover & Reclaim</span>
         </div>
         <nav className="hidden md:flex space-x-6">
           <Link to="/dashboard" className="text-neutral-600 hover:text-neutral-900">Dashboard</Link>

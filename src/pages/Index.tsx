@@ -1,5 +1,4 @@
 
-import { Brain } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -9,8 +8,12 @@ const Index = () => {
       <header className="fixed top-0 left-0 right-0 bg-white border-b border-neutral-200 z-50">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Brain className="w-6 h-6 text-neutral-800" />
-            <span className="text-xl text-neutral-800">MigraineTracker</span>
+            <img 
+              src="/lovable-uploads/a957b5b3-75be-40aa-8bb5-84ef9cca0f5e.png" 
+              alt="Recover & Reclaim Logo" 
+              className="w-8 h-8"
+            />
+            <span className="text-xl text-neutral-800">Recover & Reclaim</span>
           </div>
           <nav className="hidden md:flex space-x-6">
             <Link to="/" className="text-neutral-900 font-medium">Home</Link>
@@ -33,9 +36,11 @@ const Index = () => {
         <section className="h-[600px] flex items-center">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
-              <div className="bg-neutral-200 w-64 h-64 mx-auto mb-8 rounded-full flex items-center justify-center">
-                <Brain className="h-24 w-24 text-white" />
-              </div>
+              <img 
+                src="/lovable-uploads/a957b5b3-75be-40aa-8bb5-84ef9cca0f5e.png" 
+                alt="Recover & Reclaim Logo" 
+                className="w-64 h-64 mx-auto mb-8"
+              />
               <h1 className="text-4xl md:text-5xl mb-4 text-neutral-900">Recover from Headache, Reclaim Your Life!</h1>
               <p className="text-lg md:text-xl text-neutral-600 mb-8">A personalized journey to understand and manage your headache disorder through skills development and expert-guided exercises</p>
               <div className="flex flex-col md:flex-row gap-4 justify-center mb-6">

@@ -1,6 +1,5 @@
 
 import React from "react";
-import { Textarea } from "@/components/ui/textarea";
 import { Link } from "react-router-dom";
 
 const GoalSettingSection = () => {
@@ -12,7 +11,7 @@ const GoalSettingSection = () => {
           <p className="text-sm text-gray-400 mt-1">In 1981, George T. Doran wrote a paper titled, "There's a S.M.A.R.T. Way to Write Management's Goals and Objectives."</p>
         </div>
         <div className="mb-8">
-          <Textarea 
+          <textarea 
             className="w-full bg-gray-700 border border-gray-600 rounded-lg p-4 text-gray-100" 
             rows={4} 
             placeholder="Enter your specific, measurable, achievable, relevant, and time-bound goal..."
@@ -66,6 +65,7 @@ const GoalSettingSection = () => {
               <div>
                 <h4 className="font-medium">Activity Sheet AS4</h4>
                 <p className="text-sm text-gray-400">Trigger Management Review</p>
+                <Link to="/phase-two" className="text-blue-400 text-sm hover:underline">Review AS4 Document</Link>
               </div>
             </div>
             <div className="flex items-start space-x-3">
@@ -75,6 +75,7 @@ const GoalSettingSection = () => {
               <div>
                 <h4 className="font-medium">Sleep Hygiene (AS3)</h4>
                 <p className="text-sm text-gray-400">Maintain Sleep Routine</p>
+                <Link to="/phase-two" className="text-blue-400 text-sm hover:underline">Review AS3 Document</Link>
               </div>
             </div>
           </div>
