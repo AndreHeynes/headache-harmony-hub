@@ -22,7 +22,6 @@ export const PrivacyModule = () => {
   const resetAgeVerification = () => {
     localStorage.removeItem("age-verified");
     localStorage.removeItem("user-age-range");
-    localStorage.removeItem("has-parental-consent");
     
     toast({
       title: "Age Verification Reset",
