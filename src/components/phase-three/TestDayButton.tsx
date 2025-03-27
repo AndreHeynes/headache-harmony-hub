@@ -20,7 +20,7 @@ const TestDayButton: React.FC<TestDayButtonProps> = ({
       size="sm"
       className="ml-auto"
     >
-      Test {phase === 4 ? "Phase 4" : `Day ${day}`}
+      Test Day {day}
     </Button>
   );
 };

@@ -5,7 +5,6 @@ import Dashboard from "./pages/Dashboard";
 import PhaseOne from "./pages/PhaseOne";
 import PhaseTwo from "./pages/PhaseTwo";
 import PhaseThree from "./pages/PhaseThree";
-import PhaseFour from "./pages/PhaseFour";
 import Profile from "./pages/Profile";
 import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
@@ -28,7 +27,6 @@ function App() {
         <Route path="/phase-one" element={<PhaseOne />} />
         <Route path="/phase-two" element={<PhaseTwo />} />
         <Route path="/phase-three" element={<PhaseThree />} />
-        <Route path="/phase-four" element={<PhaseFour />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/register" element={<Register />} />
