@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Brain } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -7,9 +6,23 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { countries } from "@/lib/countries";
 
+const isGdprCountry = (countryCode: string): boolean => {
+  const gdprCountries = ["GB", "DE", "FR", "ES", "IT", "NL", "SE", "DK", "FI", "AT", "BE", "IE"];
+  return gdprCountries.includes(countryCode);
+};
+
 const Policy = () => {
   const [selectedCountry, setSelectedCountry] = useState("US");
   const [activeTab, setActiveTab] = useState("terms");
+  const [showGdprTab, setShowGdprTab] = useState(false);
+
+  useEffect(() => {
+    setShowGdprTab(isGdprCountry(selectedCountry));
+    
+    if (activeTab === "gdpr" && !isGdprCountry(selectedCountry)) {
+      setActiveTab("terms");
+    }
+  }, [selectedCountry, activeTab]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -17,7 +30,7 @@ const Policy = () => {
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Brain className="w-6 h-6 text-neutral-800" />
-            <span className="text-xl text-neutral-800">MigraineTracker</span>
+            <span className="text-xl text-neutral-800">Recover & Reclaim</span>
           </div>
           <nav className="hidden md:flex space-x-6">
             <Link to="/" className="text-neutral-600 hover:text-neutral-900">Home</Link>
@@ -64,11 +77,11 @@ const Policy = () => {
             </div>
 
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid grid-cols-4 mb-8 bg-neutral-100">
+              <TabsList className={`grid ${showGdprTab ? 'grid-cols-4' : 'grid-cols-3'} mb-8 bg-neutral-100`}>
                 <TabsTrigger value="terms">Terms of Service</TabsTrigger>
                 <TabsTrigger value="privacy">Privacy Policy</TabsTrigger>
                 <TabsTrigger value="cookies">Cookie Policy</TabsTrigger>
-                <TabsTrigger value="gdpr">GDPR Compliance</TabsTrigger>
+                {showGdprTab && <TabsTrigger value="gdpr">GDPR Compliance</TabsTrigger>}
               </TabsList>
 
               <TabsContent value="terms" className="bg-white p-6 rounded-lg border border-neutral-200">
@@ -157,31 +170,33 @@ const Policy = () => {
                 </p>
               </TabsContent>
 
-              <TabsContent value="gdpr" className="bg-white p-6 rounded-lg border border-neutral-200">
-                <h2 className="text-2xl font-semibold mb-4">GDPR Compliance</h2>
-                <p className="text-neutral-600 mb-4">
-                  {getCountrySpecificGDPR(selectedCountry)}
-                </p>
-                <h3 className="text-xl font-medium mb-3 mt-6">1. Your Rights Under GDPR</h3>
-                <p className="text-neutral-600 mb-4">
-                  If you are a resident of the European Economic Area (EEA), you have certain data protection rights. MigraineTracker aims to take reasonable steps to allow you to correct, amend, delete, or limit the use of your Personal Data.
-                </p>
-                <ul className="list-disc pl-6 mb-4 text-neutral-600">
-                  <li>The right to access - You have the right to request copies of your personal data.</li>
-                  <li>The right to rectification - You have the right to request that we correct any information you believe is inaccurate or complete information you believe is incomplete.</li>
-                  <li>The right to erasure - You have the right to request that we erase your personal data, under certain conditions.</li>
-                  <li>The right to restrict processing - You have the right to request that we restrict the processing of your personal data, under certain conditions.</li>
-                  <li>The right to object to processing - You have the right to object to our processing of your personal data, under certain conditions.</li>
-                  <li>The right to data portability - You have the right to request that we transfer the data that we have collected to another organization, or directly to you, under certain conditions.</li>
-                </ul>
-                <h3 className="text-xl font-medium mb-3">2. Data Protection Officer</h3>
-                <p className="text-neutral-600 mb-4">
-                  We have appointed a Data Protection Officer (DPO) who is responsible for overseeing questions in relation to this privacy policy. If you have any questions about this privacy policy, including any requests to exercise your legal rights, please contact the DPO at dpo@migrainetracker.com.
-                </p>
-                <p className="text-neutral-600">
-                  Last updated: June 1, 2023
-                </p>
-              </TabsContent>
+              {showGdprTab && (
+                <TabsContent value="gdpr" className="bg-white p-6 rounded-lg border border-neutral-200">
+                  <h2 className="text-2xl font-semibold mb-4">GDPR Compliance</h2>
+                  <p className="text-neutral-600 mb-4">
+                    {getCountrySpecificGDPR(selectedCountry)}
+                  </p>
+                  <h3 className="text-xl font-medium mb-3 mt-6">1. Your Rights Under GDPR</h3>
+                  <p className="text-neutral-600 mb-4">
+                    If you are a resident of the European Economic Area (EEA), you have certain data protection rights. MigraineTracker aims to take reasonable steps to allow you to correct, amend, delete, or limit the use of your Personal Data.
+                  </p>
+                  <ul className="list-disc pl-6 mb-4 text-neutral-600">
+                    <li>The right to access - You have the right to request copies of your personal data.</li>
+                    <li>The right to rectification - You have the right to request that we correct any information you believe is inaccurate or complete information you believe is incomplete.</li>
+                    <li>The right to erasure - You have the right to request that we erase your personal data, under certain conditions.</li>
+                    <li>The right to restrict processing - You have the right to request that we restrict the processing of your personal data, under certain conditions.</li>
+                    <li>The right to object to processing - You have the right to object to our processing of your personal data, under certain conditions.</li>
+                    <li>The right to data portability - You have the right to request that we transfer the data that we have collected to another organization, or directly to you, under certain conditions.</li>
+                  </ul>
+                  <h3 className="text-xl font-medium mb-3">2. Data Protection Officer</h3>
+                  <p className="text-neutral-600 mb-4">
+                    We have appointed a Data Protection Officer (DPO) who is responsible for overseeing questions in relation to this privacy policy. If you have any questions about this privacy policy, including any requests to exercise your legal rights, please contact the DPO at dpo@migrainetracker.com.
+                  </p>
+                  <p className="text-neutral-600">
+                    Last updated: June 1, 2023
+                  </p>
+                </TabsContent>
+              )}
             </Tabs>
 
             <div className="mt-8 flex justify-between items-center">
@@ -211,7 +226,7 @@ const Policy = () => {
               <h4 className="mb-4">Support</h4>
               <ul className="space-y-2">
                 <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Help Center</a></li>
-                <li><Link to="/policy" className="text-neutral-900 font-medium">Privacy & Terms</Link></li>
+                <Link to="/policy" className="text-neutral-900 font-medium">Privacy & Terms</Link>
                 <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Contact</a></li>
               </ul>
             </div>
@@ -250,7 +265,6 @@ const Policy = () => {
   );
 };
 
-// Helper functions to provide country-specific policy information
 const getCountrySpecificTerms = (countryCode: string) => {
   switch (countryCode) {
     case "US":
@@ -323,7 +337,6 @@ const getCountrySpecificCookies = (countryCode: string) => {
 };
 
 const getCountrySpecificGDPR = (countryCode: string) => {
-  // EU countries plus UK which still follows GDPR
   const gdprCountries = ["GB", "DE", "FR", "ES", "IT", "NL", "SE", "DK", "FI", "AT", "BE", "IE"];
   
   if (gdprCountries.includes(countryCode)) {

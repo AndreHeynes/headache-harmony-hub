@@ -1,6 +1,5 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
 
 const PageFooter = () => {
   return (
@@ -10,25 +9,25 @@ const PageFooter = () => {
           <div>
             <h4 className="font-medium mb-4">About</h4>
             <ul className="space-y-2">
-              <li><Link to="/learn-more#story" className="text-neutral-600 hover:text-neutral-900">Our Story</Link></li>
-              <li><Link to="/learn-more#team" className="text-neutral-600 hover:text-neutral-900">Team</Link></li>
-              <li><Link to="/support#careers" className="text-neutral-600 hover:text-neutral-900">Careers</Link></li>
+              <li><span className="text-neutral-600 cursor-default">Our Story</span></li>
+              <li><span className="text-neutral-600 cursor-default">Team</span></li>
+              <li><span className="text-neutral-600 cursor-default">Careers</span></li>
             </ul>
           </div>
           <div>
             <h4 className="font-medium mb-4">Support</h4>
             <ul className="space-y-2">
-              <li><Link to="/support" className="text-neutral-600 hover:text-neutral-900">Help Center</Link></li>
-              <li><Link to="/policy" className="text-neutral-600 hover:text-neutral-900">Privacy</Link></li>
-              <li><Link to="/policy?tab=terms" className="text-neutral-600 hover:text-neutral-900">Terms</Link></li>
+              <li><span className="text-neutral-600 cursor-default">Help Center</span></li>
+              <li><span className="text-neutral-600 cursor-default">Privacy</span></li>
+              <li><span className="text-neutral-600 cursor-default">Terms</span></li>
             </ul>
           </div>
           <div>
             <h4 className="font-medium mb-4">Contact</h4>
             <ul className="space-y-2">
-              <li><Link to="/support#contact" className="text-neutral-600 hover:text-neutral-900">Email Us</Link></li>
-              <li><Link to="/support#contact" className="text-neutral-600 hover:text-neutral-900">Phone</Link></li>
-              <li><Link to="/support#contact" className="text-neutral-600 hover:text-neutral-900">Office</Link></li>
+              <li><span className="text-neutral-600 cursor-default">Email Us</span></li>
+              <li><span className="text-neutral-600 cursor-default">Phone</span></li>
+              <li><span className="text-neutral-600 cursor-default">Office</span></li>
             </ul>
           </div>
           <div>
