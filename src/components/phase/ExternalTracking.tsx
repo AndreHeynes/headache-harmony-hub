@@ -7,6 +7,7 @@ import HeadacheTracker from "./HeadacheTracker";
 import HeadacheAnalysis from "./HeadacheAnalysis";
 import { AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { secureRetrieve, secureStore } from "@/utils/security/encryption";
 
 interface ExternalTrackingProps {
   phase?: number;
@@ -18,9 +19,9 @@ const ExternalTracking: React.FC<ExternalTrackingProps> = ({ phase = 1 }) => {
   const [appId, setAppId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("log");
   
-  // Load connection status from localStorage
+  // Load connection status using secure retrieval
   useEffect(() => {
-    const savedAppId = localStorage.getItem("headache-app-id");
+    const savedAppId = secureRetrieve("headache-app-id");
     if (savedAppId) {
       setAppId(savedAppId);
       setIsConnected(true);
@@ -30,7 +31,6 @@ const ExternalTracking: React.FC<ExternalTrackingProps> = ({ phase = 1 }) => {
   const handleConnect = (newAppId: string, isExisting: boolean) => {
     setAppId(newAppId);
     setIsConnected(true);
-    localStorage.setItem("headache-app-id", newAppId);
     
     if (!isExisting) {
       setTimeout(() => {

@@ -1,7 +1,9 @@
+
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { secureRetrieve, secureStore, secureRemove } from "@/utils/security/encryption";
 
 export const DataAccessControl = () => {
   const [downloadInProgress, setDownloadInProgress] = useState(false);
@@ -13,12 +15,12 @@ export const DataAccessControl = () => {
     
     // Simulate preparing the data
     setTimeout(() => {
-      // In a real implementation, you would collect all user data and format it
+      // Collect all user data using secure retrieval
       const userData = {
-        profile: JSON.parse(localStorage.getItem("user-profile") || "{}"),
-        preferences: JSON.parse(localStorage.getItem("user-preferences") || "{}"),
-        activities: JSON.parse(localStorage.getItem("user-activities") || "[]"),
-        headacheData: JSON.parse(localStorage.getItem("headache-data") || "[]"),
+        profile: secureRetrieve("user-profile") || {},
+        preferences: secureRetrieve("user-preferences") || {},
+        activities: secureRetrieve("user-activities") || [],
+        headacheData: secureRetrieve("headache-data") || [],
         // Add other data points as needed
       };
       
@@ -55,7 +57,7 @@ export const DataAccessControl = () => {
       // Remove items that aren't in the keep list
       allKeys.forEach(key => {
         if (!keysToKeep.includes(key)) {
-          localStorage.removeItem(key);
+          secureRemove(key);
         }
       });
       
@@ -119,7 +121,7 @@ export const DataAccessControl = () => {
               of the sale of your personal information.
             </p>
             <Button variant="outline" onClick={() => {
-              localStorage.setItem("do-not-sell", "true");
+              secureStore("do-not-sell", "true");
               toast({
                 title: "Preference Saved",
                 description: "Your 'Do Not Sell' preference has been saved."

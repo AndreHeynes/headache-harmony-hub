@@ -7,6 +7,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { secureStore, sanitizeInput, hasSecurityRisk } from "@/utils/security/encryption";
 
 interface ConnectAppButtonProps {
   title: string;
@@ -18,17 +19,45 @@ const ConnectAppButton = ({ title, onConnect }: ConnectAppButtonProps) => {
   const [connectionType, setConnectionType] = useState<"new" | "existing">("new");
   const [appId, setAppId] = useState("");
   const [open, setOpen] = useState(false);
+  const [inputError, setInputError] = useState("");
+
+  const handleAppIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setAppId(value);
+    
+    // Reset error when user types
+    if (inputError) setInputError("");
+    
+    // Check for security risks
+    if (hasSecurityRisk(value)) {
+      setInputError("Invalid input detected. Please enter a valid app ID.");
+    }
+  };
 
   const handleConnect = () => {
-    if (connectionType === "existing" && !appId.trim()) {
-      toast({
-        title: "App ID Required",
-        description: "Please enter your existing app ID to connect",
-        variant: "destructive",
-      });
-      return;
+    // Validate input when it's an existing connection
+    if (connectionType === "existing") {
+      if (!appId.trim()) {
+        toast({
+          title: "App ID Required",
+          description: "Please enter your existing app ID to connect",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      // Security validation
+      if (hasSecurityRisk(appId)) {
+        toast({
+          title: "Security Warning",
+          description: "Invalid input detected. Please enter a valid app ID.",
+          variant: "destructive",
+        });
+        return;
+      }
     }
 
+    // Process the connection
     toast({
       title: "App Connected Successfully",
       description: connectionType === "existing" 
@@ -36,8 +65,16 @@ const ConnectAppButton = ({ title, onConnect }: ConnectAppButtonProps) => {
         : "New headache tracking has been set up",
     });
 
+    // Generate or sanitize the app ID
+    const finalAppId = connectionType === "existing" 
+      ? sanitizeInput(appId) 
+      : "new-app-id-" + Date.now();
+    
+    // Store securely
+    secureStore("headache-app-id", finalAppId);
+
     if (onConnect) {
-      onConnect(appId || "new-app-id-" + Date.now(), connectionType === "existing");
+      onConnect(finalAppId, connectionType === "existing");
     }
     
     setOpen(false);
@@ -92,10 +129,13 @@ const ConnectAppButton = ({ title, onConnect }: ConnectAppButtonProps) => {
               <Input 
                 id="app-id" 
                 value={appId} 
-                onChange={(e) => setAppId(e.target.value)}
+                onChange={handleAppIdChange}
                 placeholder="e.g., HT-123456"
-                className="mt-1"
+                className={`mt-1 ${inputError ? 'border-red-500' : ''}`}
               />
+              {inputError && (
+                <p className="text-red-500 text-xs mt-1">{inputError}</p>
+              )}
             </div>
           )}
         </div>

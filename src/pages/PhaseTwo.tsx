@@ -10,6 +10,7 @@ import PhaseTwoContent from "@/components/phase-two/PhaseTwoContent";
 import PhaseTwoTaskList from "@/components/phase-two/PhaseTwoTaskList";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { secureStore, secureRetrieve } from "@/utils/security/encryption";
 
 const PhaseTwo = () => {
   const { toast } = useToast();
@@ -17,23 +18,23 @@ const PhaseTwo = () => {
   const [videoDisplayMode, setVideoDisplayMode] = useState<"embedded" | "link">("link");
   const totalDays = 76; // Updated from 64 to 76
   
-  // Initialize currentDay from localStorage or set to 1
+  // Initialize currentDay from secure storage or set to 1
   useEffect(() => {
-    const savedDay = localStorage.getItem('phase2-current-day');
+    const savedDay = secureRetrieve('phase2-current-day');
     if (savedDay) {
-      setCurrentDay(parseInt(savedDay, 10));
+      setCurrentDay(parseInt(savedDay.toString(), 10));
     }
     
     // Also load the video display preference
-    const savedMode = localStorage.getItem('video-display-mode');
+    const savedMode = secureRetrieve('video-display-mode');
     if (savedMode === 'embedded' || savedMode === 'link') {
-      setVideoDisplayMode(savedMode);
+      setVideoDisplayMode(savedMode as "embedded" | "link");
     }
   }, []);
   
-  // Save currentDay to localStorage whenever it changes
+  // Save currentDay to secure storage whenever it changes
   useEffect(() => {
-    localStorage.setItem('phase2-current-day', currentDay.toString());
+    secureStore('phase2-current-day', currentDay.toString());
   }, [currentDay]);
   
   const goToNextDay = () => {
@@ -67,7 +68,7 @@ const PhaseTwo = () => {
   const toggleVideoDisplayMode = () => {
     const newMode = videoDisplayMode === "link" ? "embedded" : "link";
     setVideoDisplayMode(newMode);
-    localStorage.setItem('video-display-mode', newMode);
+    secureStore('video-display-mode', newMode);
     
     toast({
       title: `Video Display Updated`,

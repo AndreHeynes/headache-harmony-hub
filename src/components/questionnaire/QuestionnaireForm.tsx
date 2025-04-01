@@ -10,6 +10,7 @@ import QuestionnaireInterpretation from "./QuestionnaireInterpretation";
 import { toast } from "sonner";
 import { isSectionComplete } from "./utils/SectionValidator";
 import { calculateQuestionnaireScore, formatQuestionnaireResponse } from "./QuestionnaireScoring";
+import { secureRetrieve, secureStore, sanitizeInput } from "@/utils/security/encryption";
 
 interface QuestionnaireFormProps {
   questionnaire: Questionnaire;
@@ -37,10 +38,10 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
   // Load saved PSFS activities if applicable
   useEffect(() => {
     if (questionnaire.id === "psfs") {
-      const storedActivities = localStorage.getItem(`psfs-activities`);
+      const storedActivities = secureRetrieve(`psfs-activities`);
       if (storedActivities) {
         try {
-          const activities = JSON.parse(storedActivities);
+          const activities = storedActivities;
           const updatedAnswers = { ...answers };
           activities.forEach((activity: any) => {
             if (activity.id.includes("activity")) {
@@ -57,22 +58,33 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
   }, [questionnaire.id]);
   
   const handleAnswerChange = (questionId: string, value: any) => {
+    // If value is a string, sanitize it before storing
+    const sanitizedValue = typeof value === 'string' ? sanitizeInput(value) : value;
+    
     setAnswers((prev) => ({
       ...prev,
-      [questionId]: value,
+      [questionId]: sanitizedValue,
     }));
   };
 
   const handleNext = () => {
     // Save progress if handler provided
     if (onSaveProgress) {
+      const sanitizedAnswers = Object.entries(answers).map(([questionId, value]) => ({
+        questionId,
+        value: typeof value === 'string' ? sanitizeInput(value) : value,
+      }));
+      
       onSaveProgress({
         questionnaireId: questionnaire.id,
         date: new Date().toISOString(),
-        answers: Object.entries(answers).map(([questionId, value]) => ({
-          questionId,
-          value,
-        })),
+        answers: sanitizedAnswers,
+      });
+      
+      // Also securely store the progress
+      secureStore(`questionnaire-${questionnaire.id}-progress`, {
+        sectionIndex: currentSectionIndex,
+        answers: sanitizedAnswers
       });
     }
 
@@ -87,6 +99,7 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
       
       if (results.savedActivities) {
         setSavedActivities(results.savedActivities);
+        secureStore(`psfs-activities`, results.savedActivities);
       }
       
       if (results.recommendedExercises) {
@@ -98,6 +111,10 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
       
       // Create and submit response
       const response = formatQuestionnaireResponse(questionnaire, answers, results);
+      
+      // Store completed questionnaire securely
+      secureStore(`questionnaire-${questionnaire.id}`, response);
+      
       onComplete(response);
     }
   };
