@@ -7,7 +7,7 @@ export const pecExercises: Exercise[] = [
     id: "6.0",
     title: "Pec Major Stretch (R)",
     description: "Stretch for the right pectoralis major muscle",
-    videoUrl: "https://vimeo.com/1055538678",
+    videoUrl: "https://vimeo.com/1055538678?share=copy#t=0",
     isGeneralExercise: true,
     type: "exercise"
   },
@@ -15,7 +15,7 @@ export const pecExercises: Exercise[] = [
     id: "6.1",
     title: "Pec Major Stretch (L)",
     description: "Stretch for the left pectoralis major muscle",
-    videoUrl: "https://vimeo.com/1055538489",
+    videoUrl: "https://vimeo.com/1055538489?share=copy#t=0",
     isGeneralExercise: true,
     type: "exercise"
   },
@@ -23,7 +23,7 @@ export const pecExercises: Exercise[] = [
     id: "7.0",
     title: "Pec Minor Stretch (R)",
     description: "Stretch for the right pectoralis minor muscle",
-    videoUrl: "https://vimeo.com/1055536253",
+    videoUrl: "https://vimeo.com/1055536253?share=copy#t=0",
     isGeneralExercise: true,
     type: "exercise"
   },
@@ -31,7 +31,7 @@ export const pecExercises: Exercise[] = [
     id: "7.1",
     title: "Pec Minor Stretch (L)",
     description: "Stretch for the left pectoralis minor muscle",
-    videoUrl: "https://vimeo.com/1055537362",
+    videoUrl: "https://vimeo.com/1055537362?share=copy#t=0",
     isGeneralExercise: true,
     type: "exercise"
   }

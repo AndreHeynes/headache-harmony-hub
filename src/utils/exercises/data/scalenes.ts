@@ -7,7 +7,7 @@ export const scalenesExercises: Exercise[] = [
     id: "2.0",
     title: "Anterior Scalene Stretch (R)",
     description: "Gentle stretch for the right anterior scalene muscle",
-    videoUrl: "https://vimeo.com/1055234697",
+    videoUrl: "https://vimeo.com/1055234697?share=copy#t=0",
     isGeneralExercise: true,
     type: "exercise"
   },
@@ -15,7 +15,7 @@ export const scalenesExercises: Exercise[] = [
     id: "2.1", 
     title: "Anterior Scalene Stretch (L)",
     description: "Gentle stretch for the left anterior scalene muscle",
-    videoUrl: "https://vimeo.com/1055478757",
+    videoUrl: "https://vimeo.com/1055236162?share=copy#t=0",
     isGeneralExercise: true,
     type: "exercise"
   },
@@ -23,7 +23,7 @@ export const scalenesExercises: Exercise[] = [
     id: "3.0",
     title: "Middle Scalene Stretch (R)",
     description: "Gentle stretch for the right middle scalene muscle",
-    videoUrl: "https://vimeo.com/1055479330",
+    videoUrl: "https://vimeo.com/1055479330?share=copy#t=0",
     isGeneralExercise: true,
     type: "exercise"
   },
@@ -31,7 +31,7 @@ export const scalenesExercises: Exercise[] = [
     id: "3.1",
     title: "Middle Scalene Stretch (L)",
     description: "Gentle stretch for the left middle scalene muscle",
-    videoUrl: "https://vimeo.com/1055479994",
+    videoUrl: "https://vimeo.com/1055479994?share=copy#t=0",
     isGeneralExercise: true,
     type: "exercise"
   },
@@ -39,7 +39,7 @@ export const scalenesExercises: Exercise[] = [
     id: "4.0",
     title: "Posterior Scalene Stretch (R)",
     description: "Gentle stretch for the right posterior scalene muscle",
-    videoUrl: "https://vimeo.com/1055481097",
+    videoUrl: "https://vimeo.com/1055481097?share=copy#t=0",
     isGeneralExercise: true,
     type: "exercise"
   },
@@ -47,7 +47,7 @@ export const scalenesExercises: Exercise[] = [
     id: "4.1",
     title: "Posterior Scalene Stretch (L)",
     description: "Gentle stretch for the left posterior scalene muscle",
-    videoUrl: "https://vimeo.com/1055236162",
+    videoUrl: "https://vimeo.com/1055480508?share=copy#t=0",
     isGeneralExercise: true,
     type: "exercise"
   }
