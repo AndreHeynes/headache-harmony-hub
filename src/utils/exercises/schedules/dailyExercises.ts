@@ -1,4 +1,3 @@
-
 import { Exercise } from "../types";
 import { QuestionnaireResponse } from "@/types/questionnaire";
 import { getRecommendedExercises } from "../filters";
@@ -40,6 +39,46 @@ export const getExercisesForDay = (
     return getExercisesByIds(day1ExerciseIds, day1ActivityIds);
   }
   
+  // Day 2 exercises
+  if (day === 2) {
+    const day2ExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const day2ActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5", "as-5.1"];
+    
+    return getExercisesByIds(day2ExerciseIds, day2ActivityIds);
+  }
+  
+  // Day 3 exercises
+  if (day === 3) {
+    const day3ExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const day3ActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5", "as-5.1"];
+    
+    return getExercisesByIds(day3ExerciseIds, day3ActivityIds);
+  }
+  
+  // Day 4 exercises
+  if (day === 4) {
+    const day4ExerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const day4ActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5", "as-5.1"];
+    
+    return getExercisesByIds(day4ExerciseIds, day4ActivityIds);
+  }
+  
+  // Day 5 exercises
+  if (day === 5) {
+    const day5ExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const day5ActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5", "as-5.1"];
+    
+    return getExercisesByIds(day5ExerciseIds, day5ActivityIds);
+  }
+  
+  // Day 6 exercises
+  if (day === 6) {
+    const day6ExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const day6ActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5", "as-5.1"];
+    
+    return getExercisesByIds(day6ExerciseIds, day6ActivityIds);
+  }
+  
   // For weekly review days (7, 14, etc.)
   if (day % 7 === 0) {
     // Select the appropriate weekly review function based on week number
@@ -69,256 +108,371 @@ export const getExercisesForDay = (
     }
   }
   
-  // Days 45-76 exercise schedules
-  if (day >= 45 && day <= 76) {
-    return getLaterPhaseExercises(day);
+  // Updated daily exercise schedules
+  
+  // Day 8
+  if (day === 8) {
+    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
+                        "10.0", "12.0", "13.0", "14.0", "23.0", "53.0", "54.0", 
+                        "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
   }
   
-  // For days not explicitly defined yet, use the pattern from previous weeks
-  // This is a fallback for any days that might be missed
-  else {
-    // Map to the equivalent day in the first few weeks
-    const equivalentDay = ((day - 1) % 42) + 1;
-    return getExercisesForDay(equivalentDay, fhtResponse);
+  // Day 9
+  if (day === 9) {
+    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "18.0", 
+                        "19.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
   }
-};
-
-/**
- * Get exercises for days 45-76
- */
-const getLaterPhaseExercises = (day: number): Exercise[] => {
-  // Day 45 exercises
+  
+  // Day 10
+  if (day === 10) {
+    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                        "11.0", "16.0", "17.0", "18.0", "19.0", "23.0", "53.0", 
+                        "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 11
+  if (day === 11) {
+    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
+                        "18.0", "19.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 12
+  if (day === 12) {
+    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "10.0", 
+                        "12.0", "13.0", "15.0", "18.0", "19.0", "23.0", "53.0", 
+                        "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 13
+  if (day === 13) {
+    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                        "18.0", "19.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+    // Day 14
+    if (day === 14) {
+        return getDay14Exercises();
+    }
+  
+  // Day 15
+  if (day === 15) {
+    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "18.1", 
+                        "19.1", "23.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 16
+  if (day === 16) {
+    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                        "10.0", "12.0", "13.0", "14.0", "18.1", "19.1", "53.0", 
+                        "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 17
+  if (day === 17) {
+    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
+                        "18.1", "19.1", "23.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 18
+  if (day === 18) {
+    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "11.0", 
+                        "16.0", "17.0", "18.1", "19.1", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 19
+  if (day === 19) {
+    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                        "18.1", "19.1", "23.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 20
+  if (day === 20) {
+    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
+                        "10.0", "12.0", "13.0", "15.0", "18.1", "19.1", "53.0", 
+                        "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+    // Day 21
+    if (day === 21) {
+        return getDay21Exercises();
+    }
+  
+  // Day 22
+  if (day === 22) {
+    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                        "10.0", "11.0", "12.0", "14.0", "18.2", "19.2", "23.1", 
+                        "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 23
+  if (day === 23) {
+    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
+                        "18.2", "19.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 24
+  if (day === 24) {
+    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "11.0", 
+                        "16.0", "17.0", "18.2", "19.2", "23.1", "53.0", "54.0", 
+                        "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 25
+  if (day === 25) {
+    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                        "18.2", "19.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 26
+  if (day === 26) {
+    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
+                        "10.0", "11.0", "12.0", "15.0", "18.2", "19.2", "23.1", 
+                        "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 27
+  if (day === 27) {
+    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "11.0", 
+                        "16.0", "17.0", "18.2", "19.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+    // Day 28
+    if (day === 28) {
+        return getDay28Exercises();
+    }
+  
+  // Day 29
+  if (day === 29) {
+    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
+                        "8.3", "20.0", "23.1", "53.0", "54.0", "51.0", "51.1", "52.0", 
+                        "56.1", "56.2"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 30
+  if (day === 30) {
+    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "10.0", 
+                        "11.0", "12.0", "14.0", "18.3", "20.0", "22.2", "53.0", "54.0", 
+                        "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 31
+  if (day === 31) {
+    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                        "11.0", "16.0", "17.0", "18.3", "20.0", "23.1", "53.0", "54.0", 
+                        "51.0", "51.1", "52.0", "56.1", "56.2"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 32
+  if (day === 32) {
+    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
+                        "18.3", "20.0", "22.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 33
+  if (day === 33) {
+    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "18.3", 
+                        "20.0", "23.1", "53.0", "54.0", "51.0", "51.1", "52.0", 
+                        "56.1", "56.2"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 34
+  if (day === 34) {
+    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                        "10.0", "11.0", "12.0", "15.0", "18.3", "20.0", "22.2", 
+                        "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+    // Day 35
+    if (day === 35) {
+        return getDay35Exercises();
+    }
+  
+  // Day 36
+  if (day === 36) {
+    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "10.0", 
+                        "11.0", "12.0", "14.0", "18.4", "20.1", "21.0", "22.1", 
+                        "23.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 37
+  if (day === 37) {
+    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                        "22.0", "29.0", "31.0", "34.0", "39.0", "53.0", "54.0", 
+                        "51.0", "51.1", "52.0", "56.1", "56.2"];
+    const activityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 38
+  if (day === 38) {
+    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
+                        "11.0", "16.0", "17.0", "18.4", "20.1", "21.0", "22.1", 
+                        "23.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 39
+  if (day === 39) {
+    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "18.4", 
+                        "20.1", "21.0", "22.1", "22.0", "53.0", "54.0", "51.0", "51.1", 
+                        "52.0", "56.1", "56.2"];
+    const activityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 40
+  if (day === 40) {
+    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                        "10.0", "11.0", "12.0", "15.0", "18.4", "20.1", "21.0", "22.1", 
+                        "22.0", "23.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 41
+  if (day === 41) {
+    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
+                        "11.0", "16.0", "17.0", "18.4", "20.1", "21.0", "22.1", "22.2", 
+                        "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
+    const activityIds = ["as-3", "as-4", "as-5.1"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+    // Day 42
+    if (day === 42) {
+        return getDay42Exercises();
+    }
+  
+  // Day 43
+  if (day === 43) {
+    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                        "18.3", "20.2", "21.1", "22.0", "23.2", "53.0", "54.0", 
+                        "51.0", "51.1", "52.0", "56.1", "56.2"];
+    const activityIds = ["as-4", "as-5.1"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 44
+  if (day === 44) {
+    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
+                        "10.0", "11.0", "12.0", "14.0", "18.4", "20.1", "21.0", "22.1", 
+                        "41.0", "41.1", "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-4", "as-5.1"];
+    
+    return getExercisesByIds(exerciseIds, activityIds);
+  }
+  
+  // Day 45 to Day 76
   if (day === 45) {
-    const dayExerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "11.0", "16.0", "17.0",
-                           "18.4", "20.1", "21.0", "22.1", "53.0", "54.0", "51.0", "51.1", "52.0",
-                           "56.1", "56.2"];
-    const dayActivityIds = ["as-4", "as-5.1"];
+    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "11.0", 
+                        "16.0", "17.0", "18.4", "20.1", "21.0", "22.1", "23.2", 
+                        "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
+    const activityIds = ["as-4", "as-5.1"];
     
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
+    return getExercisesByIds(exerciseIds, activityIds);
   }
   
-  // Day 46 exercises
-  else if (day === 46) {
-    const dayExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
-                           "18.4", "20.1", "21.0", "22.1", "41.0", "41.1",
-                           "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4", "as-5.1"];
+  if (day === 46) {
+    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
+                        "18.4", "20.1", "21.0", "22.1", "41.0", "41.1", "53.0", 
+                        "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-4", "as-5.1"];
     
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
+    return getExercisesByIds(exerciseIds, activityIds);
   }
   
-  // Day 47 exercises
-  else if (day === 47) {
-    const dayExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.1", "4.0", "4.1",
-                           "18.4", "20.1", "21.0", "22.1", "41.0", "41.1",
-                           "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4", "as-5.1"];
+  if (day === 47) {
+    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
+                        "18.4", "20.1", "21.0", "22.1", "23.2", "41.0", "41.1", 
+                        "53.0", "54.0", "51.0", "51.1", "52.0"];
+    const activityIds = ["as-4", "as-5.1"];
     
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
+    return getExercisesByIds(exerciseIds, activityIds);
   }
   
-  // Day 48 exercises
-  else if (day === 48) {
-    const dayExerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "10.0", "11.0", "12.0", 
-                           "15.0", "18.4", "20.1", "21.0", "22.1", "41.0", "41.1",
-                           "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const dayActivityIds = ["as-4", "as-5.1"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 50 exercises
-  else if (day === 50) {
-    const dayExerciseIds = ["19.0", "21.2", "22.2", "42.0", "53.0", "54.0", "51.0", "51.1", "52.0", "57.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 51 exercises
-  else if (day === 51) {
-    const dayExerciseIds = ["19.0", "21.2", "22.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 52 exercises
-  else if (day === 52) {
-    const dayExerciseIds = ["19.0", "21.2", "22.2", "42.0", "53.0", "54.0", "51.0", "51.1", "52.0", "57.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 53 exercises
-  else if (day === 53) {
-    const dayExerciseIds = ["19.0", "21.2", "22.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 54 exercises
-  else if (day === 54) {
-    const dayExerciseIds = ["19.0", "21.2", "22.2", "42.0", "53.0", "54.0", "51.0", "51.1", "52.0", "57.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 55 exercises
-  else if (day === 55) {
-    const dayExerciseIds = ["19.0", "21.2", "22.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 57 exercises
-  else if (day === 57) {
-    const dayExerciseIds = ["43.0", "46.0", "48.0", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 58 exercises
-  else if (day === 58) {
-    const dayExerciseIds = ["46.1", "48.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 59 exercises
-  else if (day === 59) {
-    const dayExerciseIds = ["43.0", "46.0", "46.1", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 60 exercises
-  else if (day === 60) {
-    const dayExerciseIds = ["48.0", "48.1", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 61 exercises
-  else if (day === 61) {
-    const dayExerciseIds = ["43.0", "46.0", "46.1", "48.1", "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 62 exercises
-  else if (day === 62) {
-    const dayExerciseIds = ["43.0", "46.0", "46.1", "48.1", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 64 exercises
-  else if (day === 64) {
-    const dayExerciseIds = ["46.1", "48.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 65 exercises
-  else if (day === 65) {
-    const dayExerciseIds = ["46.0", "48.1", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 66 exercises
-  else if (day === 66) {
-    const dayExerciseIds = ["46.1", "48.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 67 exercises
-  else if (day === 67) {
-    const dayExerciseIds = ["46.1", "48.0", "48.1", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 68 exercises
-  else if (day === 68) {
-    const dayExerciseIds = ["46.1", "48.0", "48.1", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 69 exercises
-  else if (day === 69) {
-    const dayExerciseIds = ["46.1", "48.0", "48.1", "53.0", "54.0", "51.0", "51.1", "52.0", "57.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 71 exercises
-  else if (day === 71) {
-    const dayExerciseIds = ["46.0", "48.1", "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 72 exercises
-  else if (day === 72) {
-    const dayExerciseIds = ["46.1", "48.0", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 73 exercises
-  else if (day === 73) {
-    const dayExerciseIds = ["48.0", "48.1", "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 74 exercises
-  else if (day === 74) {
-    const dayExerciseIds = ["46.1", "48.0", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 75 exercises
-  else if (day === 75) {
-    const dayExerciseIds = ["46.0", "46.1", "48.0", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Day 76 exercises - Final day of Phase 2
-  else if (day === 76) {
-    const dayExerciseIds = ["46.0", "46.1", "48.0", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const dayActivityIds = ["as-4"];
-    
-    return getExercisesByIds(dayExerciseIds, dayActivityIds);
-  }
-  
-  // Default case - return an empty array
-  return [];
-};
+  if (day === 48) {
+    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "10.0", 
+                        "11.0", "12.0", "15.0", "18.4", "20.1", "21.0", "22.1", 
+                        "41.0", "41.1", "53.0", "54
