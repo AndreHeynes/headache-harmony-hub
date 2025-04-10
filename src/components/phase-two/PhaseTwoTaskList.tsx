@@ -1,10 +1,11 @@
 
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, Circle } from "lucide-react";
+import { CheckCircle, Circle, FileText, Dumbbell } from "lucide-react";
 import { QuestionnaireResponse } from "@/types/questionnaire";
 import { getExercisesForDay } from "@/utils/exercises/schedules";
 import { secureRetrieve, secureStore } from "@/utils/security/encryption";
+import { Exercise } from "@/utils/exercises/types";
 
 interface PhaseTwoTaskListProps {
   day: number;
@@ -49,6 +50,10 @@ const PhaseTwoTaskList: React.FC<PhaseTwoTaskListProps> = ({ day }) => {
   };
   
   const exercises = getExercisesForDay(day, fhtResponse);
+  
+  // Separate exercises and activity sheets
+  const physicalExercises = exercises.filter(ex => ex.type !== "activity");
+  const activitySheets = exercises.filter(ex => ex.type === "activity");
   
   const isWeeklyReviewDay = day % 7 === 0;
   
@@ -111,33 +116,77 @@ const PhaseTwoTaskList: React.FC<PhaseTwoTaskListProps> = ({ day }) => {
         <CardTitle className="text-xl">Today's Tasks</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-3">
-          {exercises.length > 0 ? (
-            exercises.map(exercise => (
-              <div 
-                key={exercise.id} 
-                className="flex items-center cursor-pointer" 
-                onClick={() => toggleTaskCompletion(exercise.id)}
-              >
-                <div className="mr-3 text-neutral-500">
-                  {completedTasks[exercise.id] ? (
-                    <CheckCircle className="h-5 w-5 text-green-500" />
-                  ) : (
-                    <Circle className="h-5 w-5" />
-                  )}
-                </div>
-                <div className="text-neutral-700">
-                  {exercise.title}
-                </div>
+        <div className="space-y-4">
+          {/* Physical Exercises Section */}
+          {physicalExercises.length > 0 && (
+            <div>
+              <h3 className="text-sm font-semibold text-purple-700 mb-2 flex items-center">
+                <Dumbbell className="h-4 w-4 mr-1.5" /> 
+                Physical Exercises
+              </h3>
+              <div className="space-y-2 bg-gradient-to-r from-purple-50 to-white p-3 rounded-md">
+                {physicalExercises.map((exercise) => (
+                  <div 
+                    key={exercise.id} 
+                    className="flex items-center cursor-pointer hover:bg-white/80 p-1.5 rounded-md transition-colors" 
+                    onClick={() => toggleTaskCompletion(exercise.id)}
+                  >
+                    <div className="mr-3 text-neutral-500 flex-shrink-0">
+                      {completedTasks[exercise.id] ? (
+                        <CheckCircle className="h-5 w-5 text-green-500" />
+                      ) : (
+                        <Circle className="h-5 w-5" />
+                      )}
+                    </div>
+                    <div className="text-neutral-700 text-sm">
+                      {exercise.title}
+                      {exercise.side && (
+                        <span className="ml-1 text-xs text-purple-500">({exercise.side})</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))
-          ) : (
-            <p className="text-neutral-500 italic">No exercises scheduled for today.</p>
+            </div>
           )}
           
+          {/* Activity Sheets Section */}
+          {activitySheets.length > 0 && (
+            <div>
+              <h3 className="text-sm font-semibold text-blue-600 mb-2 flex items-center">
+                <FileText className="h-4 w-4 mr-1.5" /> 
+                Activity Sheets
+              </h3>
+              <div className="space-y-2 bg-gradient-to-r from-blue-50 to-white p-3 rounded-md">
+                {activitySheets.map((activity) => (
+                  <div 
+                    key={activity.id} 
+                    className="flex items-center cursor-pointer hover:bg-white/80 p-1.5 rounded-md transition-colors" 
+                    onClick={() => toggleTaskCompletion(activity.id)}
+                  >
+                    <div className="mr-3 text-neutral-500 flex-shrink-0">
+                      {completedTasks[activity.id] ? (
+                        <CheckCircle className="h-5 w-5 text-green-500" />
+                      ) : (
+                        <Circle className="h-5 w-5" />
+                      )}
+                    </div>
+                    <div className="text-neutral-700 text-sm">
+                      {activity.title}
+                      {activity.requiresInput && (
+                        <span className="ml-1.5 text-xs text-blue-500 font-medium">(Requires input)</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* Headache Logging Section */}
           <div className="mt-4 pt-4 border-t">
             <div 
-              className="flex items-center cursor-pointer"
+              className="flex items-center cursor-pointer p-2 hover:bg-neutral-50 rounded-md transition-colors"
               onClick={() => toggleTaskCompletion('headache_log')}
             >
               <div className="mr-3 text-neutral-500">
@@ -152,6 +201,11 @@ const PhaseTwoTaskList: React.FC<PhaseTwoTaskListProps> = ({ day }) => {
               </div>
             </div>
           </div>
+          
+          {/* Empty State */}
+          {physicalExercises.length === 0 && activitySheets.length === 0 && (
+            <p className="text-neutral-500 italic">No exercises scheduled for today.</p>
+          )}
         </div>
       </CardContent>
     </Card>
