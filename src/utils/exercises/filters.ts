@@ -19,6 +19,13 @@ export const getRecommendedExercises = (
     answer => answer.questionId === "headache-types"
   );
 
+  // Find laterality answer
+  const lateralityAnswer = fhtResponse.answers.find(
+    answer => answer.questionId === "headache-laterality"
+  );
+  
+  const laterality = lateralityAnswer?.value as string || "bilateral";
+  
   let selectedTypes: string[] = [];
   
   if (headacheTypesAnswer && Array.isArray(headacheTypesAnswer.value)) {
@@ -31,14 +38,36 @@ export const getRecommendedExercises = (
   }
 
   // Check if types 4 or 6 are selected
-  const hasType4 = selectedTypes.includes("4");
-  const hasType6 = selectedTypes.includes("6");
+  const hasType4 = selectedTypes.includes("4"); // Occipital Neuralgia
+  const hasType6 = selectedTypes.includes("6"); // TMJD
   
-  // Filter exercises based on selected types
+  // Filter exercises based on selected types and laterality
   return exercises.filter(exercise => {
     // Include general exercises for everyone
     if (exercise.isGeneralExercise) {
-      return true;
+      // For laterality-specific general exercises, filter by side
+      if (exercise.title.includes("(R)") && (laterality === "left" || laterality === "bilateral" || laterality === "varies")) {
+        return true;
+      }
+      if (exercise.title.includes("(L)") && (laterality === "right" || laterality === "bilateral" || laterality === "varies")) {
+        return true;
+      }
+      if (!exercise.title.includes("(R)") && !exercise.title.includes("(L)")) {
+        return true; // Non-lateralized exercise
+      }
+      return false;
+    }
+    
+    // Handle laterality for special exercises
+    const isRightSideExercise = exercise.title.includes("(R)");
+    const isLeftSideExercise = exercise.title.includes("(L)");
+    
+    // Filter out side-specific exercises based on laterality preference
+    if (isRightSideExercise && laterality === "left") {
+      return false;
+    }
+    if (isLeftSideExercise && laterality === "right") {
+      return false;
     }
     
     // Special handling for Types 4 and 6

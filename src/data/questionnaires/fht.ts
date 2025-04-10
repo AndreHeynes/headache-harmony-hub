@@ -53,6 +53,18 @@ export const fhtQuestionnaire: Questionnaire = {
               value: "6" 
             }
           ]
+        },
+        {
+          id: "headache-laterality",
+          type: "radio",
+          text: "On which side do you typically experience your headache symptoms?",
+          required: true,
+          options: [
+            { id: "laterality-right", text: "Right side only", value: "right" },
+            { id: "laterality-left", text: "Left side only", value: "left" },
+            { id: "laterality-bilateral", text: "Both sides (bilateral)", value: "bilateral" },
+            { id: "laterality-varies", text: "It varies or alternates sides", value: "varies" }
+          ]
         }
       ]
     },
