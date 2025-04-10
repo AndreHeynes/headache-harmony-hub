@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TaskList from "./TaskList";
 import { Task } from "@/types/task";
-import { getPhaseOneTasks, CompletedQuestionnairesMap } from "@/utils/phase-tasks";
+import { getPhaseOneTasks, getPhaseTwoTasks, CompletedQuestionnairesMap } from "@/utils/phase-tasks";
 
 interface PhaseTaskListProps {
   day?: number;
@@ -23,6 +23,8 @@ const PhaseTaskList = ({
     // Generate tasks based on the phase and day
     if (phase === 1) {
       setTasks(getPhaseOneTasks(day, completedQuestionnaires));
+    } else if (phase === 2) {
+      setTasks(getPhaseTwoTasks(day, completedQuestionnaires));
     } else {
       setTasks([]);
     }
