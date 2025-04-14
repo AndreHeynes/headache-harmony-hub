@@ -48,6 +48,10 @@ const ExerciseDetails: React.FC<ExerciseDetailsProps> = ({
       details.reps = "20 second hold";
       details.sets = "3";
       details.frequency = "3x daily";
+    } else if (title.includes("Serratus Superior Posterior Stretch")) {
+      details.reps = "20 second holds";
+      details.sets = "3";
+      details.frequency = "3x daily";
     } else if (title.includes("Deep Neck Flexors (Start)")) {
       details.reps = "10";
       details.sets = "3";
@@ -105,9 +109,9 @@ const ExerciseDetails: React.FC<ExerciseDetailsProps> = ({
       details.sets = "3";
       details.frequency = "3x daily";
     } else if (title.includes("Neural Mobility Level 2")) {
-      details.reps = "15";
-      details.sets = "5";
-      details.frequency = "3x daily";
+      details.reps = "6";
+      details.sets = "2";
+      details.frequency = "2x daily";
     } else if (title.includes("Combined Movement Level 1")) {
       details.reps = "10 x 10 second holds";
       details.sets = "3";

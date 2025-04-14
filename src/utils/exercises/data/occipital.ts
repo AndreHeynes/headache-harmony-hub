@@ -1,3 +1,4 @@
+
 import { Exercise } from "../types";
 
 // Occipital Neuralgia specific exercises - for Type 4
@@ -24,7 +25,7 @@ export const occipitalExercises: Exercise[] = [
     id: "57.0",
     title: "Neural Mobility Level 2",
     description: "Advanced neural mobility exercise",
-    videoUrl: "https://vimeo.com/placeholder",
+    videoUrl: "https://vimeo.com/1075206205?share=copy#t=0",
     includedForTypes: ["4"],
     excludedForTypes: ["6"],
     type: "exercise"

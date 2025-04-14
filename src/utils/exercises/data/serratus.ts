@@ -14,9 +14,10 @@ export const serratusExercises: Exercise[] = [
   {
     id: "5.1",
     title: "Serratus Superior Posterior Stretch (R)",
-    description: "Stretch for the right serratus superior posterior muscle - Video pending",
-    videoUrl: "", // Video link pending
+    description: "Stretch for the right serratus superior posterior muscle",
+    videoUrl: "https://vimeo.com/1075204248?share=copy#t=0",
     isGeneralExercise: true,
-    type: "exercise"
+    type: "exercise",
+    side: "right"
   }
 ];
