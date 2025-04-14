@@ -1,8 +1,22 @@
+
 import { Exercise } from "../types";
 import { QuestionnaireResponse } from "@/types/questionnaire";
 import { getRecommendedExercises } from "../filters";
 import { exercises } from "../data";
-import { getExercisesByIds } from "./utils";
+import {
+  getDay1Exercises, getDay2Exercises, getDay3Exercises, getDay4Exercises, getDay5Exercises, getDay6Exercises,
+  getDay8Exercises, getDay9Exercises, getDay10Exercises, getDay11Exercises, getDay12Exercises, getDay13Exercises,
+  getDay15Exercises, getDay16Exercises, getDay17Exercises, getDay18Exercises, getDay19Exercises, getDay20Exercises,
+  getDay22Exercises, getDay23Exercises, getDay24Exercises, getDay25Exercises, getDay26Exercises, getDay27Exercises,
+  getDay29Exercises, getDay30Exercises, getDay31Exercises, getDay32Exercises, getDay33Exercises, getDay34Exercises,
+  getDay36Exercises, getDay37Exercises, getDay38Exercises, getDay39Exercises, getDay40Exercises, getDay41Exercises,
+  getDay43Exercises, getDay44Exercises, getDay45Exercises, getDay46Exercises, getDay47Exercises, getDay48Exercises,
+  getDay50Exercises, getDay51Exercises, getDay52Exercises, getDay53Exercises, getDay54Exercises, getDay55Exercises,
+  getDay57Exercises, getDay58Exercises, getDay59Exercises, getDay60Exercises, getDay61Exercises, getDay62Exercises,
+  getDay64Exercises, getDay65Exercises, getDay66Exercises, getDay67Exercises, getDay68Exercises, getDay69Exercises,
+  getDay71Exercises, getDay72Exercises, getDay73Exercises, getDay74Exercises, getDay75Exercises, getDay76Exercises
+} from "./weekly";
+
 import {
   getDay7Exercises,
   getDay14Exercises,
@@ -25,59 +39,6 @@ export const getExercisesForDay = (
 ): Exercise[] => {
   // Get all recommended exercises based on FHT questionnaire
   const allRecommended = getRecommendedExercises(fhtResponse);
-  
-  // Return exercises for specific days based on the provided schedule
-  // For days 7, 14, etc. (weekly review days), the component itself handles the display
-  
-  // Day 1 exercises - specific list from requirements
-  if (day === 1) {
-    const day1ExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
-                             "10.0", "12.0", "13.0", "14.0", "53.0", "54.0", 
-                             "51.0", "51.1", "52.0"];
-    const day1ActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5", "as-5.1"];
-    
-    return getExercisesByIds(day1ExerciseIds, day1ActivityIds);
-  }
-  
-  // Day 2 exercises
-  if (day === 2) {
-    const day2ExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const day2ActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5", "as-5.1"];
-    
-    return getExercisesByIds(day2ExerciseIds, day2ActivityIds);
-  }
-  
-  // Day 3 exercises
-  if (day === 3) {
-    const day3ExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const day3ActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5", "as-5.1"];
-    
-    return getExercisesByIds(day3ExerciseIds, day3ActivityIds);
-  }
-  
-  // Day 4 exercises
-  if (day === 4) {
-    const day4ExerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const day4ActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5", "as-5.1"];
-    
-    return getExercisesByIds(day4ExerciseIds, day4ActivityIds);
-  }
-  
-  // Day 5 exercises
-  if (day === 5) {
-    const day5ExerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const day5ActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5", "as-5.1"];
-    
-    return getExercisesByIds(day5ExerciseIds, day5ActivityIds);
-  }
-  
-  // Day 6 exercises
-  if (day === 6) {
-    const day6ExerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const day6ActivityIds = ["as-1", "as-2", "as-3", "as-4", "as-5", "as-5.1"];
-    
-    return getExercisesByIds(day6ExerciseIds, day6ActivityIds);
-  }
   
   // For weekly review days (7, 14, etc.)
   if (day % 7 === 0) {
@@ -108,569 +69,74 @@ export const getExercisesForDay = (
     }
   }
   
-  // Updated daily exercise schedules
-  
-  // Day 8
-  if (day === 8) {
-    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
-                        "10.0", "12.0", "13.0", "14.0", "23.0", "53.0", "54.0", 
-                        "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
+  // For regular exercise days, use the appropriate day function
+  switch (day) {
+    case 1: return getDay1Exercises();
+    case 2: return getDay2Exercises();
+    case 3: return getDay3Exercises();
+    case 4: return getDay4Exercises();
+    case 5: return getDay5Exercises();
+    case 6: return getDay6Exercises();
+    case 8: return getDay8Exercises();
+    case 9: return getDay9Exercises();
+    case 10: return getDay10Exercises();
+    case 11: return getDay11Exercises();
+    case 12: return getDay12Exercises();
+    case 13: return getDay13Exercises();
+    case 15: return getDay15Exercises();
+    case 16: return getDay16Exercises();
+    case 17: return getDay17Exercises();
+    case 18: return getDay18Exercises();
+    case 19: return getDay19Exercises();
+    case 20: return getDay20Exercises();
+    case 22: return getDay22Exercises();
+    case 23: return getDay23Exercises();
+    case 24: return getDay24Exercises();
+    case 25: return getDay25Exercises();
+    case 26: return getDay26Exercises();
+    case 27: return getDay27Exercises();
+    case 29: return getDay29Exercises();
+    case 30: return getDay30Exercises();
+    case 31: return getDay31Exercises();
+    case 32: return getDay32Exercises();
+    case 33: return getDay33Exercises();
+    case 34: return getDay34Exercises();
+    case 36: return getDay36Exercises();
+    case 37: return getDay37Exercises();
+    case 38: return getDay38Exercises();
+    case 39: return getDay39Exercises();
+    case 40: return getDay40Exercises();
+    case 41: return getDay41Exercises();
+    case 43: return getDay43Exercises();
+    case 44: return getDay44Exercises();
+    case 45: return getDay45Exercises();
+    case 46: return getDay46Exercises();
+    case 47: return getDay47Exercises();
+    case 48: return getDay48Exercises();
+    case 50: return getDay50Exercises();
+    case 51: return getDay51Exercises();
+    case 52: return getDay52Exercises();
+    case 53: return getDay53Exercises();
+    case 54: return getDay54Exercises();
+    case 55: return getDay55Exercises();
+    case 57: return getDay57Exercises();
+    case 58: return getDay58Exercises();
+    case 59: return getDay59Exercises();
+    case 60: return getDay60Exercises();
+    case 61: return getDay61Exercises();
+    case 62: return getDay62Exercises();
+    case 64: return getDay64Exercises();
+    case 65: return getDay65Exercises();
+    case 66: return getDay66Exercises();
+    case 67: return getDay67Exercises();
+    case 68: return getDay68Exercises();
+    case 69: return getDay69Exercises();
+    case 71: return getDay71Exercises();
+    case 72: return getDay72Exercises();
+    case 73: return getDay73Exercises();
+    case 74: return getDay74Exercises();
+    case 75: return getDay75Exercises();
+    case 76: return getDay76Exercises();
+    default: return [];
   }
-  
-  // Day 9
-  if (day === 9) {
-    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "18.0", 
-                        "19.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 10
-  if (day === 10) {
-    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
-                        "11.0", "16.0", "17.0", "18.0", "19.0", "23.0", "53.0", 
-                        "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 11
-  if (day === 11) {
-    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
-                        "18.0", "19.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 12
-  if (day === 12) {
-    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "10.0", 
-                        "12.0", "13.0", "15.0", "18.0", "19.0", "23.0", "53.0", 
-                        "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 13
-  if (day === 13) {
-    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
-                        "18.0", "19.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-    // Day 14
-    if (day === 14) {
-        return getDay14Exercises();
-    }
-  
-  // Day 15
-  if (day === 15) {
-    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "18.1", 
-                        "19.1", "23.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 16
-  if (day === 16) {
-    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
-                        "10.0", "12.0", "13.0", "14.0", "18.1", "19.1", "53.0", 
-                        "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 17
-  if (day === 17) {
-    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
-                        "18.1", "19.1", "23.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 18
-  if (day === 18) {
-    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "11.0", 
-                        "16.0", "17.0", "18.1", "19.1", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 19
-  if (day === 19) {
-    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
-                        "18.1", "19.1", "23.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 20
-  if (day === 20) {
-    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
-                        "10.0", "12.0", "13.0", "15.0", "18.1", "19.1", "53.0", 
-                        "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-    // Day 21
-    if (day === 21) {
-        return getDay21Exercises();
-    }
-  
-  // Day 22
-  if (day === 22) {
-    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
-                        "10.0", "11.0", "12.0", "14.0", "18.2", "19.2", "23.1", 
-                        "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 23
-  if (day === 23) {
-    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
-                        "18.2", "19.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 24
-  if (day === 24) {
-    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "11.0", 
-                        "16.0", "17.0", "18.2", "19.2", "23.1", "53.0", "54.0", 
-                        "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 25
-  if (day === 25) {
-    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
-                        "18.2", "19.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 26
-  if (day === 26) {
-    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
-                        "10.0", "11.0", "12.0", "15.0", "18.2", "19.2", "23.1", 
-                        "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 27
-  if (day === 27) {
-    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "11.0", 
-                        "16.0", "17.0", "18.2", "19.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-    // Day 28
-    if (day === 28) {
-        return getDay28Exercises();
-    }
-  
-  // Day 29
-  if (day === 29) {
-    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
-                        "8.3", "20.0", "23.1", "53.0", "54.0", "51.0", "51.1", "52.0", 
-                        "56.1", "56.2"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 30
-  if (day === 30) {
-    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "10.0", 
-                        "11.0", "12.0", "14.0", "18.3", "20.0", "22.2", "53.0", "54.0", 
-                        "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 31
-  if (day === 31) {
-    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
-                        "11.0", "16.0", "17.0", "18.3", "20.0", "23.1", "53.0", "54.0", 
-                        "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 32
-  if (day === 32) {
-    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
-                        "18.3", "20.0", "22.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 33
-  if (day === 33) {
-    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "18.3", 
-                        "20.0", "23.1", "53.0", "54.0", "51.0", "51.1", "52.0", 
-                        "56.1", "56.2"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 34
-  if (day === 34) {
-    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
-                        "10.0", "11.0", "12.0", "15.0", "18.3", "20.0", "22.2", 
-                        "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-1", "as-2", "as-3", "as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-    // Day 35
-    if (day === 35) {
-        return getDay35Exercises();
-    }
-  
-  // Day 36
-  if (day === 36) {
-    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "10.0", 
-                        "11.0", "12.0", "14.0", "18.4", "20.1", "21.0", "22.1", 
-                        "23.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-3", "as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 37
-  if (day === 37) {
-    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
-                        "22.0", "29.0", "31.0", "34.0", "39.0", "53.0", "54.0", 
-                        "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const activityIds = ["as-3", "as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 38
-  if (day === 38) {
-    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
-                        "11.0", "16.0", "17.0", "18.4", "20.1", "21.0", "22.1", 
-                        "23.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-3", "as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 39
-  if (day === 39) {
-    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "18.4", 
-                        "20.1", "21.0", "22.1", "22.0", "53.0", "54.0", "51.0", "51.1", 
-                        "52.0", "56.1", "56.2"];
-    const activityIds = ["as-3", "as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 40
-  if (day === 40) {
-    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
-                        "10.0", "11.0", "12.0", "15.0", "18.4", "20.1", "21.0", "22.1", 
-                        "22.0", "23.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-3", "as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 41
-  if (day === 41) {
-    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
-                        "11.0", "16.0", "17.0", "18.4", "20.1", "21.0", "22.1", "22.2", 
-                        "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const activityIds = ["as-3", "as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-    // Day 42
-    if (day === 42) {
-        return getDay42Exercises();
-    }
-  
-  // Day 43
-  if (day === 43) {
-    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
-                        "18.3", "20.2", "21.1", "22.0", "23.2", "53.0", "54.0", 
-                        "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const activityIds = ["as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 44
-  if (day === 44) {
-    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
-                        "10.0", "11.0", "12.0", "14.0", "18.4", "20.1", "21.0", "22.1", 
-                        "41.0", "41.1", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  // Day 45 to Day 76
-  if (day === 45) {
-    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "11.0", 
-                        "16.0", "17.0", "18.4", "20.1", "21.0", "22.1", "23.2", 
-                        "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const activityIds = ["as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 46) {
-    const exerciseIds = ["0.1", "0.2", "6.0", "6.1", "7.0", "7.1", "8.0", "8.1", 
-                        "18.4", "20.1", "21.0", "22.1", "41.0", "41.1", "53.0", 
-                        "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 47) {
-    const exerciseIds = ["0.1", "0.2", "2.0", "2.1", "3.0", "3.1", "4.0", "4.1", 
-                        "18.4", "20.1", "21.0", "22.1", "23.2", "41.0", "41.1", 
-                        "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 48) {
-    const exerciseIds = ["0.1", "0.2", "8.0", "8.1", "5.0", "5.1", "9.1", "10.0", 
-                        "11.0", "12.0", "15.0", "18.4", "20.1", "21.0", "22.1", 
-                        "41.0", "41.1", "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const activityIds = ["as-4", "as-5.1"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 49) {
-    return getDay49Exercises();
-  }
-  
-  if (day === 50) {
-    const exerciseIds = ["19.0", "21.2", "22.2", "23.3", "42.0", "53.0", "54.0", 
-                        "51.0", "51.1", "52.0", "57.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 51) {
-    const exerciseIds = ["19.0", "21.2", "22.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 52) {
-    const exerciseIds = ["19.0", "21.2", "22.2", "23.3", "42.0", "53.0", "54.0", 
-                        "51.0", "51.1", "52.0", "57.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 53) {
-    const exerciseIds = ["19.0", "21.2", "22.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 54) {
-    const exerciseIds = ["19.0", "21.2", "22.2", "23.3", "42.0", "53.0", "54.0", 
-                        "51.0", "51.1", "52.0", "57.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 55) {
-    const exerciseIds = ["19.0", "21.2", "22.2", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 56) {
-    return getDay56Exercises();
-  }
-  
-  if (day === 57) {
-    const exerciseIds = ["23.3", "43.0", "46.0", "48.0", "50.0", "53.0", "54.0", 
-                        "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 58) {
-    const exerciseIds = ["46.1", "48.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 59) {
-    const exerciseIds = ["23.3", "43.0", "46.0", "46.1", "50.0", "53.0", "54.0", 
-                        "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 60) {
-    const exerciseIds = ["48.0", "48.1", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 61) {
-    const exerciseIds = ["23.3", "43.0", "46.0", "46.1", "48.1", "53.0", "54.0", 
-                        "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 62) {
-    const exerciseIds = ["46.0", "46.1", "48.0", "48.1", "50.0", "53.0", "54.0", 
-                        "51.0", "51.1", "52.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 63) {
-    return getDay63Exercises();
-  }
-  
-  if (day === 64) {
-    const exerciseIds = ["46.1", "48.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 65) {
-    const exerciseIds = ["46.0", "48.1", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0", "57.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 66) {
-    const exerciseIds = ["46.1", "48.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 67) {
-    const exerciseIds = ["46.0", "48.1", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0", "57.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 68) {
-    const exerciseIds = ["46.1", "48.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 69) {
-    const exerciseIds = ["46.0", "46.1", "48.1", "53.0", "54.0", "51.0", "51.1", "52.0", "57.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 70) {
-    return getDay70Exercises();
-  }
-  
-  if (day === 71) {
-    const exerciseIds = ["46.0", "48.1", "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 72) {
-    const exerciseIds = ["46.1", "48.0", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 73) {
-    const exerciseIds = ["46.0", "48.1", "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 74) {
-    const exerciseIds = ["46.1", "48.0", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 75) {
-    const exerciseIds = ["46.0", "46.1", "48.0", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  if (day === 76) {
-    const exerciseIds = ["46.0", "46.1", "48.0", "50.0", "53.0", "54.0", "51.0", "51.1", "52.0", "56.1", "56.2"];
-    const activityIds = ["as-4"];
-    
-    return getExercisesByIds(exerciseIds, activityIds);
-  }
-  
-  return [];
 };
