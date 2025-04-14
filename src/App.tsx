@@ -13,6 +13,8 @@ import PhaseTwo from "@/pages/PhaseTwo";
 import PhaseThree from "@/pages/PhaseThree";
 import PhaseFour from "@/pages/PhaseFour";
 import LearnMore from "@/pages/LearnMore";
+import About from "@/pages/About";
+import Story from "@/pages/Story";
 import Pricing from "@/pages/Pricing";
 import Support from "@/pages/Support";
 import Policy from "@/pages/Policy";
@@ -35,6 +37,8 @@ function App() {
         <Route path="/phase-three" element={<PhaseThree />} />
         <Route path="/phase-four" element={<PhaseFour />} />
         <Route path="/learn-more" element={<LearnMore />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/story" element={<Story />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/support" element={<Support />} />
         <Route path="/policy" element={<Policy />} />

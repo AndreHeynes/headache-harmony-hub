@@ -1,7 +1,9 @@
-import { Brain } from "lucide-react";
+
+import { Brain, Book, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
+import Footer from "@/components/layout/Footer";
 
 const LearnMore = () => {
   const navigate = useNavigate();
@@ -12,14 +14,19 @@ const LearnMore = () => {
       <header className="fixed top-0 left-0 right-0 bg-white border-b border-neutral-200 z-50">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Brain className="w-6 h-6 text-neutral-800" />
-            <span className="text-xl text-neutral-800">MigraineTracker</span>
+            <img 
+              src="/lovable-uploads/37b87337-8892-418a-932d-e700a3a4568d.png" 
+              alt="Recover From Headache Logo" 
+              className="w-8 h-8"
+            />
+            <span className="text-xl text-neutral-800">Recover & Reclaim</span>
           </div>
           <nav className="hidden md:flex space-x-6">
             <Link to="/" className="text-neutral-600 hover:text-neutral-900">Home</Link>
+            <Link to="/about" className="text-neutral-600 hover:text-neutral-900">About</Link>
+            <Link to="/story" className="text-neutral-600 hover:text-neutral-900">Our Story</Link>
             <Link to="/learn-more" className="text-neutral-900 font-medium">Learn More</Link>
             <Link to="/pricing" className="text-neutral-600 hover:text-neutral-900">Pricing</Link>
-            <a href="#" className="text-neutral-600 hover:text-neutral-900">Contact</a>
           </nav>
           <button className="md:hidden">
             <span className="sr-only">Open menu</span>
@@ -123,6 +130,61 @@ const LearnMore = () => {
               </div>
             </div>
 
+            {/* About Section */}
+            <div className="mb-16" id="about">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center flex items-center justify-center">
+                <Brain className="mr-2 h-6 w-6" />
+                About the Program
+              </h2>
+              <div className="bg-white p-8 rounded-lg shadow-sm">
+                <p className="text-gray-600 mb-4">
+                  Headache is more than pain — it's a burden that can alter how you live, work, and connect with others. 
+                  But if you've been diagnosed with a Primary Headache Disorder, you're not alone — and you're not without options.
+                </p>
+                <p className="text-gray-600 mb-4">
+                  Our mission is to empower you with the skills and tools needed to self-manage your primary 
+                  headache disorder and to reclaim the quality of life that headaches have taken from you.
+                </p>
+                <div className="mt-4 text-center">
+                  <Button
+                    onClick={() => navigate("/about")}
+                    variant="outline"
+                    className="font-medium rounded-lg transition-all"
+                  >
+                    Learn More About Us
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Our Story Section */}
+            <div className="mb-16" id="story">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center flex items-center justify-center">
+                <Book className="mr-2 h-6 w-6" />
+                Our Story
+              </h2>
+              <div className="bg-white p-8 rounded-lg shadow-sm">
+                <p className="text-gray-600 mb-4">
+                  The story of Recover from Headache, Reclaim Your Life! begins with a physiotherapist with over 
+                  two decades of experience helping people manage complex pain conditions, especially Primary Headache Disorders.
+                </p>
+                <p className="text-gray-600 mb-4">
+                  Over the years, one truth became clear: headaches are not just about pain—they're about lost moments, 
+                  missed opportunities, and emotional strain. And the support available is often scattered, overly 
+                  medicalized, or incomplete.
+                </p>
+                <div className="mt-4 text-center">
+                  <Button
+                    onClick={() => navigate("/story")}
+                    variant="outline"
+                    className="font-medium rounded-lg transition-all"
+                  >
+                    Read Our Full Story
+                  </Button>
+                </div>
+              </div>
+            </div>
+
             {/* CTA Section */}
             <div className="text-center">
               <Button
@@ -146,56 +208,7 @@ const LearnMore = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-neutral-100 py-8">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <h4 className="mb-4">About</h4>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Our Story</a></li>
-                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Team</a></li>
-                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Careers</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="mb-4">Support</h4>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Help Center</a></li>
-                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Privacy</a></li>
-                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Terms</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="mb-4">Contact</h4>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Email Us</a></li>
-                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Phone</a></li>
-                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Office</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="mb-4">Follow Us</h4>
-              <div className="flex space-x-4">
-                <a href="#" className="text-neutral-600 hover:text-neutral-900">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8l-8 8m0-8l8 8" />
-                  </svg>
-                </a>
-                <a href="#" className="text-neutral-600 hover:text-neutral-900">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8l-8 8m0-8l8 8" />
-                  </svg>
-                </a>
-                <a href="#" className="text-neutral-600 hover:text-neutral-900">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8l-8 8m0-8l8 8" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
