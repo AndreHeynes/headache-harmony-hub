@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -10,12 +9,11 @@ const Footer = () => {
           <div>
             <h4 className="font-medium mb-4">About</h4>
             <p className="text-sm text-neutral-600 mb-4">
-              We are dedicated to empowering you with the skills and tools needed to self-manage your primary headache disorder — and to reclaim the quality of life that headaches have taken from you.
+              Founded by a physiotherapist with over two decades of experience in managing primary headache disorders. Our mission is to empower individuals to understand and manage their headache condition.
             </p>
             <ul className="space-y-2">
-              <li><Link to="/learn-more#about" className="text-neutral-600 hover:text-neutral-900">About the Program</Link></li>
-              <li><Link to="/learn-more#story" className="text-neutral-600 hover:text-neutral-900">Our Story</Link></li>
-              <li><Link to="/support#team" className="text-neutral-600 hover:text-neutral-900">Meet the Team</Link></li>
+              <li><Link to="/about" className="text-neutral-600 hover:text-neutral-900">About the Program</Link></li>
+              <li><Link to="/story" className="text-neutral-600 hover:text-neutral-900">Our Story</Link></li>
             </ul>
           </div>
           <div>

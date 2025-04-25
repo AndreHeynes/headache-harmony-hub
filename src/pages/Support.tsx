@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Brain, Mail, MessageSquare, Search, HelpCircle, FileText, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -65,8 +64,12 @@ const Support = () => {
       <header className="fixed top-0 left-0 right-0 bg-white border-b border-neutral-200 z-50">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Brain className="w-6 h-6 text-neutral-800" />
-            <span className="text-xl text-neutral-800">MigraineTracker</span>
+            <img 
+              src="/lovable-uploads/37b87337-8892-418a-932d-e700a3a4568d.png" 
+              alt="Recover From Headache Logo" 
+              className="w-8 h-8"
+            />
+            <span className="text-xl text-neutral-800">Recover & Reclaim</span>
           </div>
           <nav className="hidden md:flex space-x-6">
             <Link to="/" className="text-neutral-600 hover:text-neutral-900">Home</Link>
