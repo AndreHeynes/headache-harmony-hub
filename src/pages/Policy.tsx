@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { isGdprCountry } from "@/utils/policy/countryUtils";
-import PolicyHeader from "@/components/policy/PolicyHeader";
+import MainHeader from "@/components/layout/MainHeader";
 import PolicyFooter from "@/components/policy/PolicyFooter";
 import CountrySelector from "@/components/policy/CountrySelector";
 import TermsOfService from "@/components/policy/TermsOfService";
@@ -27,7 +26,7 @@ const Policy = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <PolicyHeader />
+      <MainHeader />
 
       <main className="pt-28 pb-16">
         <div className="container mx-auto px-4">
