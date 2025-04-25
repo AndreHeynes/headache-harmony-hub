@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Brain, Mail, MessageSquare, Search, HelpCircle, FileText, Shield } from "lucide-react";
+import MainHeader from "@/components/layout/MainHeader";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,7 +26,6 @@ const Support = () => {
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would normally send the form data to your backend
     toast.success("Support request submitted. We'll respond within 24 hours.");
     setContactOpen(false);
     setContactForm({ email: "", subject: "", message: "" });
@@ -61,31 +61,7 @@ const Support = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <header className="fixed top-0 left-0 right-0 bg-white border-b border-neutral-200 z-50">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <img 
-              src="/lovable-uploads/37b87337-8892-418a-932d-e700a3a4568d.png" 
-              alt="Recover From Headache Logo" 
-              className="w-8 h-8"
-            />
-            <span className="text-xl text-neutral-800">Recover & Reclaim</span>
-          </div>
-          <nav className="hidden md:flex space-x-6">
-            <Link to="/" className="text-neutral-600 hover:text-neutral-900">Home</Link>
-            <Link to="/learn-more" className="text-neutral-600 hover:text-neutral-900">Learn More</Link>
-            <Link to="/pricing" className="text-neutral-600 hover:text-neutral-900">Pricing</Link>
-            <Link to="/policy" className="text-neutral-600 hover:text-neutral-900">Policies</Link>
-            <Link to="/support" className="text-neutral-900 font-medium">Support</Link>
-          </nav>
-          <button className="md:hidden">
-            <span className="sr-only">Open menu</span>
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
-      </header>
+      <MainHeader />
 
       <main className="pt-20 pb-16">
         <section className="container mx-auto px-4 mb-12">

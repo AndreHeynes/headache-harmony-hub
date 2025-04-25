@@ -2,38 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { CookieConsent } from "@/components/compliance/CookieConsent";
 import Footer from "@/components/layout/Footer";
+import MainHeader from "@/components/layout/MainHeader";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-white">
-      <header className="fixed top-0 left-0 right-0 bg-white border-b border-neutral-200 z-50">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <img 
-              src="/lovable-uploads/37b87337-8892-418a-932d-e700a3a4568d.png" 
-              alt="Recover From Headache Logo" 
-              className="w-8 h-8"
-            />
-            <span className="text-xl text-neutral-800">Recover & Reclaim</span>
-          </div>
-          <nav className="hidden md:flex space-x-6">
-            <Link to="/" className="text-neutral-900 font-medium">Home</Link>
-            <Link to="/about" className="text-neutral-600 hover:text-neutral-900">About</Link>
-            <Link to="/story" className="text-neutral-600 hover:text-neutral-900">Our Story</Link>
-            <Link to="/learn-more" className="text-neutral-600 hover:text-neutral-900">Learn More</Link>
-            <Link to="/pricing" className="text-neutral-600 hover:text-neutral-900">Pricing</Link>
-            <Link to="/policy" className="text-neutral-600 hover:text-neutral-900">Policies</Link>
-            <Link to="/support" className="text-neutral-600 hover:text-neutral-900">Support</Link>
-            <Link to="/dashboard" className="text-neutral-600 hover:text-neutral-900">Dashboard</Link>
-          </nav>
-          <button className="md:hidden">
-            <span className="sr-only">Open menu</span>
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
-      </header>
+      <MainHeader />
 
       <main className="pt-16">
         <section className="h-[600px] flex items-center">
@@ -80,7 +54,6 @@ const Index = () => {
       </main>
 
       <Footer />
-      
       <CookieConsent />
     </div>
   );
