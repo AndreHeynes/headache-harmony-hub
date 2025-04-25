@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -39,11 +40,33 @@ const Policy = () => {
             />
 
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className={`grid ${showGdprTab ? 'grid-cols-4' : 'grid-cols-3'} mb-8 bg-neutral-100`}>
-                <TabsTrigger value="terms">Terms of Service</TabsTrigger>
-                <TabsTrigger value="privacy">Privacy Policy</TabsTrigger>
-                <TabsTrigger value="cookies">Cookie Policy</TabsTrigger>
-                {showGdprTab && <TabsTrigger value="gdpr">GDPR Compliance</TabsTrigger>}
+              <TabsList className={`grid ${showGdprTab ? 'grid-cols-4' : 'grid-cols-3'} mb-8 bg-[#2A9D8F]/10`}>
+                <TabsTrigger 
+                  value="terms" 
+                  className="data-[state=active]:bg-[#2A9D8F] data-[state=active]:text-white"
+                >
+                  Terms of Service
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="privacy"
+                  className="data-[state=active]:bg-[#2A9D8F] data-[state=active]:text-white"
+                >
+                  Privacy Policy
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="cookies"
+                  className="data-[state=active]:bg-[#2A9D8F] data-[state=active]:text-white"
+                >
+                  Cookie Policy
+                </TabsTrigger>
+                {showGdprTab && (
+                  <TabsTrigger 
+                    value="gdpr"
+                    className="data-[state=active]:bg-[#2A9D8F] data-[state=active]:text-white"
+                  >
+                    GDPR Compliance
+                  </TabsTrigger>
+                )}
               </TabsList>
 
               <TabsContent value="terms">
