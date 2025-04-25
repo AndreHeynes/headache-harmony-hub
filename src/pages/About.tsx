@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Brain, Heart, Users, AlertCircle } from "lucide-react";
 import Footer from "@/components/layout/Footer";
