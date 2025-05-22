@@ -42,3 +42,21 @@ export const getQuestionnaire = (id?: string): Questionnaire | null => {
       return null;
   }
 };
+
+/**
+ * Returns all available questionnaires
+ */
+export const getAllQuestionnaires = (): Questionnaire[] => {
+  return [
+    hit6Questionnaire,
+    fhtQuestionnaire, 
+    midasQuestionnaire,
+    hsesQuestionnaire,
+    psfsQuestionnaire,
+    hslocQuestionnaire,
+    hbQuestionnaire,
+    pscQuestionnaire,
+    mkqQuestionnaire,
+    gpocQuestionnaire
+  ];
+};

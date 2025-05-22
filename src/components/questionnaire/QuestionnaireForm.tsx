@@ -160,30 +160,39 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
           />
         )}
       </CardContent>
-      <CardFooter className="flex justify-between">
-        {!isCompleted ? (
-          <>
-            <Button
-              variant="outline"
-              onClick={handlePrevious}
-              disabled={currentSectionIndex === 0}
-            >
-              <ChevronLeft className="mr-2 h-4 w-4" /> Previous
+      <CardFooter className="flex flex-col">
+        <div className="flex justify-between w-full">
+          {!isCompleted ? (
+            <>
+              <Button
+                variant="outline"
+                onClick={handlePrevious}
+                disabled={currentSectionIndex === 0}
+              >
+                <ChevronLeft className="mr-2 h-4 w-4" /> Previous
+              </Button>
+              <Button
+                onClick={handleNext}
+                disabled={!isCurrentSectionComplete()}
+              >
+                {currentSectionIndex < questionnaire.sections.length - 1
+                  ? <>Next <ChevronRight className="ml-2 h-4 w-4" /></>
+                  : <>Complete <Check className="ml-2 h-4 w-4" /></>
+                }
+              </Button>
+            </>
+          ) : (
+            <Button variant="outline" onClick={() => window.history.back()}>
+              Return to Dashboard
             </Button>
-            <Button
-              onClick={handleNext}
-              disabled={!isCurrentSectionComplete()}
-            >
-              {currentSectionIndex < questionnaire.sections.length - 1
-                ? <>Next <ChevronRight className="ml-2 h-4 w-4" /></>
-                : <>Complete <Check className="ml-2 h-4 w-4" /></>
-              }
-            </Button>
-          </>
-        ) : (
-          <Button variant="outline" onClick={() => window.history.back()}>
-            Return to Dashboard
-          </Button>
+          )}
+        </div>
+        
+        {/* Attribution section */}
+        {questionnaire.attribution && (
+          <div className="w-full mt-4 text-xs text-neutral-500 italic text-center">
+            {questionnaire.attribution}
+          </div>
         )}
       </CardFooter>
     </Card>

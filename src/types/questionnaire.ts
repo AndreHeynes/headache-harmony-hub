@@ -29,6 +29,7 @@ export interface Questionnaire {
   title: string;
   description?: string;
   instructions?: string;
+  attribution?: string; // Added attribution field for author credits
   sections: QuestionnaireSection[];
   interpretations?: {
     ranges: {

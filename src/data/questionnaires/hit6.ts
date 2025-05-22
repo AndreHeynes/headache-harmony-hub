@@ -6,6 +6,7 @@ export const hit6Questionnaire: Questionnaire = {
   title: "Headache Impact Test (HIT-6)",
   description: "This questionnaire was designed to help you describe and communicate the way you feel and what you cannot do because of headaches.",
   instructions: "To complete, please select one answer for each question.",
+  attribution: "Modified from and used with permission from QualityMetric Incorporated and GlaxoSmithKline Group of Companies.",
   sections: [
     {
       id: "hit-6-main",

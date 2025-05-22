@@ -6,6 +6,7 @@ export const gpocQuestionnaire: Questionnaire = {
   title: "Global Impression of Change",
   description: "This questionnaire helps us understand how you feel your condition has changed since beginning treatment.",
   instructions: "Since beginning treatment, how would you describe the change (if any) in ACTIVITY LIMITATIONS, SYMPTOMS, EMOTIONS and OVERALL QUALITY OF LIFE, related to your headache condition?",
+  attribution: "Modified from and used with permission from Dr. J. Farrar and colleagues.",
   sections: [
     {
       id: "gpoc-main",

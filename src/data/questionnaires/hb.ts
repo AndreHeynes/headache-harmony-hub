@@ -6,6 +6,7 @@ export const hbQuestionnaire: Questionnaire = {
   title: "Headache Beliefs",
   description: "This questionnaire helps identify your beliefs about headache causes and supports.",
   instructions: "Please select any beliefs that apply to you regarding the causes or reasons for your headaches.",
+  attribution: "Modified from and used with permission from Drs. Martin, Holroyd, and Penzien.",
   sections: [
     {
       id: "hb-beliefs",

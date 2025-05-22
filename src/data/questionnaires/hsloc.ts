@@ -6,6 +6,7 @@ export const hslocQuestionnaire: Questionnaire = {
   title: "Headache Specific Locus of Control (HSLOC)",
   description: "This questionnaire is designed to determine the way in which people view certain important headache-related issues.",
   instructions: "Each item is a belief statement with which you may agree or disagree. Beside each statement are numbers which correspond to a scale on which you may rate the extent to which you agree or disagree with each item. The values range from \"Strongly Disagree\" = 1 to \"Strongly Agree\" = 5.",
+  attribution: "Modified from and used with permission from Dr. Robert J. Martin and colleagues.",
   sections: [
     {
       id: "hsloc-intro",

@@ -6,6 +6,7 @@ export const hsesQuestionnaire: Questionnaire = {
   title: "Headache Self-Efficacy Scale (HSES)",
   description: "Rate your confidence in your ability to take action that may prevent the occurrence of a moderately painful headache.",
   instructions: "Please rate your confidence in your ability to take some action that may prevent the occurrence of a moderately painful headache by selecting one of the following for each statement.",
+  attribution: "Modified from and used with permission from Dr. Kenneth A. Holroyd and colleagues.",
   sections: [
     {
       id: "hses-intro",

@@ -6,6 +6,7 @@ export const psfsQuestionnaire: Questionnaire = {
   title: "Patient Specific Functional Scale",
   description: "This tool allows you to identify up to 3 important activities that you are unable to do or are having difficulty with as a result of your headaches.",
   instructions: "Please identify up to three important activities that you are unable to do or are having difficulty with as a result of your headaches. Rate each activity on the scale below.",
+  attribution: "Modified from and used with permission from Dr. Paul Stratford and colleagues.",
   sections: [
     {
       id: "psfs-main",

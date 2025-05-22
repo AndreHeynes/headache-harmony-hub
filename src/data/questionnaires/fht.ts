@@ -6,6 +6,7 @@ export const fhtQuestionnaire: Questionnaire = {
   title: "Familiar Headache Symptoms",
   description: "This questionnaire helps identify what type of headache you may be experiencing.",
   instructions: "Please select any type or types from the groups below that best describe your headache(s).",
+  attribution: "Modified from the International Classification of Headache Disorders (ICHD-3) and used with permission from the International Headache Society.",
   sections: [
     {
       id: "headache-type-main",

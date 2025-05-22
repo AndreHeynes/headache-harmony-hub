@@ -6,6 +6,7 @@ export const mkqQuestionnaire: Questionnaire = {
   title: "Medication Knowledge Quiz",
   description: "This questionnaire helps assess your understanding of medications and their impact on headaches.",
   instructions: "Please answer the following questions about medications and their effects. Select True or False for each statement.",
+  attribution: "Developed by the Recover & Reclaim Clinical Team.",
   sections: [
     {
       id: "mkq-main",

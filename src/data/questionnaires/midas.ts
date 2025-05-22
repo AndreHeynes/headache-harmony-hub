@@ -6,6 +6,7 @@ export const midasQuestionnaire: Questionnaire = {
   title: "Migraine Disability Assessment (MIDAS)",
   description: "This questionnaire helps measure the impact your headaches have on your life.",
   instructions: "Please answer the following questions about ALL of the headaches you have had over the last 3 months. Select zero if you did not have the activity in the last 3 months.",
+  attribution: "Modified from and used with permission from Dr. Richard B. Lipton and Dr. Walter F. Stewart.",
   sections: [
     {
       id: "midas-main",
