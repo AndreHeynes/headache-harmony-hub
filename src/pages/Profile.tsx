@@ -4,6 +4,7 @@ import PageLayout from "@/components/layout/PageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PrivacyModule } from "@/components/compliance/PrivacyModule";
+import { SecurityDashboard } from "@/components/compliance/SecurityDashboard";
 
 const Profile = () => {
   return (
@@ -12,10 +13,11 @@ const Profile = () => {
         <h1 className="text-2xl font-bold mb-6">Your Profile</h1>
         
         <Tabs defaultValue="profile" className="space-y-4">
-          <TabsList className="grid grid-cols-3 w-full max-w-md">
+          <TabsList className="grid grid-cols-4 w-full max-w-lg">
             <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="settings">Settings</TabsTrigger>
             <TabsTrigger value="privacy">Privacy</TabsTrigger>
+            <TabsTrigger value="security">Security</TabsTrigger>
           </TabsList>
           
           <TabsContent value="profile">
@@ -83,6 +85,10 @@ const Profile = () => {
           
           <TabsContent value="privacy">
             <PrivacyModule />
+          </TabsContent>
+          
+          <TabsContent value="security">
+            <SecurityDashboard />
           </TabsContent>
         </Tabs>
       </div>

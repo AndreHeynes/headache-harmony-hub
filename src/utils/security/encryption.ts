@@ -1,9 +1,11 @@
-
 /**
  * Security utility functions for client-side encryption
  * Note: This provides basic protection but should be replaced with server-side 
  * security when Supabase is integrated
  */
+
+import { encryptDataAdvanced, decryptDataAdvanced, isAdvancedEncryption } from './advancedEncryption';
+import { logSecurityEvent } from './securityMonitor';
 
 // Simple encryption key - in production this should be more securely managed
 // This will be replaced with proper auth when Supabase is integrated
@@ -11,13 +13,25 @@ const ENCRYPTION_KEY = "temp_headache_recovery_key";
 
 /**
  * Encrypts sensitive data before storing it
- * Uses a simple XOR encryption for now - will be replaced with proper encryption
+ * Uses advanced encryption when possible, falls back to basic XOR
  */
-export const encryptData = (data: any): string => {
+export const encryptData = async (data: any): Promise<string> => {
   if (!data) return '';
   
   try {
-    // Convert data to string if it's not already
+    // Try advanced encryption first
+    if (window.crypto && window.crypto.subtle) {
+      const encrypted = await encryptDataAdvanced(data);
+      logSecurityEvent('data_access', 'Data encrypted using advanced encryption', 'low');
+      return encrypted;
+    }
+  } catch (error) {
+    console.warn('Advanced encryption failed, falling back to basic encryption:', error);
+    logSecurityEvent('encryption_failure', 'Advanced encryption failed, using fallback', 'medium');
+  }
+  
+  try {
+    // Fallback to basic XOR encryption
     const stringData = typeof data === 'string' ? data : JSON.stringify(data);
     
     // Simple XOR encryption with the key
@@ -28,9 +42,12 @@ export const encryptData = (data: any): string => {
     }
     
     // Convert to base64 for storage
-    return btoa(encrypted);
+    const result = btoa(encrypted);
+    logSecurityEvent('data_access', 'Data encrypted using basic encryption', 'low');
+    return result;
   } catch (error) {
     console.error("Encryption error:", error);
+    logSecurityEvent('encryption_failure', 'All encryption methods failed', 'critical');
     return '';
   }
 };
@@ -38,11 +55,23 @@ export const encryptData = (data: any): string => {
 /**
  * Decrypts data retrieved from storage
  */
-export const decryptData = (encryptedData: string): any => {
+export const decryptData = async (encryptedData: string): Promise<any> => {
   if (!encryptedData) return null;
   
   try {
-    // Decode from base64
+    // Check if this is advanced encryption
+    if (isAdvancedEncryption(encryptedData)) {
+      const decrypted = await decryptDataAdvanced(encryptedData);
+      logSecurityEvent('data_access', 'Data decrypted using advanced encryption', 'low');
+      return decrypted;
+    }
+  } catch (error) {
+    console.warn('Advanced decryption failed, trying basic decryption:', error);
+    logSecurityEvent('encryption_failure', 'Advanced decryption failed, trying fallback', 'medium');
+  }
+  
+  try {
+    // Fallback to basic XOR decryption
     const encrypted = atob(encryptedData);
     
     // Decrypt using XOR with the key
@@ -54,12 +83,16 @@ export const decryptData = (encryptedData: string): any => {
     
     // Parse back to original format if it was JSON
     try {
-      return JSON.parse(decrypted);
+      const result = JSON.parse(decrypted);
+      logSecurityEvent('data_access', 'Data decrypted using basic encryption', 'low');
+      return result;
     } catch {
+      logSecurityEvent('data_access', 'Data decrypted as string using basic encryption', 'low');
       return decrypted;
     }
   } catch (error) {
     console.error("Decryption error:", error);
+    logSecurityEvent('encryption_failure', 'All decryption methods failed', 'critical');
     return null;
   }
 };
@@ -67,30 +100,35 @@ export const decryptData = (encryptedData: string): any => {
 /**
  * Securely store data in localStorage with encryption
  */
-export const secureStore = (key: string, data: any): void => {
+export const secureStore = async (key: string, data: any): Promise<void> => {
   if (!key || data === undefined) return;
   
   try {
-    const encryptedData = encryptData(data);
+    const encryptedData = await encryptData(data);
     localStorage.setItem(key, encryptedData);
+    logSecurityEvent('data_access', `Data stored securely for key: ${key}`, 'low');
   } catch (error) {
     console.error("Error storing encrypted data:", error);
+    logSecurityEvent('encryption_failure', `Failed to store data for key: ${key}`, 'high');
   }
 };
 
 /**
  * Retrieve and decrypt data from localStorage
  */
-export const secureRetrieve = (key: string): any => {
+export const secureRetrieve = async (key: string): Promise<any> => {
   if (!key) return null;
   
   try {
     const encryptedData = localStorage.getItem(key);
     if (!encryptedData) return null;
     
-    return decryptData(encryptedData);
+    const result = await decryptData(encryptedData);
+    logSecurityEvent('data_access', `Data retrieved securely for key: ${key}`, 'low');
+    return result;
   } catch (error) {
     console.error("Error retrieving encrypted data:", error);
+    logSecurityEvent('encryption_failure', `Failed to retrieve data for key: ${key}`, 'high');
     return null;
   }
 };
