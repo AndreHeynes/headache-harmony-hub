@@ -33,11 +33,11 @@ export const SecurityDashboard = () => {
     const highEvents = severityBreakdown.high || 0;
 
     if (criticalEvents > 0) {
-      return { status: 'critical', color: 'destructive', icon: XCircle, text: 'Critical Issues Detected' };
+      return { status: 'critical', color: 'destructive' as const, icon: XCircle, text: 'Critical Issues Detected' };
     } else if (highEvents > 0) {
-      return { status: 'warning', color: 'warning', icon: AlertTriangle, text: 'Security Warnings' };
+      return { status: 'warning', color: 'secondary' as const, icon: AlertTriangle, text: 'Security Warnings' };
     } else {
-      return { status: 'good', color: 'default', icon: CheckCircle, text: 'Security Status Good' };
+      return { status: 'good', color: 'default' as const, icon: CheckCircle, text: 'Security Status Good' };
     }
   };
 

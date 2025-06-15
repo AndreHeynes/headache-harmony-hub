@@ -38,22 +38,26 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
   // Load saved PSFS activities if applicable
   useEffect(() => {
     if (questionnaire.id === "psfs") {
-      const storedActivities = secureRetrieve(`psfs-activities`);
-      if (storedActivities) {
+      const loadActivities = async () => {
         try {
-          const activities = storedActivities;
-          const updatedAnswers = { ...answers };
-          activities.forEach((activity: any) => {
-            if (activity.id.includes("activity")) {
-              updatedAnswers[activity.id] = activity.text;
-            }
-          });
-          setAnswers(updatedAnswers);
-          setSavedActivities(activities);
+          const storedActivities = await secureRetrieve(`psfs-activities`);
+          if (storedActivities) {
+            const activities = storedActivities;
+            const updatedAnswers = { ...answers };
+            activities.forEach((activity: any) => {
+              if (activity.id.includes("activity")) {
+                updatedAnswers[activity.id] = activity.text;
+              }
+            });
+            setAnswers(updatedAnswers);
+            setSavedActivities(activities);
+          }
         } catch (e) {
           console.error("Error parsing saved activities");
         }
-      }
+      };
+      
+      loadActivities();
     }
   }, [questionnaire.id]);
   

@@ -20,16 +20,24 @@ const PhaseTwo = () => {
   
   // Initialize currentDay from secure storage or set to 1
   useEffect(() => {
-    const savedDay = secureRetrieve('phase2-current-day');
-    if (savedDay) {
-      setCurrentDay(parseInt(savedDay.toString(), 10));
-    }
+    const loadSettings = async () => {
+      try {
+        const savedDay = await secureRetrieve('phase2-current-day');
+        if (savedDay) {
+          setCurrentDay(parseInt(savedDay.toString(), 10));
+        }
+        
+        // Also load the video display preference
+        const savedMode = await secureRetrieve('video-display-mode');
+        if (savedMode === 'embedded' || savedMode === 'link') {
+          setVideoDisplayMode(savedMode as "embedded" | "link");
+        }
+      } catch (e) {
+        console.error("Error loading settings:", e);
+      }
+    };
     
-    // Also load the video display preference
-    const savedMode = secureRetrieve('video-display-mode');
-    if (savedMode === 'embedded' || savedMode === 'link') {
-      setVideoDisplayMode(savedMode as "embedded" | "link");
-    }
+    loadSettings();
   }, []);
   
   // Save currentDay to secure storage whenever it changes

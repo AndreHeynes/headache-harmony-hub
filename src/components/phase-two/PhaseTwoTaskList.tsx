@@ -20,14 +20,18 @@ const PhaseTwoTaskList: React.FC<PhaseTwoTaskListProps> = ({ day }) => {
   const { completedTasks, toggleTaskCompletion } = useCompletedTasks(day);
   
   useEffect(() => {
-    const savedFht = secureRetrieve('questionnaire-fht');
-    if (savedFht) {
+    const loadFhtResponse = async () => {
       try {
-        setFhtResponse(savedFht);
+        const savedFht = await secureRetrieve('questionnaire-fht');
+        if (savedFht) {
+          setFhtResponse(savedFht);
+        }
       } catch (e) {
         console.error("Error parsing FHT response:", e);
       }
-    }
+    };
+    
+    loadFhtResponse();
   }, []);
   
   const exercises = getExercisesForDay(day, fhtResponse);

@@ -21,11 +21,19 @@ const ExternalTracking: React.FC<ExternalTrackingProps> = ({ phase = 1 }) => {
   
   // Load connection status using secure retrieval
   useEffect(() => {
-    const savedAppId = secureRetrieve("headache-app-id");
-    if (savedAppId) {
-      setAppId(savedAppId);
-      setIsConnected(true);
-    }
+    const loadConnectionStatus = async () => {
+      try {
+        const savedAppId = await secureRetrieve("headache-app-id");
+        if (savedAppId) {
+          setAppId(savedAppId);
+          setIsConnected(true);
+        }
+      } catch (e) {
+        console.error("Error loading connection status:", e);
+      }
+    };
+    
+    loadConnectionStatus();
   }, []);
 
   const handleConnect = (newAppId: string, isExisting: boolean) => {

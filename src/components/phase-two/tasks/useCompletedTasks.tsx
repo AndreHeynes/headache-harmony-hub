@@ -7,14 +7,18 @@ export const useCompletedTasks = (day: number) => {
   
   // Load saved tasks on mount
   useEffect(() => {
-    const savedTasks = secureRetrieve(`phase2-day${day}-tasks`);
-    if (savedTasks) {
+    const loadTasks = async () => {
       try {
-        setCompletedTasks(savedTasks);
+        const savedTasks = await secureRetrieve(`phase2-day${day}-tasks`);
+        if (savedTasks) {
+          setCompletedTasks(savedTasks);
+        }
       } catch (e) {
         console.error("Error parsing saved tasks:", e);
       }
-    }
+    };
+    
+    loadTasks();
   }, [day]);
   
   // Save completed tasks whenever they change
