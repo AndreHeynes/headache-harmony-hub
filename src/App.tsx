@@ -22,27 +22,31 @@ import Questionnaire from "@/pages/Questionnaire";
 import { CookieConsent } from "@/components/compliance/CookieConsent";
 import { AgeVerification } from "@/components/compliance/AgeVerification";
 import { MedicalDisclaimer } from "@/components/compliance/MedicalDisclaimer";
+import DiagnosisGuard from "@/components/compliance/DiagnosisGuard";
+import { DiagnosisAttestation } from "@/components/compliance/DiagnosisAttestation";
+import NotDiagnosed from "@/pages/NotDiagnosed";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<DiagnosisGuard><Dashboard /></DiagnosisGuard>} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/phase-one" element={<PhaseOne />} />
-        <Route path="/phase-two" element={<PhaseTwo />} />
-        <Route path="/phase-three" element={<PhaseThree />} />
-        <Route path="/phase-four" element={<PhaseFour />} />
+        <Route path="/phase-one" element={<DiagnosisGuard><PhaseOne /></DiagnosisGuard>} />
+        <Route path="/phase-two" element={<DiagnosisGuard><PhaseTwo /></DiagnosisGuard>} />
+        <Route path="/phase-three" element={<DiagnosisGuard><PhaseThree /></DiagnosisGuard>} />
+        <Route path="/phase-four" element={<DiagnosisGuard><PhaseFour /></DiagnosisGuard>} />
         <Route path="/learn-more" element={<LearnMore />} />
         <Route path="/about" element={<About />} />
         <Route path="/story" element={<Story />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/support" element={<Support />} />
         <Route path="/policy" element={<Policy />} />
-        <Route path="/questionnaire" element={<Questionnaire />} />
+        <Route path="/not-diagnosed" element={<NotDiagnosed />} />
+        <Route path="/questionnaire" element={<DiagnosisGuard><Questionnaire /></DiagnosisGuard>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
@@ -50,6 +54,7 @@ function App() {
       <CookieConsent />
       <AgeVerification />
       <MedicalDisclaimer />
+      <DiagnosisAttestation />
       <Toaster />
     </Router>
   );
