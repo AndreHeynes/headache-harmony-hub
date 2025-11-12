@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,14 +12,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Mail, Lock, ArrowRight } from "lucide-react";
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const signInSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z.string().min(1, { message: "Password is required" }),
+  email: z.string().trim().email({ message: "Please enter a valid email address" }).max(255),
+  password: z.string().min(8, { message: "Password must be at least 8 characters" }).max(100),
   rememberMe: z.boolean().optional(),
 });
 
@@ -33,6 +33,7 @@ interface SignInFormProps {
 
 const SignInForm = ({ isLoading, setIsLoading }: SignInFormProps) => {
   const navigate = useNavigate();
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   const form = useForm<SignInValues>({
     resolver: zodResolver(signInSchema),
@@ -45,18 +46,56 @@ const SignInForm = ({ isLoading, setIsLoading }: SignInFormProps) => {
 
   const onSubmit = async (data: SignInValues) => {
     setIsLoading(true);
+    
     try {
-      // This would be replaced with actual authentication logic
-      console.log("Sign in data:", data);
-      
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      
-      toast.success("Signed in successfully!");
-      navigate("/");
+      const { data: authData, error } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
+      });
+
+      if (error) {
+        if (error.message.includes("Invalid login credentials")) {
+          toast.error("Invalid email or password");
+        } else if (error.message.includes("Email not confirmed")) {
+          toast.error("Please confirm your email before signing in");
+        } else {
+          toast.error(error.message);
+        }
+        return;
+      }
+
+      if (authData.user) {
+        toast.success("Welcome back!");
+        navigate("/dashboard");
+      }
     } catch (error) {
-      console.error("Sign in error:", error);
-      toast.error("Failed to sign in. Please check your credentials and try again.");
+      toast.error("An unexpected error occurred");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    const email = form.getValues("email");
+    if (!email || !z.string().email().safeParse(email).success) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success("Password reset email sent! Check your inbox.");
+        setShowForgotPassword(false);
+      }
+    } catch (error) {
+      toast.error("Failed to send reset email");
     } finally {
       setIsLoading(false);
     }
@@ -73,8 +112,15 @@ const SignInForm = ({ isLoading, setIsLoading }: SignInFormProps) => {
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
-                  <Input className="pl-10" placeholder="your.email@example.com" type="email" {...field} />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Input 
+                    className="pl-10" 
+                    placeholder="your.email@example.com" 
+                    type="email"
+                    aria-label="Email address"
+                    autoComplete="email"
+                    {...field} 
+                  />
                 </div>
               </FormControl>
               <FormMessage />
@@ -90,8 +136,15 @@ const SignInForm = ({ isLoading, setIsLoading }: SignInFormProps) => {
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
-                  <Input className="pl-10" placeholder="••••••••" type="password" {...field} />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Input 
+                    className="pl-10" 
+                    placeholder="••••••••" 
+                    type="password"
+                    aria-label="Password"
+                    autoComplete="current-password"
+                    {...field} 
+                  />
                 </div>
               </FormControl>
               <FormMessage />
@@ -110,6 +163,7 @@ const SignInForm = ({ isLoading, setIsLoading }: SignInFormProps) => {
                     checked={field.value}
                     onCheckedChange={field.onChange}
                     id="rememberMe"
+                    aria-label="Remember me"
                   />
                 </FormControl>
                 <div className="space-y-1 leading-none">
@@ -120,18 +174,24 @@ const SignInForm = ({ isLoading, setIsLoading }: SignInFormProps) => {
               </FormItem>
             )}
           />
-          <Link to="#" className="text-sm font-medium text-primary hover:text-primary/80">
+          <button 
+            type="button"
+            onClick={handleForgotPassword}
+            className="text-sm font-medium text-primary hover:text-primary/80"
+            disabled={isLoading}
+          >
             Forgot password?
-          </Link>
+          </button>
         </div>
         
         <Button 
           type="submit" 
           className="w-full" 
           disabled={isLoading}
+          aria-label="Sign in"
         >
           {isLoading ? "Signing In..." : "Sign In"}
-          <ArrowRight className="ml-2 h-4 w-4" />
+          <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
         </Button>
       </form>
     </Form>

@@ -1,9 +1,7 @@
-
 import { Button } from "@/components/ui/button";
 import { Apple } from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 interface SocialAuthProps {
   isLoading: boolean;
@@ -12,29 +10,35 @@ interface SocialAuthProps {
 }
 
 const SocialAuth = ({ isLoading, setIsLoading, mode }: SocialAuthProps) => {
-  const navigate = useNavigate();
-  
-  const handleSocialAuth = (provider: string) => {
+  const handleSocialAuth = async (provider: 'google' | 'apple') => {
     setIsLoading(true);
-    // This would be replaced with actual social auth logic
-    console.log(`${mode === "signin" ? "Signing in" : "Signing up"} with ${provider}`);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: provider === 'apple' ? 'apple' : 'google',
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`,
+        },
+      });
+
+      if (error) {
+        toast.error(`Failed to ${mode === "signin" ? "sign in" : "sign up"} with ${provider}`);
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred");
+    } finally {
       setIsLoading(false);
-      toast.success(`${mode === "signin" ? "Signed in" : "Signed up"} with ${provider}`);
-      navigate("/");
-    }, 1000);
+    }
   };
 
   return (
     <div className="mt-6">
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-300"></div>
+          <div className="w-full border-t border-border"></div>
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="px-2 bg-white text-gray-500">Or continue with</span>
+          <span className="px-2 bg-background text-muted-foreground">Or continue with</span>
         </div>
       </div>
 
@@ -42,10 +46,11 @@ const SocialAuth = ({ isLoading, setIsLoading, mode }: SocialAuthProps) => {
         <Button
           variant="outline"
           type="button"
-          onClick={() => handleSocialAuth("Google")}
+          onClick={() => handleSocialAuth("google")}
           disabled={isLoading}
+          aria-label="Continue with Google"
         >
-          <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
+          <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24" aria-hidden="true">
             <g transform="matrix(1, 0, 0, 1, 27.009001, -39.238998)">
               <path fill="#4285F4" d="M -3.264 51.509 C -3.264 50.719 -3.334 49.969 -3.454 49.239 L -14.754 49.239 L -14.754 53.749 L -8.284 53.749 C -8.574 55.229 -9.424 56.479 -10.684 57.329 L -10.684 60.329 L -6.824 60.329 C -4.564 58.239 -3.264 55.159 -3.264 51.509 Z" />
               <path fill="#34A853" d="M -14.754 63.239 C -11.514 63.239 -8.804 62.159 -6.824 60.329 L -10.684 57.329 C -11.764 58.049 -13.134 58.489 -14.754 58.489 C -17.884 58.489 -20.534 56.379 -21.484 53.529 L -25.464 53.529 L -25.464 56.619 C -23.494 60.539 -19.444 63.239 -14.754 63.239 Z" />
@@ -58,10 +63,11 @@ const SocialAuth = ({ isLoading, setIsLoading, mode }: SocialAuthProps) => {
         <Button
           variant="outline"
           type="button"
-          onClick={() => handleSocialAuth("Apple")}
+          onClick={() => handleSocialAuth("apple")}
           disabled={isLoading}
+          aria-label="Continue with Apple"
         >
-          <Apple className="h-5 w-5 mr-2" />
+          <Apple className="h-5 w-5 mr-2" aria-hidden="true" />
           Apple
         </Button>
       </div>
