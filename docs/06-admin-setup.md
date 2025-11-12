@@ -19,15 +19,17 @@ To access the admin dashboard, you need to assign the admin role to a user accou
 
 ### Step 2: Assign Admin Role
 
-**Option A: Using Lovable Cloud Backend**
-1. Click the "View Backend" button in Lovable
-2. Navigate to the "Database" section
-3. Go to the `user_roles` table
-4. Click "Insert row"
-5. Fill in:
-   - `user_id`: Your user ID (you can find this in the `profiles` table using your email)
-   - `role`: Select `admin`
-6. Click "Save"
+**Option A: Using Lovable Cloud Backend (Easiest)**
+1. First, sign up in your app and complete registration
+2. Click the "View Backend" button below (or in Lovable's Cloud tab)
+3. Go to "Database" → "Tables" → `profiles` table
+4. Find your profile row and copy your `id` (this is your user_id)
+5. Go to "Database" → "Tables" → `user_roles` table
+6. Click "Insert row" and fill in:
+   - `user_id`: Paste the ID you copied from step 4
+   - `role`: Select `admin` from dropdown
+7. Click "Save"
+8. Refresh your app and navigate to `/admin`
 
 **Option B: Using SQL (if you have database access)**
 ```sql
