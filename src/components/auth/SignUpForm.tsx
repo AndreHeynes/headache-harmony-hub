@@ -85,10 +85,10 @@ const SignUpForm = ({ isLoading, setIsLoading }: SignUpFormProps) => {
       }
 
       if (authData.user) {
-        toast.success("Account created! Redirecting to dashboard...");
+        toast.success("Account created! Let's get started...");
         // Wait for session to be persisted before navigating
         setTimeout(() => {
-          navigate("/dashboard");
+          navigate("/pricing");
         }, 100);
       }
     } catch (error) {

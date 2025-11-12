@@ -6,10 +6,51 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import MainHeader from "@/components/layout/MainHeader";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
 
 const Pricing = () => {
   const navigate = useNavigate();
   const [billingCycle, setBillingCycle] = useState<"one-time" | "installment">("one-time");
+  const [isProcessing, setIsProcessing] = useState(false);
+  const { user } = useAuth();
+
+  const handlePayment = async (planType: "one-time" | "installment") => {
+    if (!user) {
+      toast.error("Please sign in to continue");
+      navigate("/sign-in");
+      return;
+    }
+
+    setIsProcessing(true);
+    try {
+      // Mock payment - simulate processing
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      const amount = planType === "one-time" ? 249 : 89;
+
+      // Create subscription record
+      const { error } = await supabase
+        .from("user_subscriptions")
+        .insert({
+          user_id: user.id,
+          plan_type: planType,
+          amount_paid: amount,
+          status: "active"
+        });
+
+      if (error) throw error;
+
+      toast.success("Payment successful! Welcome to the program");
+      navigate("/onboarding");
+    } catch (error) {
+      console.error("Payment error:", error);
+      toast.error("Payment failed. Please try again.");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
   
   const features = [
     "3-month personalized headache management program",
@@ -81,11 +122,12 @@ const Pricing = () => {
                   </CardContent>
                   <CardFooter>
                     <Button 
-                      onClick={() => navigate("/register")} 
+                      onClick={() => handlePayment("one-time")} 
                       className="w-full py-6" 
                       size="lg"
+                      disabled={isProcessing}
                     >
-                      Get Started
+                      {isProcessing ? "Processing..." : "Get Started"}
                     </Button>
                   </CardFooter>
                 </Card>
@@ -124,11 +166,12 @@ const Pricing = () => {
                   </CardContent>
                   <CardFooter>
                     <Button 
-                      onClick={() => navigate("/register")} 
+                      onClick={() => handlePayment("installment")} 
                       className="w-full py-6" 
                       size="lg"
+                      disabled={isProcessing}
                     >
-                      Get Started
+                      {isProcessing ? "Processing..." : "Get Started"}
                     </Button>
                   </CardFooter>
                 </Card>

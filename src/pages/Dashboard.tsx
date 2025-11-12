@@ -9,11 +9,14 @@ import ProgramCalendar from "@/components/dashboard/ProgramCalendar";
 import HeadacheTracker from "@/components/dashboard/HeadacheTracker";
 import ConnectedApp from "@/components/dashboard/ConnectedApp";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserStatus } from "@/hooks/useUserStatus";
+import { Button } from "@/components/ui/button";
+import { AlertCircle } from "lucide-react";
 
 const Dashboard = () => {
   const [currentProgress, setCurrentProgress] = useState(75);
-  const [currentPhase, setCurrentPhase] = useState(2);
   const { user, loading } = useAuth();
+  const userStatus = useUserStatus();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,7 +25,21 @@ const Dashboard = () => {
     }
   }, [user, loading, navigate]);
 
-  if (loading) {
+  // Redirect to pricing if no subscription
+  useEffect(() => {
+    if (!userStatus.loading && !userStatus.hasSubscription && user) {
+      navigate("/pricing");
+    }
+  }, [userStatus.loading, userStatus.hasSubscription, user, navigate]);
+
+  // Redirect to onboarding if not completed
+  useEffect(() => {
+    if (!userStatus.loading && userStatus.hasSubscription && !userStatus.hasCompletedOnboarding && user) {
+      navigate("/onboarding");
+    }
+  }, [userStatus.loading, userStatus.hasSubscription, userStatus.hasCompletedOnboarding, user, navigate]);
+
+  if (loading || userStatus.loading) {
     return (
       <PageLayout>
         <div className="flex items-center justify-center min-h-[400px]">
@@ -40,9 +57,30 @@ const Dashboard = () => {
   }
 
   const userName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'there';
+  const currentPhase = userStatus.currentPhase;
+
+  // Welcome banner for new users
+  const isNewUser = currentPhase === 1 && currentProgress < 10;
 
   return (
     <PageLayout>
+      {isNewUser && (
+        <div className="mb-6 bg-primary/10 border border-primary/20 rounded-lg p-6">
+          <div className="flex items-start gap-3">
+            <AlertCircle className="w-6 h-6 text-primary mt-0.5" />
+            <div className="flex-1">
+              <h3 className="font-semibold text-lg mb-2">Welcome to Your Program!</h3>
+              <p className="text-muted-foreground mb-4">
+                You're all set! Your headache management journey begins with Phase 1. Click below to start Day 1.
+              </p>
+              <Button onClick={() => navigate("/phase-one")}>
+                Start Phase 1 - Day 1
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="mb-8">
         <h1 className="text-3xl font-semibold mb-2">Welcome back, {userName}! 👋</h1>
         <p className="text-muted-foreground mb-4">Here's your recovery progress</p>

@@ -25,6 +25,7 @@ import { MedicalDisclaimer } from "@/components/compliance/MedicalDisclaimer";
 import DiagnosisGuard from "@/components/compliance/DiagnosisGuard";
 import { DiagnosisAttestation } from "@/components/compliance/DiagnosisAttestation";
 import NotDiagnosed from "@/pages/NotDiagnosed";
+import WelcomeOnboarding from "@/components/onboarding/WelcomeOnboarding";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/onboarding" element={<WelcomeOnboarding />} />
         <Route path="/phase-one" element={<DiagnosisGuard><PhaseOne /></DiagnosisGuard>} />
         <Route path="/phase-two" element={<DiagnosisGuard><PhaseTwo /></DiagnosisGuard>} />
         <Route path="/phase-three" element={<DiagnosisGuard><PhaseThree /></DiagnosisGuard>} />

@@ -35,6 +35,42 @@ export type Database = {
         }
         Relationships: []
       }
+      user_progress: {
+        Row: {
+          created_at: string
+          current_phase: number
+          has_completed_onboarding: boolean
+          id: string
+          phase_one_day: number
+          phase_three_day: number
+          phase_two_week: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_phase?: number
+          has_completed_onboarding?: boolean
+          id?: string
+          phase_one_day?: number
+          phase_three_day?: number
+          phase_two_week?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_phase?: number
+          has_completed_onboarding?: boolean
+          id?: string
+          phase_one_day?: number
+          phase_three_day?: number
+          phase_two_week?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -52,6 +88,36 @@ export type Database = {
           created_at?: string
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_subscriptions: {
+        Row: {
+          amount_paid: number
+          created_at: string
+          id: string
+          plan_type: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount_paid: number
+          created_at?: string
+          id?: string
+          plan_type: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount_paid?: number
+          created_at?: string
+          id?: string
+          plan_type?: string
+          status?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
