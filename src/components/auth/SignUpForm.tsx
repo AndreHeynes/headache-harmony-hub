@@ -86,7 +86,10 @@ const SignUpForm = ({ isLoading, setIsLoading }: SignUpFormProps) => {
 
       if (authData.user) {
         toast.success("Account created! Redirecting to dashboard...");
-        navigate("/dashboard");
+        // Wait for session to be persisted before navigating
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 100);
       }
     } catch (error) {
       toast.error("An unexpected error occurred");
