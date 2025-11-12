@@ -26,6 +26,8 @@ import DiagnosisGuard from "@/components/compliance/DiagnosisGuard";
 import { DiagnosisAttestation } from "@/components/compliance/DiagnosisAttestation";
 import NotDiagnosed from "@/pages/NotDiagnosed";
 import WelcomeOnboarding from "@/components/onboarding/WelcomeOnboarding";
+import Admin from "@/pages/Admin";
+import { AdminGuard } from "@/components/compliance/AdminGuard";
 
 function App() {
   return (
@@ -49,6 +51,7 @@ function App() {
         <Route path="/policy" element={<Policy />} />
         <Route path="/not-diagnosed" element={<NotDiagnosed />} />
         <Route path="/questionnaire" element={<DiagnosisGuard><Questionnaire /></DiagnosisGuard>} />
+        <Route path="/admin" element={<AdminGuard><Admin /></AdminGuard>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
