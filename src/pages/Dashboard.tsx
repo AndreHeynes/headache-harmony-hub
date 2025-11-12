@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PageLayout from "@/components/layout/PageLayout";
 import ProgramTimeline from "@/components/dashboard/ProgramTimeline";
 import ProgressCircle from "@/components/dashboard/ProgressCircle";
@@ -8,27 +8,44 @@ import TaskList from "@/components/dashboard/TaskList";
 import ProgramCalendar from "@/components/dashboard/ProgramCalendar";
 import HeadacheTracker from "@/components/dashboard/HeadacheTracker";
 import ConnectedApp from "@/components/dashboard/ConnectedApp";
+import { useAuth } from "@/hooks/useAuth";
 
 const Dashboard = () => {
   const [currentProgress, setCurrentProgress] = useState(75);
   const [currentPhase, setCurrentPhase] = useState(2);
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Placeholder for fetching actual progress and phase data
-    // Replace with your actual data fetching logic
-    // Example:
-    // fetch('/api/dashboard-data')
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     setCurrentProgress(data.progress);
-    //     setCurrentPhase(data.phase);
-    //   });
-  }, []);
+    if (!loading && !user) {
+      navigate("/sign-in");
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) {
+    return (
+      <PageLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading your dashboard...</p>
+          </div>
+        </div>
+      </PageLayout>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
+
+  const userName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'there';
 
   return (
     <PageLayout>
       <div className="mb-8">
-        <h1 className="text-3xl font-semibold mb-4">Your Recovery Dashboard</h1>
+        <h1 className="text-3xl font-semibold mb-2">Welcome back, {userName}! 👋</h1>
+        <p className="text-muted-foreground mb-4">Here's your recovery progress</p>
         <div className="bg-white rounded-lg p-6 shadow-sm border">
           <ProgramTimeline />
         </div>
