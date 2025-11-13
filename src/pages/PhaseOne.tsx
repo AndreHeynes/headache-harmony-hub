@@ -70,21 +70,45 @@ const PhaseOne = () => {
 
   // Guard: Require authentication and subscription
   useEffect(() => {
-    if (authLoading || userStatus.loading) return;
+    console.log("Phase One guard check:", {
+      authLoading,
+      statusLoading: userStatus.loading,
+      hasUser: !!user,
+      hasSubscription: userStatus.hasSubscription,
+      hasCompletedOnboarding: userStatus.hasCompletedOnboarding
+    });
+
+    // CRITICAL: Don't redirect while still loading
+    if (authLoading || userStatus.loading) {
+      console.log("Phase One: Still loading, skipping redirects");
+      return;
+    }
+
+    // CRITICAL: Additional safety - if user exists but status hasn't loaded yet, wait
+    if (user && userStatus.loading) {
+      console.log("Phase One: User exists but status still loading, waiting...");
+      return;
+    }
 
     if (!user) {
+      console.log("Phase One: No user, redirecting to sign-in");
       navigate("/sign-in", { replace: true });
       return;
     }
 
     if (!userStatus.hasSubscription) {
+      console.log("Phase One: No subscription, redirecting to pricing");
       navigate("/pricing", { replace: true });
       return;
     }
 
     if (!userStatus.hasCompletedOnboarding) {
+      console.log("Phase One: Onboarding not completed, redirecting to onboarding");
       navigate("/onboarding", { replace: true });
+      return;
     }
+
+    console.log("Phase One: All checks passed, user can access Phase One");
   }, [authLoading, userStatus.loading, user, userStatus.hasSubscription, userStatus.hasCompletedOnboarding, navigate]);
   
   useEffect(() => {
