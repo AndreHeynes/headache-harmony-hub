@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useUserStatus } from "@/hooks/useUserStatus";
 
 const WelcomeOnboarding = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const userStatus = useUserStatus();
+
+  // Redirect if onboarding is already complete
+  useEffect(() => {
+    if (!userStatus.loading && userStatus.hasCompletedOnboarding) {
+      navigate("/phase-one");
+    }
+  }, [userStatus.loading, userStatus.hasCompletedOnboarding, navigate]);
 
   const steps = [
     {
