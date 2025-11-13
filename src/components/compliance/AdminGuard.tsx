@@ -51,7 +51,11 @@ export const AdminGuard = ({ children }: AdminGuardProps) => {
     );
   }
 
-  if (!user || !isAdmin) {
+  if (!user) {
+    return <Navigate to="/sign-in" replace />;
+  }
+
+  if (!isAdmin) {
     return <Navigate to="/dashboard" replace />;
   }
 

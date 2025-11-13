@@ -22,25 +22,24 @@ const Dashboard = () => {
   const userStatus = useUserStatus();
   const navigate = useNavigate();
 
+  // Handle redirects based on user status
   useEffect(() => {
-    if (!loading && !user) {
-      navigate("/sign-in");
-    }
-  }, [user, loading, navigate]);
+    if (loading || userStatus.loading) return;
 
-  // Redirect to pricing if no subscription
-  useEffect(() => {
-    if (!userStatus.loading && !userStatus.hasSubscription && user) {
-      navigate("/pricing");
+    if (!user) {
+      navigate("/sign-in", { replace: true });
+      return;
     }
-  }, [userStatus.loading, userStatus.hasSubscription, user, navigate]);
 
-  // Redirect to onboarding if not completed
-  useEffect(() => {
-    if (!userStatus.loading && userStatus.hasSubscription && !userStatus.hasCompletedOnboarding && user) {
-      navigate("/onboarding");
+    if (!userStatus.hasSubscription) {
+      navigate("/pricing", { replace: true });
+      return;
     }
-  }, [userStatus.loading, userStatus.hasSubscription, userStatus.hasCompletedOnboarding, user, navigate]);
+
+    if (!userStatus.hasCompletedOnboarding) {
+      navigate("/onboarding", { replace: true });
+    }
+  }, [loading, userStatus.loading, userStatus.hasSubscription, userStatus.hasCompletedOnboarding, user, navigate]);
 
   // Fetch user profile and admin status
   useEffect(() => {
