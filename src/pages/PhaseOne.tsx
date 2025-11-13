@@ -5,6 +5,7 @@ import PhaseOneLayout from "@/components/phase-one/PhaseOneLayout";
 import DayContentRenderer from "@/components/phase-one/DayContentRenderer";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserStatus } from "@/hooks/useUserStatus";
+import { supabase } from "@/integrations/supabase/client";
 
 const PhaseOne = () => {
   const navigate = useNavigate();
@@ -14,6 +15,58 @@ const PhaseOne = () => {
   const totalDays = 7;
   const [completedQuestionnaires, setCompletedQuestionnaires] = useState<Record<string, boolean>>({});
   const [questionnaireResults, setQuestionnaireResults] = useState<Record<string, any>>({});
+  const [isLoadingProgress, setIsLoadingProgress] = useState(true);
+
+  // Load saved progress from database
+  useEffect(() => {
+    const loadSavedProgress = async () => {
+      if (!user) return;
+
+      try {
+        const { data: progress } = await supabase
+          .from("user_progress")
+          .select("phase_one_day")
+          .eq("user_id", user.id)
+          .maybeSingle();
+
+        if (progress?.phase_one_day) {
+          console.log("Loading saved progress - Phase 1 Day:", progress.phase_one_day);
+          setCurrentDay(progress.phase_one_day);
+        }
+      } catch (error) {
+        console.error("Error loading progress:", error);
+      } finally {
+        setIsLoadingProgress(false);
+      }
+    };
+
+    if (user) {
+      loadSavedProgress();
+    }
+  }, [user]);
+
+  // Save progress when day changes
+  useEffect(() => {
+    const saveProgress = async () => {
+      if (!user || isLoadingProgress) return;
+
+      try {
+        await supabase
+          .from("user_progress")
+          .update({ 
+            phase_one_day: currentDay,
+            updated_at: new Date().toISOString()
+          })
+          .eq("user_id", user.id);
+
+        console.log("Progress saved - Phase 1 Day:", currentDay);
+      } catch (error) {
+        console.error("Error saving progress:", error);
+      }
+    };
+
+    saveProgress();
+  }, [currentDay, user, isLoadingProgress]);
 
   // Guard: Require authentication and subscription
   useEffect(() => {
@@ -77,13 +130,13 @@ const PhaseOne = () => {
     />;
   };
 
-  // Show loading state while checking auth/subscription
-  if (authLoading || userStatus.loading) {
+  // Show loading state while checking auth/subscription/progress
+  if (authLoading || userStatus.loading || isLoadingProgress) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading...</p>
+          <p className="text-muted-foreground">Loading your progress...</p>
         </div>
       </div>
     );
