@@ -24,9 +24,21 @@ const Dashboard = () => {
 
   // Handle redirects based on user status
   useEffect(() => {
-    if (loading || userStatus.loading) return;
+    console.log("Dashboard redirect check:", {
+      authLoading: loading,
+      statusLoading: userStatus.loading,
+      hasUser: !!user,
+      hasSubscription: userStatus.hasSubscription,
+      hasCompletedOnboarding: userStatus.hasCompletedOnboarding
+    });
+
+    if (loading || userStatus.loading) {
+      console.log("Still loading, skipping redirect checks");
+      return;
+    }
 
     if (!user) {
+      console.log("No user found, redirecting to sign-in");
       navigate("/sign-in", { replace: true });
       return;
     }

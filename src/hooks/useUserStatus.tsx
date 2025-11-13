@@ -84,6 +84,7 @@ export const useUserStatus = () => {
   };
 
   useEffect(() => {
+    console.log("useUserStatus: User changed, fetching status for user:", user?.id);
     fetchUserStatus();
   }, [user]);
 

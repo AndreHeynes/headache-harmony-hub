@@ -66,10 +66,12 @@ const SignInForm = ({ isLoading, setIsLoading }: SignInFormProps) => {
 
       if (authData.user) {
         toast.success("Welcome back!");
-        // Wait for session to be persisted before navigating
+        
+        // Wait a bit longer for session and user data to be fully loaded
         setTimeout(() => {
-          navigate("/dashboard", { replace: true });
-        }, 300);
+          // Force a full page reload to ensure all hooks fetch fresh data
+          window.location.href = "/dashboard";
+        }, 500);
       }
     } catch (error) {
       toast.error("An unexpected error occurred");
