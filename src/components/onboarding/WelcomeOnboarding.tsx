@@ -68,7 +68,7 @@ const WelcomeOnboarding = () => {
       if (progressError) throw progressError;
 
       toast.success("Welcome! Let's start Phase 1");
-      navigate("/dashboard");
+      navigate("/phase-one");
     } catch (error) {
       console.error("Error completing onboarding:", error);
       toast.error("Failed to complete onboarding");
