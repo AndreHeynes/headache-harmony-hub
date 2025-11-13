@@ -13,12 +13,28 @@ const WelcomeOnboarding = () => {
   const [isLoading, setIsLoading] = useState(false);
   const userStatus = useUserStatus();
 
-  // Redirect if onboarding is already complete
+  // Redirect if onboarding is already complete - go directly to current phase
   useEffect(() => {
     if (!userStatus.loading && userStatus.hasCompletedOnboarding) {
-      navigate("/phase-one");
+      console.log("Onboarding already completed, redirecting to phase", userStatus.currentPhase);
+      switch (userStatus.currentPhase) {
+        case 1:
+          navigate("/phase-one", { replace: true });
+          break;
+        case 2:
+          navigate("/phase-two", { replace: true });
+          break;
+        case 3:
+          navigate("/phase-three", { replace: true });
+          break;
+        case 4:
+          navigate("/phase-four", { replace: true });
+          break;
+        default:
+          navigate("/phase-one", { replace: true });
+      }
     }
-  }, [userStatus.loading, userStatus.hasCompletedOnboarding, navigate]);
+  }, [userStatus.loading, userStatus.hasCompletedOnboarding, userStatus.currentPhase, navigate]);
 
   const steps = [
     {
@@ -81,11 +97,14 @@ const WelcomeOnboarding = () => {
       console.log("Progress upsert result:", { error: progressError });
       if (progressError) throw progressError;
 
+      console.log("Onboarding completed successfully");
       toast.success("Welcome! Let's start Phase 1");
       
-      // Navigate to dashboard with query param to indicate we're coming from onboarding
-      // Dashboard will then redirect to the appropriate phase
-      window.location.href = "/dashboard?from=onboarding";
+      // Small delay to ensure database transaction completes
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Direct navigation to Phase 1 - simplest approach
+      window.location.href = "/phase-one";
     } catch (error) {
       console.error("Error completing onboarding:", error);
       toast.error("Failed to complete onboarding");
