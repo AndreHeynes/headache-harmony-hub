@@ -31,7 +31,7 @@ const Pricing = () => {
       const amount = planType === "one-time" ? 249 : 89;
 
       // Create subscription record
-      const { error } = await supabase
+      const { error: subscriptionError } = await supabase
         .from("user_subscriptions")
         .insert({
           user_id: user.id,
@@ -40,9 +40,23 @@ const Pricing = () => {
           status: "active"
         });
 
-      if (error) throw error;
+      if (subscriptionError) throw subscriptionError;
 
-      toast.success("Payment successful! Welcome to the program");
+      // Reset onboarding status to ensure user sees the flow
+      const { error: progressError } = await supabase
+        .from("user_progress")
+        .upsert({
+          user_id: user.id,
+          has_completed_onboarding: false,
+          current_phase: 1,
+          phase_one_day: 1
+        }, {
+          onConflict: 'user_id'
+        });
+
+      if (progressError) throw progressError;
+
+      toast.success("Payment successful! Let's get you started");
       navigate("/onboarding");
     } catch (error) {
       console.error("Payment error:", error);

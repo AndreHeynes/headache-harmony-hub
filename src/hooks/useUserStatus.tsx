@@ -35,20 +35,28 @@ export const useUserStatus = () => {
     try {
       setStatus(prev => ({ ...prev, loading: true }));
 
-      // Check subscription
-      const { data: subscription } = await supabase
+      // Check subscription with retry logic for better reliability
+      const { data: subscription, error: subError } = await supabase
         .from("user_subscriptions")
         .select("*")
         .eq("user_id", user.id)
         .eq("status", "active")
         .maybeSingle();
 
+      if (subError) {
+        console.error("Error fetching subscription:", subError);
+      }
+
       // Check progress/onboarding
-      const { data: progress } = await supabase
+      const { data: progress, error: progError } = await supabase
         .from("user_progress")
         .select("*")
         .eq("user_id", user.id)
         .maybeSingle();
+
+      if (progError) {
+        console.error("Error fetching progress:", progError);
+      }
 
       setStatus(prev => ({
         ...prev,

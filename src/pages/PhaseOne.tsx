@@ -1,13 +1,38 @@
 
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import PhaseOneLayout from "@/components/phase-one/PhaseOneLayout";
 import DayContentRenderer from "@/components/phase-one/DayContentRenderer";
+import { useAuth } from "@/hooks/useAuth";
+import { useUserStatus } from "@/hooks/useUserStatus";
 
 const PhaseOne = () => {
+  const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
+  const userStatus = useUserStatus();
   const [currentDay, setCurrentDay] = useState(1);
   const totalDays = 7;
   const [completedQuestionnaires, setCompletedQuestionnaires] = useState<Record<string, boolean>>({});
   const [questionnaireResults, setQuestionnaireResults] = useState<Record<string, any>>({});
+
+  // Guard: Require authentication and subscription
+  useEffect(() => {
+    if (authLoading || userStatus.loading) return;
+
+    if (!user) {
+      navigate("/sign-in", { replace: true });
+      return;
+    }
+
+    if (!userStatus.hasSubscription) {
+      navigate("/pricing", { replace: true });
+      return;
+    }
+
+    if (!userStatus.hasCompletedOnboarding) {
+      navigate("/onboarding", { replace: true });
+    }
+  }, [authLoading, userStatus.loading, user, userStatus.hasSubscription, userStatus.hasCompletedOnboarding, navigate]);
   
   useEffect(() => {
     const loadCompletedQuestionnaires = () => {
@@ -51,6 +76,18 @@ const PhaseOne = () => {
       questionnaireResults={questionnaireResults} 
     />;
   };
+
+  // Show loading state while checking auth/subscription
+  if (authLoading || userStatus.loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <PhaseOneLayout
