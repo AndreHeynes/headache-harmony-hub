@@ -109,10 +109,11 @@ const WelcomeOnboarding = () => {
       console.log("Onboarding completed successfully");
       toast.success("Welcome! Let's start Phase 1");
       
-      // Small delay to ensure database transaction completes
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Delay to ensure database transaction completes
+      await new Promise(resolve => setTimeout(resolve, 800));
       
-      // Direct navigation to Phase 1 - simplest approach
+      // Direct navigation to Phase 1
+      console.log("Navigating to Phase One...");
       window.location.href = "/phase-one";
     } catch (error) {
       console.error("Error completing onboarding:", error);
