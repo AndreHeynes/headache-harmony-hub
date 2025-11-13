@@ -30,7 +30,21 @@ const Pricing = () => {
 
       const amount = planType === "one-time" ? 249 : 89;
 
-      // Create subscription record
+      // Check if user already has an active subscription
+      const { data: existingSubscription } = await supabase
+        .from("user_subscriptions")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("status", "active")
+        .limit(1);
+
+      if (existingSubscription && existingSubscription.length > 0) {
+        toast.success("You already have an active subscription!");
+        navigate("/dashboard");
+        return;
+      }
+
+      // Create subscription record ONLY if none exists
       const { error: subscriptionError } = await supabase
         .from("user_subscriptions")
         .insert({
@@ -42,23 +56,33 @@ const Pricing = () => {
 
       if (subscriptionError) throw subscriptionError;
 
-      // Reset onboarding status to ensure user sees the flow
-      const { error: progressError } = await supabase
+      // Check if user_progress exists
+      const { data: existingProgress } = await supabase
         .from("user_progress")
-        .upsert({
-          user_id: user.id,
-          has_completed_onboarding: false,
-          current_phase: 1,
-          phase_one_day: 1
-        }, {
-          onConflict: 'user_id'
-        });
+        .select("*")
+        .eq("user_id", user.id)
+        .maybeSingle();
 
-      if (progressError) throw progressError;
+      if (existingProgress) {
+        // User has previous progress - take them to dashboard
+        toast.success("Payment successful! Welcome back to your program");
+        navigate("/dashboard");
+      } else {
+        // New user - set up fresh progress and show onboarding
+        const { error: progressError } = await supabase
+          .from("user_progress")
+          .insert({
+            user_id: user.id,
+            has_completed_onboarding: false,
+            current_phase: 1,
+            phase_one_day: 1
+          });
 
-      toast.success("Payment successful! Let's get you started");
-      // Navigate with a flag to show onboarding flow
-      navigate("/onboarding?start=true");
+        if (progressError) throw progressError;
+
+        toast.success("Payment successful! Let's get you started");
+        navigate("/onboarding?start=true");
+      }
     } catch (error) {
       console.error("Payment error:", error);
       toast.error("Payment failed. Please try again.");
