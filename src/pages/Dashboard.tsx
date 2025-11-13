@@ -12,9 +12,12 @@ import { useAuth } from "@/hooks/useAuth";
 import { useUserStatus } from "@/hooks/useUserStatus";
 import { Button } from "@/components/ui/button";
 import { AlertCircle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Dashboard = () => {
   const [currentProgress, setCurrentProgress] = useState(75);
+  const [userProfile, setUserProfile] = useState<{ full_name: string | null } | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { user, loading } = useAuth();
   const userStatus = useUserStatus();
   const navigate = useNavigate();
@@ -39,6 +42,34 @@ const Dashboard = () => {
     }
   }, [userStatus.loading, userStatus.hasSubscription, userStatus.hasCompletedOnboarding, user, navigate]);
 
+  // Fetch user profile and admin status
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!user) return;
+
+      try {
+        // Fetch profile
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("full_name")
+          .eq("id", user.id)
+          .maybeSingle();
+
+        setUserProfile(profile);
+
+        // Check admin status
+        const { data: hasAdminRole } = await supabase
+          .rpc('has_role', { _user_id: user.id, _role: 'admin' });
+
+        setIsAdmin(hasAdminRole || false);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [user]);
+
   if (loading || userStatus.loading) {
     return (
       <PageLayout>
@@ -56,7 +87,7 @@ const Dashboard = () => {
     return null;
   }
 
-  const userName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'there';
+  const userName = userProfile?.full_name || user.user_metadata?.full_name || user.email?.split('@')[0] || 'there';
   const currentPhase = userStatus.currentPhase;
 
   // Welcome banner for new users
@@ -82,7 +113,16 @@ const Dashboard = () => {
       )}
 
       <div className="mb-8">
-        <h1 className="text-3xl font-semibold mb-2">Welcome back, {userName}! 👋</h1>
+        <div className="flex items-center justify-between mb-2">
+          <h1 className="text-3xl font-semibold">Welcome back, {userName}! 👋</h1>
+          {isAdmin && (
+            <Link to="/admin">
+              <Button variant="outline" size="sm">
+                Admin Dashboard
+              </Button>
+            </Link>
+          )}
+        </div>
         <p className="text-muted-foreground mb-4">Here's your recovery progress</p>
         <div className="bg-white rounded-lg p-6 shadow-sm border">
           <ProgramTimeline />
