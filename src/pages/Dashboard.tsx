@@ -22,41 +22,8 @@ const Dashboard = () => {
   const userStatus = useUserStatus();
   const navigate = useNavigate();
 
-  // Handle redirects based on user status
-  useEffect(() => {
-    console.log("Dashboard redirect check:", {
-      authLoading: loading,
-      statusLoading: userStatus.loading,
-      hasUser: !!user,
-      hasSubscription: userStatus.hasSubscription,
-      hasCompletedOnboarding: userStatus.hasCompletedOnboarding
-    });
-
-    if (loading || userStatus.loading) {
-      console.log("Still loading, skipping redirect checks");
-      return;
-    }
-
-    if (!user) {
-      console.log("No user found, redirecting to sign-in");
-      navigate("/sign-in", { replace: true });
-      return;
-    }
-
-    if (!userStatus.hasSubscription) {
-      console.log("Dashboard: No subscription found, redirecting to pricing");
-      navigate("/pricing", { replace: true });
-      return;
-    }
-
-    if (!userStatus.hasCompletedOnboarding) {
-      console.log("Dashboard: Onboarding not completed, redirecting to onboarding");
-      navigate("/onboarding", { replace: true });
-      return;
-    }
-
-    console.log("Dashboard: All checks passed. User can access dashboard");
-  }, [loading, userStatus.loading, userStatus.hasSubscription, userStatus.hasCompletedOnboarding, user, navigate]);
+  // Note: Auth/subscription/onboarding checks are now handled by ProtectedRoute wrapper
+  // This component only renders if all requirements are met
 
   // Fetch user profile and admin status
   useEffect(() => {
@@ -86,22 +53,7 @@ const Dashboard = () => {
     fetchUserData();
   }, [user]);
 
-  if (loading || userStatus.loading) {
-    return (
-      <PageLayout>
-        <div className="flex items-center justify-center min-h-[400px]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading your dashboard...</p>
-          </div>
-        </div>
-      </PageLayout>
-    );
-  }
-
-  if (!user) {
-    return null;
-  }
+  // ProtectedRoute handles loading states, user will always exist here
 
   const userName = userProfile?.full_name || user.user_metadata?.full_name || user.email?.split('@')[0] || 'there';
   const currentPhase = userStatus.currentPhase;
