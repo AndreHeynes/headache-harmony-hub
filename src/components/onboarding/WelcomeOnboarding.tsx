@@ -54,9 +54,11 @@ const WelcomeOnboarding = () => {
   ];
 
   const handleComplete = async () => {
+    console.log("Start My Program button clicked");
     setIsLoading(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
+      console.log("Current user:", user?.id);
       
       if (!user) {
         toast.error("Please sign in to continue");
@@ -74,10 +76,16 @@ const WelcomeOnboarding = () => {
           phase_one_day: 1
         });
 
+      console.log("Progress upsert result:", { error: progressError });
       if (progressError) throw progressError;
 
+      console.log("Navigating to /phase-one");
       toast.success("Welcome! Let's start Phase 1");
-      navigate("/phase-one");
+      
+      // Force a small delay to ensure state updates
+      setTimeout(() => {
+        navigate("/phase-one", { replace: true });
+      }, 100);
     } catch (error) {
       console.error("Error completing onboarding:", error);
       toast.error("Failed to complete onboarding");
