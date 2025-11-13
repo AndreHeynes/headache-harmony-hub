@@ -7,6 +7,7 @@ export interface UserStatus {
   hasCompletedOnboarding: boolean;
   currentPhase: number;
   loading: boolean;
+  refetch: () => Promise<void>;
 }
 
 export const useUserStatus = () => {
@@ -16,54 +17,65 @@ export const useUserStatus = () => {
     hasCompletedOnboarding: false,
     currentPhase: 1,
     loading: true,
+    refetch: async () => {},
   });
 
-  useEffect(() => {
+  const fetchUserStatus = async () => {
     if (!user) {
-      setStatus({
+      setStatus(prev => ({
+        ...prev,
         hasSubscription: false,
         hasCompletedOnboarding: false,
         currentPhase: 1,
         loading: false,
-      });
+      }));
       return;
     }
 
-    const fetchUserStatus = async () => {
-      try {
-        // Check subscription
-        const { data: subscription } = await supabase
-          .from("user_subscriptions")
-          .select("*")
-          .eq("user_id", user.id)
-          .eq("status", "active")
-          .maybeSingle();
+    try {
+      setStatus(prev => ({ ...prev, loading: true }));
 
-        // Check progress/onboarding
-        const { data: progress } = await supabase
-          .from("user_progress")
-          .select("*")
-          .eq("user_id", user.id)
-          .maybeSingle();
+      // Check subscription
+      const { data: subscription } = await supabase
+        .from("user_subscriptions")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("status", "active")
+        .maybeSingle();
 
-        setStatus({
-          hasSubscription: !!subscription,
-          hasCompletedOnboarding: progress?.has_completed_onboarding || false,
-          currentPhase: progress?.current_phase || 1,
-          loading: false,
-        });
-      } catch (error) {
-        console.error("Error fetching user status:", error);
-        setStatus({
-          hasSubscription: false,
-          hasCompletedOnboarding: false,
-          currentPhase: 1,
-          loading: false,
-        });
-      }
-    };
+      // Check progress/onboarding
+      const { data: progress } = await supabase
+        .from("user_progress")
+        .select("*")
+        .eq("user_id", user.id)
+        .maybeSingle();
 
+      setStatus(prev => ({
+        ...prev,
+        hasSubscription: !!subscription,
+        hasCompletedOnboarding: progress?.has_completed_onboarding || false,
+        currentPhase: progress?.current_phase || 1,
+        loading: false,
+      }));
+    } catch (error) {
+      console.error("Error fetching user status:", error);
+      setStatus(prev => ({
+        ...prev,
+        hasSubscription: false,
+        hasCompletedOnboarding: false,
+        currentPhase: 1,
+        loading: false,
+      }));
+    }
+  };
+
+  useEffect(() => {
     fetchUserStatus();
+  }, [user]);
+
+  // Update the refetch function reference
+  useEffect(() => {
+    setStatus(prev => ({ ...prev, refetch: fetchUserStatus }));
   }, [user]);
 
   return status;

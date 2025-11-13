@@ -66,7 +66,7 @@ const WelcomeOnboarding = () => {
         return;
       }
 
-      // Create user progress record
+      // Create user progress record with proper conflict resolution
       const { error: progressError } = await supabase
         .from("user_progress")
         .upsert({
@@ -74,18 +74,21 @@ const WelcomeOnboarding = () => {
           has_completed_onboarding: true,
           current_phase: 1,
           phase_one_day: 1
+        }, {
+          onConflict: 'user_id'
         });
 
       console.log("Progress upsert result:", { error: progressError });
       if (progressError) throw progressError;
 
+      // Refetch user status to update the state immediately
+      await userStatus.refetch();
+
       console.log("Navigating to /phase-one");
       toast.success("Welcome! Let's start Phase 1");
       
-      // Force a small delay to ensure state updates
-      setTimeout(() => {
-        navigate("/phase-one", { replace: true });
-      }, 100);
+      // Navigate to phase one
+      navigate("/phase-one", { replace: true });
     } catch (error) {
       console.error("Error completing onboarding:", error);
       toast.error("Failed to complete onboarding");
