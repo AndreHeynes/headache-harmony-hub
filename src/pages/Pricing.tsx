@@ -57,7 +57,8 @@ const Pricing = () => {
       if (progressError) throw progressError;
 
       toast.success("Payment successful! Let's get you started");
-      navigate("/onboarding");
+      // Navigate with a flag to show onboarding flow
+      navigate("/onboarding?start=true");
     } catch (error) {
       console.error("Payment error:", error);
       toast.error("Payment failed. Please try again.");

@@ -13,8 +13,17 @@ const WelcomeOnboarding = () => {
   const [isLoading, setIsLoading] = useState(false);
   const userStatus = useUserStatus();
 
-  // Redirect if onboarding is already complete - go directly to current phase
+  // Check if we're coming from payment (fresh start)
+  const urlParams = new URLSearchParams(window.location.search);
+  const isNewStart = urlParams.get('start') === 'true';
+
+  // Redirect if onboarding is already complete - BUT NOT if this is a fresh start from payment
   useEffect(() => {
+    if (isNewStart) {
+      console.log("Fresh start from payment - showing onboarding flow");
+      return;
+    }
+
     if (!userStatus.loading && userStatus.hasCompletedOnboarding) {
       console.log("Onboarding already completed, redirecting to phase", userStatus.currentPhase);
       switch (userStatus.currentPhase) {
@@ -34,7 +43,7 @@ const WelcomeOnboarding = () => {
           navigate("/phase-one", { replace: true });
       }
     }
-  }, [userStatus.loading, userStatus.hasCompletedOnboarding, userStatus.currentPhase, navigate]);
+  }, [isNewStart, userStatus.loading, userStatus.hasCompletedOnboarding, userStatus.currentPhase, navigate]);
 
   const steps = [
     {
