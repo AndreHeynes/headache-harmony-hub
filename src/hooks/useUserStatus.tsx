@@ -35,13 +35,13 @@ export const useUserStatus = () => {
     try {
       setStatus(prev => ({ ...prev, loading: true }));
 
-      // Check subscription with retry logic for better reliability
-      const { data: subscription, error: subError } = await supabase
+      // Check subscription - use limit(1) to handle multiple subscriptions
+      const { data: subscriptions, error: subError } = await supabase
         .from("user_subscriptions")
         .select("*")
         .eq("user_id", user.id)
         .eq("status", "active")
-        .maybeSingle();
+        .limit(1);
 
       if (subError) {
         console.error("Error fetching subscription:", subError);
@@ -58,9 +58,15 @@ export const useUserStatus = () => {
         console.error("Error fetching progress:", progError);
       }
 
+      console.log("User status fetched:", {
+        hasSubscription: !!(subscriptions && subscriptions.length > 0),
+        hasCompletedOnboarding: progress?.has_completed_onboarding || false,
+        currentPhase: progress?.current_phase || 1
+      });
+
       setStatus(prev => ({
         ...prev,
-        hasSubscription: !!subscription,
+        hasSubscription: !!(subscriptions && subscriptions.length > 0),
         hasCompletedOnboarding: progress?.has_completed_onboarding || false,
         currentPhase: progress?.current_phase || 1,
         loading: false,
