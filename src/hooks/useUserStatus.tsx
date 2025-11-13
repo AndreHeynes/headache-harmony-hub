@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./useAuth";
 
@@ -19,9 +19,19 @@ export const useUserStatus = () => {
     loading: true,
     refetch: async () => {},
   });
+  const isFetchingRef = useRef(false);
 
   const fetchUserStatus = async () => {
+    // Prevent multiple simultaneous fetches
+    if (isFetchingRef.current) {
+      console.log("useUserStatus: Fetch already in progress, skipping");
+      return;
+    }
+
+    isFetchingRef.current = true;
+
     if (!user) {
+      console.log("useUserStatus: No user, setting empty state");
       setStatus(prev => ({
         ...prev,
         hasSubscription: false,
@@ -29,10 +39,14 @@ export const useUserStatus = () => {
         currentPhase: 1,
         loading: false,
       }));
+      isFetchingRef.current = false;
       return;
     }
 
     try {
+      console.log("useUserStatus: Fetching status for user:", user.id);
+      
+      // Keep status in loading state
       setStatus(prev => ({ ...prev, loading: true }));
 
       // Check subscription - use limit(1) to handle multiple subscriptions
@@ -58,17 +72,17 @@ export const useUserStatus = () => {
         console.error("Error fetching progress:", progError);
       }
 
-      console.log("User status fetched:", {
+      const newStatus = {
         hasSubscription: !!(subscriptions && subscriptions.length > 0),
         hasCompletedOnboarding: progress?.has_completed_onboarding || false,
         currentPhase: progress?.current_phase || 1
-      });
+      };
+
+      console.log("useUserStatus: Fetch complete, setting status:", newStatus);
 
       setStatus(prev => ({
         ...prev,
-        hasSubscription: !!(subscriptions && subscriptions.length > 0),
-        hasCompletedOnboarding: progress?.has_completed_onboarding || false,
-        currentPhase: progress?.current_phase || 1,
+        ...newStatus,
         loading: false,
       }));
     } catch (error) {
@@ -80,13 +94,15 @@ export const useUserStatus = () => {
         currentPhase: 1,
         loading: false,
       }));
+    } finally {
+      isFetchingRef.current = false;
     }
   };
 
   useEffect(() => {
-    console.log("useUserStatus: User changed, fetching status for user:", user?.id);
+    console.log("useUserStatus: User changed, fetching status. User ID:", user?.id);
     fetchUserStatus();
-  }, [user]);
+  }, [user?.id]); // Use user?.id instead of user to avoid unnecessary refetches
 
   // Update the refetch function reference
   useEffect(() => {
