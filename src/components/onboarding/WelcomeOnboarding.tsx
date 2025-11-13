@@ -13,17 +13,9 @@ const WelcomeOnboarding = () => {
   const [isLoading, setIsLoading] = useState(false);
   const userStatus = useUserStatus();
 
-  // Check if we're coming from payment (fresh start)
-  const urlParams = new URLSearchParams(window.location.search);
-  const isNewStart = urlParams.get('start') === 'true';
-
-  // Redirect if onboarding is already complete - BUT NOT if this is a fresh start from payment
+  // Note: ProtectedRoute ensures user has subscription before reaching here
+  // Redirect if onboarding is already complete
   useEffect(() => {
-    if (isNewStart) {
-      console.log("Fresh start from payment - showing onboarding flow");
-      return;
-    }
-
     if (!userStatus.loading && userStatus.hasCompletedOnboarding) {
       console.log("Onboarding already completed, redirecting to phase", userStatus.currentPhase);
       switch (userStatus.currentPhase) {
@@ -43,7 +35,7 @@ const WelcomeOnboarding = () => {
           navigate("/phase-one", { replace: true });
       }
     }
-  }, [isNewStart, userStatus.loading, userStatus.hasCompletedOnboarding, userStatus.currentPhase, navigate]);
+  }, [userStatus.loading, userStatus.hasCompletedOnboarding, userStatus.currentPhase, navigate]);
 
   const steps = [
     {
@@ -109,12 +101,8 @@ const WelcomeOnboarding = () => {
       console.log("Onboarding completed successfully");
       toast.success("Welcome! Let's start Phase 1");
       
-      // Delay to ensure database transaction completes
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      // Direct navigation to Phase 1
-      console.log("Navigating to Phase One...");
-      window.location.href = "/phase-one";
+      // Use navigate instead of window.location for proper React Router handling
+      navigate("/phase-one");
     } catch (error) {
       console.error("Error completing onboarding:", error);
       toast.error("Failed to complete onboarding");
