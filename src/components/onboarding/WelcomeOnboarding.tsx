@@ -81,14 +81,11 @@ const WelcomeOnboarding = () => {
       console.log("Progress upsert result:", { error: progressError });
       if (progressError) throw progressError;
 
-      // Refetch user status to update the state immediately
-      await userStatus.refetch();
-
-      console.log("Navigating to /phase-one");
       toast.success("Welcome! Let's start Phase 1");
       
-      // Navigate to phase one
-      navigate("/phase-one", { replace: true });
+      // Navigate to dashboard with query param to indicate we're coming from onboarding
+      // Dashboard will then redirect to the appropriate phase
+      window.location.href = "/dashboard?from=onboarding";
     } catch (error) {
       console.error("Error completing onboarding:", error);
       toast.error("Failed to complete onboarding");

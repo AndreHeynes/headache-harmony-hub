@@ -32,14 +32,40 @@ const Dashboard = () => {
     }
 
     if (!userStatus.hasSubscription) {
+      console.log("No subscription found, redirecting to pricing");
       navigate("/pricing", { replace: true });
       return;
     }
 
     if (!userStatus.hasCompletedOnboarding) {
+      console.log("Onboarding not completed, redirecting to onboarding");
       navigate("/onboarding", { replace: true });
+      return;
     }
-  }, [loading, userStatus.loading, userStatus.hasSubscription, userStatus.hasCompletedOnboarding, user, navigate]);
+
+    // If all checks pass and user just completed onboarding, redirect to current phase
+    const currentPhase = userStatus.currentPhase;
+    console.log("User status loaded. Current phase:", currentPhase, "Has subscription:", userStatus.hasSubscription, "Completed onboarding:", userStatus.hasCompletedOnboarding);
+    
+    // Only auto-redirect if user has just completed onboarding
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('from') === 'onboarding') {
+      switch (currentPhase) {
+        case 1:
+          navigate("/phase-one", { replace: true });
+          break;
+        case 2:
+          navigate("/phase-two", { replace: true });
+          break;
+        case 3:
+          navigate("/phase-three", { replace: true });
+          break;
+        case 4:
+          navigate("/phase-four", { replace: true });
+          break;
+      }
+    }
+  }, [loading, userStatus.loading, userStatus.hasSubscription, userStatus.hasCompletedOnboarding, userStatus.currentPhase, user, navigate]);
 
   // Fetch user profile and admin status
   useEffect(() => {
