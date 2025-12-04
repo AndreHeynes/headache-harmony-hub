@@ -12,7 +12,7 @@ interface ProtectedRouteProps {
 /**
  * Centralized route protection component.
  * Handles all auth, subscription, and onboarding checks in one place.
- * Pages that use this wrapper don't need their own auth logic.
+ * CRITICAL: Waits for BOTH auth AND user status to be fully loaded before redirecting.
  */
 export const ProtectedRoute = ({
   children,
@@ -22,18 +22,22 @@ export const ProtectedRoute = ({
   const { user, loading: authLoading } = useAuth();
   const userStatus = useUserStatus();
 
+  // CRITICAL: Wait for BOTH auth AND status to be fully initialized
+  const isLoading = authLoading || userStatus.loading || !userStatus.isInitialized;
+
   console.log("ProtectedRoute check:", {
     authLoading,
     statusLoading: userStatus.loading,
+    isInitialized: userStatus.isInitialized,
     hasUser: !!user,
     hasSubscription: userStatus.hasSubscription,
     hasCompletedOnboarding: userStatus.hasCompletedOnboarding,
     requireSubscription,
     requireOnboarding,
+    isLoading,
   });
 
-  // CRITICAL: Wait for ALL data to load before making ANY routing decisions
-  if (authLoading || userStatus.loading) {
+  if (isLoading) {
     console.log("ProtectedRoute: Still loading, showing loading state");
     return (
       <div className="flex items-center justify-center min-h-screen">

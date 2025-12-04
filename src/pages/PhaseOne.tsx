@@ -1,6 +1,4 @@
-
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import PhaseOneLayout from "@/components/phase-one/PhaseOneLayout";
 import DayContentRenderer from "@/components/phase-one/DayContentRenderer";
 import { useAuth } from "@/hooks/useAuth";
@@ -8,8 +6,7 @@ import { useUserStatus } from "@/hooks/useUserStatus";
 import { supabase } from "@/integrations/supabase/client";
 
 const PhaseOne = () => {
-  const navigate = useNavigate();
-  const { user, loading: authLoading } = useAuth();
+  const { user } = useAuth();
   const userStatus = useUserStatus();
   const [currentDay, setCurrentDay] = useState(1);
   const totalDays = 7;
@@ -17,38 +14,20 @@ const PhaseOne = () => {
   const [questionnaireResults, setQuestionnaireResults] = useState<Record<string, any>>({});
   const [isLoadingProgress, setIsLoadingProgress] = useState(true);
 
-  // Load saved progress from database
+  // Load saved progress from userStatus context
   useEffect(() => {
-    const loadSavedProgress = async () => {
-      if (!user) return;
-
-      try {
-        const { data: progress } = await supabase
-          .from("user_progress")
-          .select("phase_one_day")
-          .eq("user_id", user.id)
-          .maybeSingle();
-
-        if (progress?.phase_one_day) {
-          console.log("Loading saved progress - Phase 1 Day:", progress.phase_one_day);
-          setCurrentDay(progress.phase_one_day);
-        }
-      } catch (error) {
-        console.error("Error loading progress:", error);
-      } finally {
-        setIsLoadingProgress(false);
-      }
-    };
-
-    if (user) {
-      loadSavedProgress();
+    if (userStatus.isInitialized && !userStatus.loading) {
+      console.log("PhaseOne: Loading progress from context - Day:", userStatus.phaseOneDay);
+      setCurrentDay(userStatus.phaseOneDay || 1);
+      setIsLoadingProgress(false);
     }
-  }, [user]);
+  }, [userStatus.isInitialized, userStatus.loading, userStatus.phaseOneDay]);
 
   // Save progress when day changes
   useEffect(() => {
     const saveProgress = async () => {
       if (!user || isLoadingProgress) return;
+      if (currentDay === userStatus.phaseOneDay) return; // No change
 
       try {
         await supabase
@@ -59,6 +38,8 @@ const PhaseOne = () => {
           })
           .eq("user_id", user.id);
 
+        // Update local context to stay in sync
+        userStatus.updateLocalStatus({ phaseOneDay: currentDay });
         console.log("Progress saved - Phase 1 Day:", currentDay);
       } catch (error) {
         console.error("Error saving progress:", error);
@@ -66,10 +47,9 @@ const PhaseOne = () => {
     };
 
     saveProgress();
-  }, [currentDay, user, isLoadingProgress]);
+  }, [currentDay, user, isLoadingProgress, userStatus.phaseOneDay]);
 
-  // Note: Auth/subscription/onboarding checks are now handled by ProtectedRoute wrapper
-  
+  // Load questionnaire completion status from localStorage
   useEffect(() => {
     const loadCompletedQuestionnaires = () => {
       const questionnaires = [

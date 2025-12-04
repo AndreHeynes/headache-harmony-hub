@@ -13,29 +13,19 @@ const WelcomeOnboarding = () => {
   const [isLoading, setIsLoading] = useState(false);
   const userStatus = useUserStatus();
 
-  // Note: ProtectedRoute ensures user has subscription before reaching here
   // Redirect if onboarding is already complete
   useEffect(() => {
-    if (!userStatus.loading && userStatus.hasCompletedOnboarding) {
+    if (userStatus.isInitialized && !userStatus.loading && userStatus.hasCompletedOnboarding) {
       console.log("Onboarding already completed, redirecting to phase", userStatus.currentPhase);
-      switch (userStatus.currentPhase) {
-        case 1:
-          navigate("/phase-one", { replace: true });
-          break;
-        case 2:
-          navigate("/phase-two", { replace: true });
-          break;
-        case 3:
-          navigate("/phase-three", { replace: true });
-          break;
-        case 4:
-          navigate("/phase-four", { replace: true });
-          break;
-        default:
-          navigate("/phase-one", { replace: true });
-      }
+      const phaseRoutes: Record<number, string> = {
+        1: "/phase-one",
+        2: "/phase-two",
+        3: "/phase-three",
+        4: "/phase-four",
+      };
+      navigate(phaseRoutes[userStatus.currentPhase] || "/phase-one", { replace: true });
     }
-  }, [userStatus.loading, userStatus.hasCompletedOnboarding, userStatus.currentPhase, navigate]);
+  }, [userStatus.isInitialized, userStatus.loading, userStatus.hasCompletedOnboarding, userStatus.currentPhase, navigate]);
 
   const steps = [
     {
@@ -83,7 +73,7 @@ const WelcomeOnboarding = () => {
         return;
       }
 
-      // Create user progress record with proper conflict resolution
+      // Update user progress record
       const { error: progressError } = await supabase
         .from("user_progress")
         .upsert({
@@ -98,10 +88,19 @@ const WelcomeOnboarding = () => {
       console.log("Progress upsert result:", { error: progressError });
       if (progressError) throw progressError;
 
-      console.log("Onboarding completed successfully");
+      // Optimistically update local state
+      userStatus.updateLocalStatus({ 
+        hasCompletedOnboarding: true,
+        currentPhase: 1,
+        phaseOneDay: 1
+      });
+
+      // Refetch to ensure consistency BEFORE navigating
+      console.log("Refetching user status...");
+      await userStatus.refetch();
+      console.log("Refetch complete, navigating to phase-one");
+
       toast.success("Welcome! Let's start Phase 1");
-      
-      // Use navigate instead of window.location for proper React Router handling
       navigate("/phase-one");
     } catch (error) {
       console.error("Error completing onboarding:", error);
