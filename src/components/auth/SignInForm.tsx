@@ -15,8 +15,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Mail, Lock, ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useUserStatus } from "@/hooks/useUserStatus";
 
 const signInSchema = z.object({
   email: z.string().trim().email({ message: "Please enter a valid email address" }).max(255),
@@ -34,6 +35,8 @@ interface SignInFormProps {
 const SignInForm = ({ isLoading, setIsLoading }: SignInFormProps) => {
   const navigate = useNavigate();
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [pendingRedirect, setPendingRedirect] = useState(false);
+  const userStatus = useUserStatus();
 
   const form = useForm<SignInValues>({
     resolver: zodResolver(signInSchema),
@@ -43,6 +46,26 @@ const SignInForm = ({ isLoading, setIsLoading }: SignInFormProps) => {
       rememberMe: false,
     },
   });
+
+  // Handle redirect after user status is loaded
+  useEffect(() => {
+    if (pendingRedirect && userStatus.isInitialized && !userStatus.loading) {
+      console.log("SignInForm: Status loaded, redirecting based on:", {
+        hasSubscription: userStatus.hasSubscription,
+        hasCompletedOnboarding: userStatus.hasCompletedOnboarding,
+        currentPhase: userStatus.currentPhase
+      });
+
+      if (!userStatus.hasSubscription) {
+        navigate("/pricing");
+      } else if (!userStatus.hasCompletedOnboarding) {
+        navigate("/onboarding");
+      } else {
+        navigate("/dashboard");
+      }
+      setPendingRedirect(false);
+    }
+  }, [pendingRedirect, userStatus.isInitialized, userStatus.loading, userStatus.hasSubscription, userStatus.hasCompletedOnboarding, navigate]);
 
   const onSubmit = async (data: SignInValues) => {
     setIsLoading(true);
@@ -67,11 +90,11 @@ const SignInForm = ({ isLoading, setIsLoading }: SignInFormProps) => {
       if (authData.user) {
         toast.success("Welcome back!");
         
-        // Wait a bit longer for session and user data to be fully loaded
-        setTimeout(() => {
-          // Force a full page reload to ensure all hooks fetch fresh data
-          window.location.href = "/dashboard";
-        }, 500);
+        // Trigger refetch of user status and wait for it
+        await userStatus.refetch();
+        
+        // Set pending redirect - the useEffect will handle navigation once status is loaded
+        setPendingRedirect(true);
       }
     } catch (error) {
       toast.error("An unexpected error occurred");
@@ -192,10 +215,10 @@ const SignInForm = ({ isLoading, setIsLoading }: SignInFormProps) => {
         <Button 
           type="submit" 
           className="w-full" 
-          disabled={isLoading}
+          disabled={isLoading || pendingRedirect}
           aria-label="Sign in"
         >
-          {isLoading ? "Signing In..." : "Sign In"}
+          {isLoading || pendingRedirect ? "Signing In..." : "Sign In"}
           <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
         </Button>
       </form>

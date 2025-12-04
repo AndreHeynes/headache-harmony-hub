@@ -9,12 +9,14 @@ import MainHeader from "@/components/layout/MainHeader";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserStatus } from "@/hooks/useUserStatus";
 
 const Pricing = () => {
   const navigate = useNavigate();
   const [billingCycle, setBillingCycle] = useState<"one-time" | "installment">("one-time");
   const [isProcessing, setIsProcessing] = useState(false);
   const { user } = useAuth();
+  const userStatus = useUserStatus();
 
   const handlePayment = async (planType: "one-time" | "installment") => {
     if (!user) {
@@ -40,6 +42,7 @@ const Pricing = () => {
 
       if (existingSubscription && existingSubscription.length > 0) {
         toast.success("You already have an active subscription!");
+        await userStatus.refetch();
         navigate("/dashboard");
         return;
       }
@@ -63,10 +66,23 @@ const Pricing = () => {
         .eq("user_id", user.id)
         .maybeSingle();
 
-      if (existingProgress) {
-        // User has previous progress - take them to dashboard
+      if (existingProgress && existingProgress.has_completed_onboarding) {
+        // User has completed onboarding before - take them to dashboard
         toast.success("Payment successful! Welcome back to your program");
+        
+        // Optimistic update and refetch
+        userStatus.updateLocalStatus({ hasSubscription: true });
+        await userStatus.refetch();
+        
         navigate("/dashboard");
+      } else if (existingProgress) {
+        // User has progress but hasn't completed onboarding
+        toast.success("Payment successful! Let's continue your setup");
+        
+        userStatus.updateLocalStatus({ hasSubscription: true });
+        await userStatus.refetch();
+        
+        navigate("/onboarding");
       } else {
         // New user - set up fresh progress and show onboarding
         const { error: progressError } = await supabase
@@ -81,7 +97,17 @@ const Pricing = () => {
         if (progressError) throw progressError;
 
         toast.success("Payment successful! Let's get you started");
-        navigate("/onboarding?start=true");
+        
+        // Optimistic update and refetch
+        userStatus.updateLocalStatus({ 
+          hasSubscription: true,
+          hasCompletedOnboarding: false,
+          currentPhase: 1,
+          phaseOneDay: 1
+        });
+        await userStatus.refetch();
+        
+        navigate("/onboarding");
       }
     } catch (error) {
       console.error("Payment error:", error);
@@ -268,7 +294,7 @@ const Pricing = () => {
         </div>
       </main>
 
-      {/* Footer - reusing the same footer from other pages */}
+      {/* Footer */}
       <footer className="bg-neutral-100 py-8">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
