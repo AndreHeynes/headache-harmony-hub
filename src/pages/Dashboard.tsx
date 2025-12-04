@@ -53,9 +53,8 @@ const Dashboard = () => {
     fetchUserData();
   }, [user]);
 
-  // ProtectedRoute handles loading states, user will always exist here
-
-  const userName = userProfile?.full_name || user.user_metadata?.full_name || user.email?.split('@')[0] || 'there';
+  // Add safety check for user (should exist via ProtectedRoute, but add fallback)
+  const userName = userProfile?.full_name || user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'there';
   const currentPhase = userStatus.currentPhase;
 
   // Welcome banner for new users
