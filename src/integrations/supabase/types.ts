@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      beta_signups: {
+        Row: {
+          accepted_beta_terms: boolean
+          accepted_feedback_commitment: boolean
+          accepted_privacy_policy: boolean
+          admin_notes: string | null
+          approved_at: string | null
+          approved_by: string | null
+          converted_user_id: string | null
+          created_at: string
+          current_approach: string | null
+          email: string
+          goals_expectations: string | null
+          has_diagnosis_confirmation: boolean
+          id: string
+          name: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_beta_terms?: boolean
+          accepted_feedback_commitment?: boolean
+          accepted_privacy_policy?: boolean
+          admin_notes?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          converted_user_id?: string | null
+          created_at?: string
+          current_approach?: string | null
+          email: string
+          goals_expectations?: string | null
+          has_diagnosis_confirmation?: boolean
+          id?: string
+          name: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_beta_terms?: boolean
+          accepted_feedback_commitment?: boolean
+          accepted_privacy_policy?: boolean
+          admin_notes?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          converted_user_id?: string | null
+          created_at?: string
+          current_approach?: string | null
+          email?: string
+          goals_expectations?: string | null
+          has_diagnosis_confirmation?: boolean
+          id?: string
+          name?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -144,7 +201,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "moderator" | "user"
+      app_role: "admin" | "moderator" | "user" | "beta_tester"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -272,7 +329,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "moderator", "user"],
+      app_role: ["admin", "moderator", "user", "beta_tester"],
     },
   },
 } as const

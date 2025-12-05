@@ -9,6 +9,7 @@ export interface UserStatusState {
   phaseOneDay: number;
   phaseTwoWeek: number;
   phaseThreeDay: number;
+  isBetaTester: boolean;
   loading: boolean;
   isInitialized: boolean;
 }
@@ -25,6 +26,7 @@ const defaultState: UserStatusState = {
   phaseOneDay: 1,
   phaseTwoWeek: 1,
   phaseThreeDay: 1,
+  isBetaTester: false,
   loading: true,
   isInitialized: false,
 };
@@ -50,8 +52,8 @@ export const UserStatusProvider = ({ children }: { children: ReactNode }) => {
     setStatus(prev => ({ ...prev, loading: true }));
 
     try {
-      // Fetch subscription and progress in parallel
-      const [subscriptionResult, progressResult] = await Promise.all([
+      // Fetch subscription, progress, and beta tester role in parallel
+      const [subscriptionResult, progressResult, betaTesterResult] = await Promise.all([
         supabase
           .from("user_subscriptions")
           .select("*")
@@ -62,11 +64,14 @@ export const UserStatusProvider = ({ children }: { children: ReactNode }) => {
           .from("user_progress")
           .select("*")
           .eq("user_id", user.id)
-          .maybeSingle()
+          .maybeSingle(),
+        supabase
+          .rpc("has_role", { _user_id: user.id, _role: "beta_tester" })
       ]);
 
       const hasSubscription = !!(subscriptionResult.data && subscriptionResult.data.length > 0);
       const progress = progressResult.data;
+      const isBetaTester = betaTesterResult.data === true;
 
       const newStatus: UserStatusState = {
         hasSubscription,
@@ -75,6 +80,7 @@ export const UserStatusProvider = ({ children }: { children: ReactNode }) => {
         phaseOneDay: progress?.phase_one_day ?? 1,
         phaseTwoWeek: progress?.phase_two_week ?? 1,
         phaseThreeDay: progress?.phase_three_day ?? 1,
+        isBetaTester,
         loading: false,
         isInitialized: true,
       };

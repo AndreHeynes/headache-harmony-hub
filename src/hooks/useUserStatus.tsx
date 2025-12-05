@@ -7,6 +7,7 @@ export interface UserStatus {
   phaseOneDay: number;
   phaseTwoWeek: number;
   phaseThreeDay: number;
+  isBetaTester: boolean;
   loading: boolean;
   isInitialized: boolean;
   refetch: () => Promise<void>;

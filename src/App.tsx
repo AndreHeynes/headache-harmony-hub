@@ -18,6 +18,7 @@ import Pricing from "@/pages/Pricing";
 import Support from "@/pages/Support";
 import Policy from "@/pages/Policy";
 import Questionnaire from "@/pages/Questionnaire";
+import BetaSignup from "@/pages/BetaSignup";
 import { CookieConsent } from "@/components/compliance/CookieConsent";
 import { AgeVerification } from "@/components/compliance/AgeVerification";
 import { MedicalDisclaimer } from "@/components/compliance/MedicalDisclaimer";
@@ -38,6 +39,7 @@ function App() {
           <Route path="/" element={<Index />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/beta-signup" element={<BetaSignup />} />
           <Route path="/about" element={<About />} />
           <Route path="/support" element={<Support />} />
           <Route path="/story" element={<Story />} />
