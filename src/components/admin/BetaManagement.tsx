@@ -87,38 +87,71 @@ export const BetaManagement = () => {
     fetchSignups();
   }, [statusFilter]);
 
-  const handleStatusUpdate = async (id: string, newStatus: "approved" | "rejected") => {
+  const handleApproval = async (id: string) => {
     setActionLoading(true);
     try {
-      const updateData: Record<string, unknown> = {
-        status: newStatus,
-        admin_notes: adminNotes || null,
-      };
+      const { data, error } = await supabase.functions.invoke("approve-beta-signup", {
+        body: { signupId: id, adminNotes: adminNotes || null }
+      });
 
-      if (newStatus === "approved") {
-        updateData.approved_at = new Date().toISOString();
-      }
+      if (error) throw error;
 
+      toast({
+        title: "Beta Tester Approved!",
+        description: (
+          <div className="space-y-2">
+            <p>Account created for {data.email}</p>
+            <p className="text-xs font-mono bg-muted p-2 rounded">
+              Temp password: {data.tempPassword}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Share this password with the user securely
+            </p>
+          </div>
+        ),
+      });
+
+      setSelectedSignup(null);
+      setAdminNotes("");
+      fetchSignups();
+    } catch (error: any) {
+      console.error("Error approving beta signup:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to approve beta signup",
+        variant: "destructive",
+      });
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleRejection = async (id: string) => {
+    setActionLoading(true);
+    try {
       const { error } = await supabase
         .from("beta_signups")
-        .update(updateData)
+        .update({
+          status: "rejected",
+          admin_notes: adminNotes || null,
+        })
         .eq("id", id);
 
       if (error) throw error;
 
       toast({
-        title: newStatus === "approved" ? "Approved!" : "Rejected",
-        description: `Beta signup has been ${newStatus}`,
+        title: "Rejected",
+        description: "Beta signup has been rejected",
       });
 
       setSelectedSignup(null);
       setAdminNotes("");
       fetchSignups();
     } catch (error) {
-      console.error("Error updating status:", error);
+      console.error("Error rejecting:", error);
       toast({
         title: "Error",
-        description: "Failed to update status",
+        description: "Failed to reject signup",
         variant: "destructive",
       });
     } finally {
@@ -354,16 +387,16 @@ export const BetaManagement = () => {
               <>
                 <Button
                   variant="outline"
-                  onClick={() => handleStatusUpdate(selectedSignup.id, "rejected")}
+                  onClick={() => handleRejection(selectedSignup.id)}
                   disabled={actionLoading}
                 >
                   {actionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Reject"}
                 </Button>
                 <Button
-                  onClick={() => handleStatusUpdate(selectedSignup.id, "approved")}
+                  onClick={() => handleApproval(selectedSignup.id)}
                   disabled={actionLoading}
                 >
-                  {actionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Approve"}
+                  {actionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Approve & Create Account"}
                 </Button>
               </>
             )}
