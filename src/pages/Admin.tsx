@@ -1,7 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UserManagement } from "@/components/admin/UserManagement";
 import { AdminAnalytics } from "@/components/admin/AdminAnalytics";
-import { Shield } from "lucide-react";
+import { BetaManagement } from "@/components/admin/BetaManagement";
+import { Shield, FlaskConical } from "lucide-react";
 
 const Admin = () => {
   return (
@@ -13,13 +14,21 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="users" className="w-full">
-          <TabsList className="grid w-full max-w-md grid-cols-2">
+          <TabsList className="grid w-full max-w-lg grid-cols-3">
             <TabsTrigger value="users">User Management</TabsTrigger>
+            <TabsTrigger value="beta" className="flex items-center gap-1">
+              <FlaskConical className="h-4 w-4" />
+              Beta Program
+            </TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
           </TabsList>
 
           <TabsContent value="users" className="mt-6">
             <UserManagement />
+          </TabsContent>
+
+          <TabsContent value="beta" className="mt-6">
+            <BetaManagement />
           </TabsContent>
 
           <TabsContent value="analytics" className="mt-6">

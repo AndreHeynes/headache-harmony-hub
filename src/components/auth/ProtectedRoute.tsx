@@ -55,9 +55,10 @@ export const ProtectedRoute = ({
     return <Navigate to="/sign-in" replace />;
   }
 
-  // Check subscription if required
-  if (requireSubscription && !userStatus.hasSubscription) {
-    console.log("ProtectedRoute: No subscription, redirecting to pricing");
+  // Check subscription if required (beta testers have equivalent access)
+  const hasAccess = userStatus.hasSubscription || userStatus.isBetaTester;
+  if (requireSubscription && !hasAccess) {
+    console.log("ProtectedRoute: No subscription or beta access, redirecting to pricing");
     return <Navigate to="/pricing" replace />;
   }
 
