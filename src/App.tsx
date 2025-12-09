@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { UserStatusProvider } from "@/contexts/UserStatusContext";
+import { BetaSessionProvider } from "@/hooks/useTokenValidation";
 import Index from "@/pages/Index";
 import Dashboard from "@/pages/Dashboard";
 import Profile from "@/pages/Profile";
@@ -32,7 +33,8 @@ import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 function App() {
   return (
     <Router>
-      <UserStatusProvider>
+      <BetaSessionProvider>
+        <UserStatusProvider>
         <Routes>
           {/* Public routes */}
           <Route path="/" element={<Index />} />
@@ -151,7 +153,8 @@ function App() {
         <MedicalDisclaimer />
         <DiagnosisAttestation />
         <Toaster />
-      </UserStatusProvider>
+        </UserStatusProvider>
+      </BetaSessionProvider>
     </Router>
   );
 }
