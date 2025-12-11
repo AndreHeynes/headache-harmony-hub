@@ -1,4 +1,4 @@
-import { useBetaSession } from "@/hooks/useTokenValidation";
+import { useBetaSession } from "@/contexts/BetaSessionContext";
 import { LogOut, User, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,11 +12,13 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export function BetaUserMenu() {
-  const { user, clearBetaSession } = useBetaSession();
+  const { session, logout } = useBetaSession();
+  const user = session.user;
 
   if (!user) return null;
 
-  const initials = user.fullName
+  const userName = user.fullName || user.full_name || '';
+  const initials = userName
     .split(" ")
     .map((n) => n[0])
     .join("")
@@ -33,7 +35,7 @@ export function BetaUserMenu() {
             </AvatarFallback>
           </Avatar>
           <span className="hidden md:inline text-sm font-medium">
-            {user.fullName}
+            {userName}
           </span>
           <ChevronDown className="h-4 w-4 text-muted-foreground" />
         </Button>
@@ -41,7 +43,7 @@ export function BetaUserMenu() {
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium">{user.fullName}</p>
+            <p className="text-sm font-medium">{userName}</p>
             <p className="text-xs text-muted-foreground">{user.email}</p>
           </div>
         </DropdownMenuLabel>
@@ -52,7 +54,7 @@ export function BetaUserMenu() {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem 
-          onClick={clearBetaSession}
+          onClick={logout}
           className="text-destructive focus:text-destructive"
         >
           <LogOut className="mr-2 h-4 w-4" />
