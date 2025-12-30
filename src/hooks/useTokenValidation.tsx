@@ -13,7 +13,7 @@ interface ValidationResult {
   clearBetaSession: () => void;
 }
 
-const VALIDATION_ENDPOINT = 'https://plgarmijuqynxeyymkco.supabase.co/functions/v1/validate-beta-token';
+const VALIDATION_ENDPOINT = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/validate-beta-token`;
 const REVALIDATION_INTERVAL = 5 * 60 * 1000; // 5 minutes
 
 export const useTokenValidation = (): ValidationResult => {

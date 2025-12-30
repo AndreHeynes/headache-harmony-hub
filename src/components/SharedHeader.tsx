@@ -43,7 +43,14 @@ export function SharedHeader({
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           {logo || (
-            <span className="font-semibold text-lg">{title}</span>
+            <>
+              <img 
+                src="/lovable-uploads/37b87337-8892-418a-932d-e700a3a4568d.png" 
+                alt="HeadacheRecovery" 
+                className="h-8 w-auto"
+              />
+              <span className="font-semibold text-lg hidden sm:inline">{title}</span>
+            </>
           )}
           <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
             Beta

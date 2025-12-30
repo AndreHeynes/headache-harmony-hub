@@ -1,1 +1,10 @@
 project_id = "xnlfzetvkcwhrilsarxg"
+
+[functions.approve-beta-signup]
+verify_jwt = false
+
+[functions.validate-beta-token]
+verify_jwt = false
+
+[functions.submit-beta-feedback]
+verify_jwt = false
