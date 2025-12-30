@@ -24,7 +24,7 @@ export const getPhaseOneTasks = (
         title: "Watch the Phase 1 introduction video", 
         status: "not-started",
         type: "video",
-        link: "#" // This would link to the video player
+        link: "/phase-one/video"
       }
     ];
   }

@@ -12,6 +12,7 @@ import NotFound from "@/pages/NotFound";
 import SignIn from "@/pages/SignIn";
 import Register from "@/pages/Register";
 import PhaseOne from "@/pages/PhaseOne";
+import PhaseOneVideoPlayer from "@/components/phase-one/PhaseOneVideoPlayer";
 import PhaseTwo from "@/pages/PhaseTwo";
 import PhaseThree from "@/pages/PhaseThree";
 import PhaseFour from "@/pages/PhaseFour";
@@ -106,6 +107,16 @@ function AppContent() {
               <ProtectedRoute requireSubscription requireOnboarding>
                 <DiagnosisGuard>
                   <PhaseOne />
+                </DiagnosisGuard>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/phase-one/video" 
+            element={
+              <ProtectedRoute requireSubscription requireOnboarding>
+                <DiagnosisGuard>
+                  <PhaseOneVideoPlayer />
                 </DiagnosisGuard>
               </ProtectedRoute>
             } 
