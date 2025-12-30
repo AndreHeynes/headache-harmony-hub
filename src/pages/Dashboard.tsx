@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PageLayout from "@/components/layout/PageLayout";
 import ProgramTimeline from "@/components/dashboard/ProgramTimeline";
@@ -8,54 +7,27 @@ import TaskList from "@/components/dashboard/TaskList";
 import ProgramCalendar from "@/components/dashboard/ProgramCalendar";
 import HeadacheTracker from "@/components/dashboard/HeadacheTracker";
 import ConnectedApp from "@/components/dashboard/ConnectedApp";
-import { useAuth } from "@/hooks/useAuth";
-import { useUserStatus } from "@/hooks/useUserStatus";
+import { useBetaSession } from "@/contexts/BetaSessionContext";
 import { Button } from "@/components/ui/button";
 import { AlertCircle } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+
+// Beta admin emails - matches BetaAdminGuard
+const BETA_ADMIN_EMAILS = [
+  "admin@headache-recovery.com",
+];
 
 const Dashboard = () => {
   const [currentProgress, setCurrentProgress] = useState(75);
-  const [userProfile, setUserProfile] = useState<{ full_name: string | null } | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const { user, loading } = useAuth();
-  const userStatus = useUserStatus();
+  const { session } = useBetaSession();
   const navigate = useNavigate();
 
-  // Note: Auth/subscription/onboarding checks are now handled by ProtectedRoute wrapper
-  // This component only renders if all requirements are met
-
-  // Fetch user profile and admin status
-  useEffect(() => {
-    const fetchUserData = async () => {
-      if (!user) return;
-
-      try {
-        // Fetch profile
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("full_name")
-          .eq("id", user.id)
-          .maybeSingle();
-
-        setUserProfile(profile);
-
-        // Check admin status
-        const { data: hasAdminRole } = await supabase
-          .rpc('has_role', { _user_id: user.id, _role: 'admin' });
-
-        setIsAdmin(hasAdminRole || false);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchUserData();
-  }, [user]);
-
-  // Add safety check for user (should exist via ProtectedRoute, but add fallback)
-  const userName = userProfile?.full_name || user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'there';
-  const currentPhase = userStatus.currentPhase;
+  // Get user info from beta session
+  const userName = session.user?.fullName || session.user?.full_name || session.user?.email?.split('@')[0] || 'there';
+  const userEmail = session.user?.email?.toLowerCase();
+  const isAdmin = userEmail && BETA_ADMIN_EMAILS.map(e => e.toLowerCase()).includes(userEmail);
+  
+  // Default to phase 1 during beta (can be enhanced with localStorage persistence later)
+  const currentPhase: number = 1;
 
   // Welcome banner for new users
   const isNewUser = currentPhase === 1 && currentProgress < 10;
