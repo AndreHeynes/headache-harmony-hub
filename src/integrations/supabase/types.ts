@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      beta_feedback: {
+        Row: {
+          beta_user_email: string
+          beta_user_name: string | null
+          created_at: string
+          description: string
+          feedback_type: string
+          id: string
+          page_url: string | null
+          rating: number | null
+          title: string
+        }
+        Insert: {
+          beta_user_email: string
+          beta_user_name?: string | null
+          created_at?: string
+          description: string
+          feedback_type: string
+          id?: string
+          page_url?: string | null
+          rating?: number | null
+          title: string
+        }
+        Update: {
+          beta_user_email?: string
+          beta_user_name?: string | null
+          created_at?: string
+          description?: string
+          feedback_type?: string
+          id?: string
+          page_url?: string | null
+          rating?: number | null
+          title?: string
+        }
+        Relationships: []
+      }
       beta_signups: {
         Row: {
           accepted_beta_terms: boolean

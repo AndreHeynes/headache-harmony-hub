@@ -22,7 +22,7 @@ import {
 import { MessageSquare, Star } from 'lucide-react';
 import { toast } from 'sonner';
 
-const FEEDBACK_URL = 'https://plgarmijuqynxeyymkco.supabase.co/functions/v1/submit-beta-feedback';
+const FEEDBACK_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/submit-beta-feedback`;
 
 export const BetaFeedbackForm = () => {
   const { session } = useBetaSession();
