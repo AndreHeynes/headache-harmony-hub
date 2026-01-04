@@ -17,7 +17,6 @@ const PolicyHeader: React.FC = () => {
         <nav className="hidden md:flex space-x-6">
           <Link to="/" className="text-neutral-600 hover:text-neutral-900">Home</Link>
           <Link to="/learn-more" className="text-neutral-600 hover:text-neutral-900">Learn More</Link>
-          <Link to="/pricing" className="text-neutral-600 hover:text-neutral-900">Pricing</Link>
           <Link to="/policy" className="text-neutral-900 font-medium">Policies</Link>
         </nav>
         <button className="md:hidden">
