@@ -26,7 +26,6 @@ const LearnMore = () => {
             <Link to="/about" className="text-neutral-600 hover:text-neutral-900">About</Link>
             <Link to="/story" className="text-neutral-600 hover:text-neutral-900">Our Story</Link>
             <Link to="/learn-more" className="text-neutral-900 font-medium">Learn More</Link>
-            <Link to="/pricing" className="text-neutral-600 hover:text-neutral-900">Pricing</Link>
           </nav>
           <button className="md:hidden">
             <span className="sr-only">Open menu</span>
@@ -188,20 +187,11 @@ const LearnMore = () => {
             {/* CTA Section */}
             <div className="text-center">
               <Button
-                onClick={() => navigate("/pricing")}
+                onClick={() => navigate("/dashboard")}
                 className="px-8 py-6 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg transition-all shadow-lg hover:shadow-xl mb-4"
               >
-                View Pricing Options
+                Get Started
               </Button>
-              <div className="mt-4">
-                <Button
-                  variant="outline"
-                  onClick={() => navigate("/register")}
-                  className="px-8 py-6 font-medium rounded-lg transition-all"
-                >
-                  Create Your Account
-                </Button>
-              </div>
             </div>
           </motion.div>
         </div>

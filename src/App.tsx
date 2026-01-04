@@ -16,9 +16,9 @@ import PhaseFour from "@/pages/PhaseFour";
 import LearnMore from "@/pages/LearnMore";
 import About from "@/pages/About";
 import Story from "@/pages/Story";
-import Pricing from "@/pages/Pricing";
 import Support from "@/pages/Support";
 import Policy from "@/pages/Policy";
+import { Navigate } from "react-router-dom";
 import Questionnaire from "@/pages/Questionnaire";
 import { CookieConsent } from "@/components/compliance/CookieConsent";
 import { AgeVerification } from "@/components/compliance/AgeVerification";
@@ -47,7 +47,7 @@ function AppContent() {
         <Route path="/support" element={<Support />} />
         <Route path="/story" element={<Story />} />
         <Route path="/learn-more" element={<LearnMore />} />
-        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/pricing" element={<Navigate to="/dashboard" replace />} />
         <Route path="/policy" element={<Policy />} />
         <Route path="/not-diagnosed" element={<NotDiagnosed />} />
         
