@@ -5,8 +5,7 @@ import { Loader2 } from "lucide-react";
 
 // Admin emails for beta testing - can be configured via environment variable
 const BETA_ADMIN_EMAILS = [
-  "admin@headache-recovery.com",
-  // Add beta admin emails here
+  "andreheynes@hotmail.com",
 ];
 
 interface BetaAdminGuardProps {
