@@ -1,6 +1,5 @@
-
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import PageLayout from "@/components/layout/PageLayout";
 import QuestionnaireForm from "@/components/questionnaire/QuestionnaireForm";
 import { getQuestionnaire } from "@/utils/questionnaireUtils";
@@ -11,20 +10,38 @@ import { toast } from "sonner";
 
 const Questionnaire = () => {
   const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [savedResponses, setSavedResponses] = useState<Record<string, any>>({});
+  
+  // Determine which phase we're in from URL params or localStorage
+  const phaseParam = searchParams.get('phase');
+  const currentPhase = phaseParam ? parseInt(phaseParam, 10) : 
+    (parseInt(localStorage.getItem('current-phase') || '1', 10));
   
   const questionnaire = getQuestionnaire(id);
   
   useEffect(() => {
     if (!id) return;
     
+    // Build the storage key based on current phase
+    const phasePrefix = currentPhase === 3 ? 'phase3' : 'phase1';
+    const phaseKey = `questionnaire-${phasePrefix}-${id}`;
+    const legacyKey = `questionnaire-${id}`;
+    
     // Load any previous responses for this questionnaire
-    const savedResponse = localStorage.getItem(`questionnaire-${id}`);
+    // First try phase-specific key, then fall back to legacy
+    const savedResponse = localStorage.getItem(phaseKey) || 
+      (currentPhase === 1 ? localStorage.getItem(legacyKey) : null);
     
     // Special handling for PSFS activities
     if (id === 'psfs') {
-      const savedActivities = localStorage.getItem('psfs-activities');
+      // In Phase 3, load Phase 1 activities to pre-populate activity names
+      const phase1ActivitiesKey = 'psfs-activities-phase1';
+      const legacyActivitiesKey = 'psfs-activities';
+      const savedActivities = localStorage.getItem(phase1ActivitiesKey) || 
+        localStorage.getItem(legacyActivitiesKey);
+      
       if (savedActivities) {
         try {
           const activities = JSON.parse(savedActivities);
@@ -67,18 +84,28 @@ const Questionnaire = () => {
         console.error("Error parsing saved responses");
       }
     }
-  }, [id]);
+  }, [id, currentPhase]);
   
   const handleQuestionnaireComplete = (response: QuestionnaireResponse) => {
+    // Store with phase-specific key
+    const phasePrefix = currentPhase === 3 ? 'phase3' : 'phase1';
+    const phaseKey = `questionnaire-${phasePrefix}-${id}`;
+    
+    localStorage.setItem(phaseKey, JSON.stringify(response));
+    
+    // Also store in legacy key for backward compatibility during transition
     localStorage.setItem(`questionnaire-${id}`, JSON.stringify(response));
     
     if (id === 'psfs' && response.savedActivities) {
+      const activitiesKey = `psfs-activities-${phasePrefix}`;
+      localStorage.setItem(activitiesKey, JSON.stringify(response.savedActivities));
+      // Legacy key for backward compatibility
       localStorage.setItem('psfs-activities', JSON.stringify(response.savedActivities));
     }
     
     window.dispatchEvent(new Event('storage'));
     
-    console.log("Questionnaire completed:", response);
+    console.log(`Questionnaire completed (Phase ${currentPhase}):`, response);
     
     if (id === 'gpoc') {
       const ratingAnswer = response.answers.find(a => a.questionId === 'gpoc-q1');
@@ -88,11 +115,11 @@ const Questionnaire = () => {
       
       if (rating !== null) {
         if (rating <= 3) {
-          feedbackText += " We'll work to improve your outcomes moving forward.";
+          feedbackText += " We're glad to see you've experienced improvement!";
         } else if (rating === 4) {
           feedbackText += " We'll continue working together on your progress.";
         } else if (rating > 4) {
-          feedbackText += " We're glad to see you've experienced improvement!";
+          feedbackText += " We'll work to improve your outcomes moving forward.";
         }
       }
       
@@ -101,8 +128,13 @@ const Questionnaire = () => {
       toast.success("Questionnaire completed successfully!");
     }
     
+    // Navigate back to appropriate phase
     setTimeout(() => {
-      navigate('/phase-three');
+      if (currentPhase === 3) {
+        navigate('/phase-three');
+      } else {
+        navigate('/phase-one');
+      }
     }, 2000);
   };
   
