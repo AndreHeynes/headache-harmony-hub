@@ -1,28 +1,30 @@
-
 /**
  * Data Migration Utility
- * Migrates existing questionnaire data to phase-prefixed format
+ * 
+ * @deprecated This file is deprecated. Data is now stored in the database via useQuestionnaireResponses hook.
+ * These functions are kept for backward compatibility during the transition period.
+ * Migration from localStorage to database is handled by useDataMigration hook on user login.
  */
 
 const PHASE1_QUESTIONNAIRES = ['hit-6', 'midas', 'psfs', 'hses', 'hsloc', 'hb', 'psc', 'fht', 'mkq', 'headache-type'];
 const PHASE3_QUESTIONNAIRES = ['hit-6', 'midas', 'psfs', 'gpoc'];
 
 /**
- * Check if migration has already been performed
+ * @deprecated Use database hooks instead
  */
 export function isMigrated(): boolean {
   return localStorage.getItem('questionnaire-data-migrated') === 'true';
 }
 
 /**
- * Mark migration as complete
+ * @deprecated Use database hooks instead
  */
 export function setMigrated(): void {
   localStorage.setItem('questionnaire-data-migrated', 'true');
 }
 
 /**
- * Get the current phase from localStorage
+ * @deprecated Use useUserStatus hook instead
  */
 export function getCurrentPhase(): number {
   const savedPhase = localStorage.getItem('current-phase');
@@ -30,50 +32,16 @@ export function getCurrentPhase(): number {
 }
 
 /**
- * Migrate existing questionnaire data to phase-prefixed format
- * This preserves existing data as Phase 1 baseline
+ * @deprecated Migration is now handled by useDataMigration hook
  */
 export function migrateQuestionnaireData(): boolean {
-  if (isMigrated()) {
-    console.log('Migration already completed');
-    return false;
-  }
-
-  console.log('Starting questionnaire data migration...');
-  let migratedCount = 0;
-
-  PHASE1_QUESTIONNAIRES.forEach(id => {
-    const oldKey = `questionnaire-${id}`;
-    const newKey = `questionnaire-phase1-${id}`;
-    
-    const existingData = localStorage.getItem(oldKey);
-    const newData = localStorage.getItem(newKey);
-    
-    // Only migrate if old data exists and new data doesn't
-    if (existingData && !newData) {
-      localStorage.setItem(newKey, existingData);
-      console.log(`Migrated ${oldKey} -> ${newKey}`);
-      migratedCount++;
-    }
-  });
-
-  // Also migrate PSFS activities
-  const psfsActivities = localStorage.getItem('psfs-activities');
-  const newPsfsActivities = localStorage.getItem('psfs-activities-phase1');
-  if (psfsActivities && !newPsfsActivities) {
-    localStorage.setItem('psfs-activities-phase1', psfsActivities);
-    console.log('Migrated PSFS activities to Phase 1');
-    migratedCount++;
-  }
-
-  setMigrated();
-  console.log(`Migration complete. Migrated ${migratedCount} items.`);
-  
-  return migratedCount > 0;
+  // No-op - migration is now handled by useDataMigration hook on user login
+  console.log('migrateQuestionnaireData is deprecated - migration handled by useDataMigration hook');
+  return false;
 }
 
 /**
- * Check if any Phase 1 questionnaire data exists
+ * @deprecated Use useQuestionnaireResponses hook instead
  */
 export function hasPhase1Data(): boolean {
   return PHASE1_QUESTIONNAIRES.some(id => {
@@ -83,7 +51,7 @@ export function hasPhase1Data(): boolean {
 }
 
 /**
- * Check if any Phase 3 questionnaire data exists
+ * @deprecated Use useQuestionnaireResponses hook instead
  */
 export function hasPhase3Data(): boolean {
   return PHASE3_QUESTIONNAIRES.some(id => {
@@ -92,7 +60,7 @@ export function hasPhase3Data(): boolean {
 }
 
 /**
- * Get all completed questionnaires for a specific phase
+ * @deprecated Use useQuestionnaireResponses.getPhaseResponses() instead
  */
 export function getCompletedQuestionnaires(phase: 1 | 3): Record<string, boolean> {
   const questionnaires = phase === 1 ? PHASE1_QUESTIONNAIRES : PHASE3_QUESTIONNAIRES;

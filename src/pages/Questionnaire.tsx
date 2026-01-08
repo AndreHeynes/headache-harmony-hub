@@ -8,104 +8,81 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useQuestionnaireResponses } from "@/hooks/useQuestionnaireResponses";
+import { useUserStatus } from "@/hooks/useUserStatus";
 
 const Questionnaire = () => {
   const { id } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [savedResponses, setSavedResponses] = useState<Record<string, any>>({});
+  const [isLoading, setIsLoading] = useState(true);
   const { saveResponse, getResponse } = useQuestionnaireResponses();
+  const userStatus = useUserStatus();
   
-  // Determine which phase we're in from URL params or localStorage
+  // Determine which phase we're in from URL params or user status
   const phaseParam = searchParams.get('phase');
-  const currentPhase = phaseParam ? parseInt(phaseParam, 10) : 
-    (parseInt(localStorage.getItem('current-phase') || '1', 10));
+  const currentPhase = phaseParam ? parseInt(phaseParam, 10) : userStatus.currentPhase || 1;
   
   const questionnaire = getQuestionnaire(id);
   
   useEffect(() => {
-    if (!id) return;
-    
-    // Build the storage key based on current phase
-    const phasePrefix = currentPhase === 3 ? 'phase3' : 'phase1';
-    const phaseKey = `questionnaire-${phasePrefix}-${id}`;
-    const legacyKey = `questionnaire-${id}`;
-    
-    // Load any previous responses for this questionnaire
-    // First try phase-specific key, then fall back to legacy
-    const savedResponse = localStorage.getItem(phaseKey) || 
-      (currentPhase === 1 ? localStorage.getItem(legacyKey) : null);
-    
-    // Special handling for PSFS activities
-    if (id === 'psfs') {
-      // In Phase 3, load Phase 1 activities to pre-populate activity names
-      const phase1ActivitiesKey = 'psfs-activities-phase1';
-      const legacyActivitiesKey = 'psfs-activities';
-      const savedActivities = localStorage.getItem(phase1ActivitiesKey) || 
-        localStorage.getItem(legacyActivitiesKey);
+    const loadPreviousResponses = async () => {
+      if (!id) {
+        setIsLoading(false);
+        return;
+      }
       
-      if (savedActivities) {
-        try {
-          const activities = JSON.parse(savedActivities);
-          setSavedResponses(prev => ({
-            ...prev,
-            'savedActivities': activities
-          }));
-          
-          // Pre-populate activity names from Phase 1
-          activities.forEach((activity: any) => {
-            if (activity.id.includes("activity")) {
-              setSavedResponses(prev => ({
-                ...prev,
-                [activity.id]: activity.text
-              }));
-            }
-          });
-        } catch (e) {
-          console.error("Error parsing saved PSFS activities");
-        }
-      }
-    }
-    
-    if (savedResponse) {
       try {
-        const parsed = JSON.parse(savedResponse);
-        const answers: Record<string, any> = {};
+        // Try to load previous response from database
+        const previousResponse = await getResponse(id, currentPhase as 1 | 3);
         
-        parsed.answers.forEach((answer: any) => {
-          answers[answer.questionId] = answer.value;
-        });
+        if (previousResponse) {
+          const answers: Record<string, any> = {};
+          previousResponse.answers.forEach((answer: any) => {
+            answers[answer.questionId] = answer.value;
+          });
+          setSavedResponses(answers);
+          toast.info("Previous responses loaded");
+        }
         
-        setSavedResponses(prev => ({
-          ...prev,
-          ...answers
-        }));
-        
-        toast.info("Previous responses loaded");
-      } catch (e) {
-        console.error("Error parsing saved responses");
+        // Special handling for PSFS - load Phase 1 activities for Phase 3
+        if (id === 'psfs' && currentPhase === 3) {
+          const phase1Response = await getResponse('psfs', 1);
+          if (phase1Response?.savedActivities) {
+            const activities = phase1Response.savedActivities;
+            setSavedResponses(prev => ({
+              ...prev,
+              'savedActivities': activities
+            }));
+            
+            // Pre-populate activity names from Phase 1
+            activities.forEach((activity: any) => {
+              if (activity.id.includes("activity")) {
+                setSavedResponses(prev => ({
+                  ...prev,
+                  [activity.id]: activity.text
+                }));
+              }
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Error loading previous responses:", error);
+      } finally {
+        setIsLoading(false);
       }
-    }
+    };
+    
+    loadPreviousResponses();
   }, [id, currentPhase]);
   
   const handleQuestionnaireComplete = async (response: QuestionnaireResponse) => {
-    // Save to database via hook (will also save to localStorage as fallback)
+    // Save to database via hook
     await saveResponse({
       questionnaireId: id!,
       phase: currentPhase as 1 | 3,
       response,
     });
-    
-    // Also store in legacy key for backward compatibility during transition
-    localStorage.setItem(`questionnaire-${id}`, JSON.stringify(response));
-    
-    if (id === 'psfs' && response.savedActivities) {
-      const activitiesKey = `psfs-activities-phase${currentPhase}`;
-      localStorage.setItem(activitiesKey, JSON.stringify(response.savedActivities));
-      localStorage.setItem('psfs-activities', JSON.stringify(response.savedActivities));
-    }
-    
-    window.dispatchEvent(new Event('storage'));
     
     console.log(`Questionnaire completed (Phase ${currentPhase}):`, response);
     
@@ -140,10 +117,15 @@ const Questionnaire = () => {
     }, 2000);
   };
   
-  const handleSaveProgress = (partialResponse: Partial<QuestionnaireResponse>) => {
-    localStorage.setItem(`questionnaire-${id}-progress`, JSON.stringify(partialResponse));
-    toast.success("Progress saved");
-  };
+  if (isLoading) {
+    return (
+      <PageLayout>
+        <div className="flex items-center justify-center py-16">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        </div>
+      </PageLayout>
+    );
+  }
   
   if (!questionnaire) {
     return (
@@ -170,7 +152,6 @@ const Questionnaire = () => {
       <QuestionnaireForm
         questionnaire={questionnaire}
         onComplete={handleQuestionnaireComplete}
-        onSaveProgress={handleSaveProgress}
         initialAnswers={savedResponses}
       />
     </PageLayout>

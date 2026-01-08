@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from "react";
 import DaysOneToSevenContent from "./DaysOneToSevenContent";
 import DayEightContent from "./DayEightContent";
-import { migrateQuestionnaireData } from "@/utils/dataMigration";
+import { useQuestionnaireResponses } from "@/hooks/useQuestionnaireResponses";
 
 interface PhaseThreeContentProps {
   day: number;
@@ -11,56 +10,35 @@ interface PhaseThreeContentProps {
 const PhaseThreeContent: React.FC<PhaseThreeContentProps> = ({ day }) => {
   const [completedQuestionnaires, setCompletedQuestionnaires] = useState<Record<string, boolean>>({});
   const [questionnaireResults, setQuestionnaireResults] = useState<Record<string, any>>({});
+  const { getPhaseResponses, loading } = useQuestionnaireResponses();
   
   useEffect(() => {
-    // Run migration on component mount
-    migrateQuestionnaireData();
-    
-    // Set current phase in localStorage
-    localStorage.setItem('current-phase', '3');
-  }, []);
-  
-  useEffect(() => {
-    // Load completed questionnaires and results from localStorage
-    const loadQuestionnaires = () => {
-      const questionnaires = ['hit-6', 'midas', 'psfs', 'gpoc'];
-      const completed: Record<string, boolean> = {};
-      const results: Record<string, any> = {};
-      
-      questionnaires.forEach(id => {
-        // Check Phase 3 specific keys first, then fall back to legacy
-        const phase3Key = `questionnaire-phase3-${id}`;
-        const legacyKey = `questionnaire-${id}`;
+    const loadQuestionnaires = async () => {
+      try {
+        const responses = await getPhaseResponses(3);
         
-        const savedResponse = localStorage.getItem(phase3Key) || localStorage.getItem(legacyKey);
+        const completed: Record<string, boolean> = {};
+        const results: Record<string, any> = {};
         
-        if (savedResponse) {
+        Object.entries(responses).forEach(([id, response]) => {
           completed[id] = true;
-          
-          try {
-            results[id] = JSON.parse(savedResponse);
-          } catch (e) {
-            console.error(`Error parsing ${id} questionnaire results`, e);
-          }
-        }
-      });
-      
-      console.log("PhaseThreeContent - Loaded questionnaires:", completed);
-      console.log("PhaseThreeContent - Loaded results:", results);
-      
-      setCompletedQuestionnaires(completed);
-      setQuestionnaireResults(results);
+          results[id] = response;
+        });
+        
+        console.log("PhaseThreeContent - Loaded questionnaires from database:", completed);
+        console.log("PhaseThreeContent - Loaded results:", results);
+        
+        setCompletedQuestionnaires(completed);
+        setQuestionnaireResults(results);
+      } catch (error) {
+        console.error("Error loading questionnaires:", error);
+      }
     };
     
-    loadQuestionnaires();
-    
-    // Listen for changes to localStorage
-    window.addEventListener('storage', loadQuestionnaires);
-    
-    return () => {
-      window.removeEventListener('storage', loadQuestionnaires);
-    };
-  }, []);
+    if (!loading) {
+      loadQuestionnaires();
+    }
+  }, [loading]);
 
   // Check specifically for Phase 3 questionnaire completion
   const phase3Questionnaires = ['hit-6', 'midas', 'psfs', 'gpoc'];
