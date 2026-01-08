@@ -9,7 +9,8 @@ import WeeklyReviewTasks from "./tasks/WeeklyReviewTasks";
 import ExerciseTasks from "./tasks/ExerciseTasks";
 import ActivitySheetTasks from "./tasks/ActivitySheetTasks";
 import HeadacheLoggingTask from "./tasks/HeadacheLoggingTask";
-import { useCompletedTasks } from "./tasks/useCompletedTasks";
+import { useTaskCompletions } from "@/hooks/useTaskCompletions";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface PhaseTwoTaskListProps {
   day: number;
@@ -17,7 +18,7 @@ interface PhaseTwoTaskListProps {
 
 const PhaseTwoTaskList: React.FC<PhaseTwoTaskListProps> = ({ day }) => {
   const [fhtResponse, setFhtResponse] = useState<QuestionnaireResponse | undefined>(undefined);
-  const { completedTasks, toggleTaskCompletion } = useCompletedTasks(day);
+  const { completedTasks, toggleTaskCompletion, loading } = useTaskCompletions(2, day);
   
   useEffect(() => {
     const loadFhtResponse = async () => {
@@ -42,6 +43,21 @@ const PhaseTwoTaskList: React.FC<PhaseTwoTaskListProps> = ({ day }) => {
   
   const isWeeklyReviewDay = day % 7 === 0;
   
+  if (loading) {
+    return (
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-xl">Today's Tasks</CardTitle>
+        </CardHeader>
+        <div className="px-6 pb-6 space-y-3">
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+        </div>
+      </Card>
+    );
+  }
+
   if (isWeeklyReviewDay) {
     return (
       <Card>

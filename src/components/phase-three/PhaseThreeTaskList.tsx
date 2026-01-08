@@ -1,9 +1,9 @@
-
 import React, { useEffect, useState } from "react";
 import TaskList from "@/components/phase/TaskList";
 import { Task } from "@/types/task";
 import { getPhaseThreeTasks, CompletedQuestionnairesMap } from "@/utils/phase-tasks";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useQuestionnaireResponses } from "@/hooks/useQuestionnaireResponses";
 
 interface PhaseThreeTaskListProps {
   day: number;
@@ -12,31 +12,28 @@ interface PhaseThreeTaskListProps {
 const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [completedQuestionnaires, setCompletedQuestionnaires] = useState<CompletedQuestionnairesMap>({});
+  const { getResponse } = useQuestionnaireResponses();
   
   useEffect(() => {
-    const loadCompletedQuestionnaires = () => {
+    const loadCompletedQuestionnaires = async () => {
       const questionnaires = ['hit-6', 'midas', 'psfs', 'gpoc'];
       const completed: CompletedQuestionnairesMap = {};
       
-      questionnaires.forEach(id => {
-        const savedResponse = localStorage.getItem(`questionnaire-${id}`);
-        if (savedResponse) {
+      for (const id of questionnaires) {
+        // Check Phase 3 responses first, then Phase 1
+        const phase3Response = await getResponse(id, 3);
+        const phase1Response = await getResponse(id, 1);
+        if (phase3Response || phase1Response) {
           completed[id] = true;
         }
-      });
+      }
       
       console.log("PhaseThreeTaskList - Completed questionnaires:", completed);
       setCompletedQuestionnaires(completed);
     };
     
     loadCompletedQuestionnaires();
-    
-    window.addEventListener('storage', loadCompletedQuestionnaires);
-    
-    return () => {
-      window.removeEventListener('storage', loadCompletedQuestionnaires);
-    };
-  }, []);
+  }, [getResponse]);
 
   useEffect(() => {
     console.log("PhaseThreeTaskList - day:", day);
