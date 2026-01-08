@@ -29,6 +29,7 @@ import NotDiagnosed from "@/pages/NotDiagnosed";
 import WelcomeOnboarding from "@/components/onboarding/WelcomeOnboarding";
 import Admin from "@/pages/Admin";
 import { BetaAdminGuard } from "@/components/compliance/BetaAdminGuard";
+import { useDataMigration } from "@/hooks/useDataMigration";
 
 // Pages that have their own header
 const PAGES_WITH_OWN_HEADER = ['/'];
@@ -36,6 +37,9 @@ const PAGES_WITH_OWN_HEADER = ['/'];
 function AppContent() {
   const location = useLocation();
   const showSharedHeader = !PAGES_WITH_OWN_HEADER.includes(location.pathname);
+  
+  // Run data migration for authenticated users
+  useDataMigration();
 
   return (
     <div className="min-h-screen bg-background">

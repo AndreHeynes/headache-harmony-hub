@@ -1,5 +1,5 @@
 
-import React, { useMemo } from "react";
+import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   ActivitySquare, 
@@ -13,10 +13,10 @@ import {
   AlertCircle
 } from "lucide-react";
 import { 
-  getProgressSummary, 
   getDirectionColor,
   getPSFSInterpretation 
 } from "@/utils/progressCalculation";
+import { useProgressData } from "@/hooks/useProgressData";
 
 interface DayEightContentProps {
   allCompleted: boolean;
@@ -30,11 +30,19 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
   console.log("DayEightContent - allCompleted:", allCompleted);
   console.log("DayEightContent - questionnaireResults:", questionnaireResults);
 
-  const progress = useMemo(() => getProgressSummary(), [questionnaireResults]);
+  const { progress, loading } = useProgressData();
   
   console.log("DayEightContent - Progress Summary:", progress);
 
-  if (!allCompleted) {
+  if (loading) {
+    return (
+      <div className="space-y-4">
+        <h3 className="font-medium text-lg">Loading Progress Data...</h3>
+      </div>
+    );
+  }
+
+  if (!allCompleted || !progress) {
     return (
       <div className="space-y-4">
         <h3 className="font-medium text-lg">Progress Review</h3>

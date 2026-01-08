@@ -131,9 +131,11 @@ const ReviewDayExerciseTabs: React.FC<ReviewDayExerciseTabsProps> = ({
 interface ExerciseGridProps {
   exercises: Exercise[];
   videoDisplayMode?: "embedded" | "link";
+  week?: number;
+  day?: number;
 }
 
-const ExerciseGrid: React.FC<ExerciseGridProps> = ({ exercises, videoDisplayMode }) => {
+const ExerciseGrid: React.FC<ExerciseGridProps> = ({ exercises, videoDisplayMode, week = 1, day = 1 }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {exercises.map((exercise) => (
@@ -141,6 +143,8 @@ const ExerciseGrid: React.FC<ExerciseGridProps> = ({ exercises, videoDisplayMode
           key={exercise.id} 
           exercise={exercise}
           videoDisplayMode={videoDisplayMode}
+          week={week}
+          day={day}
         />
       ))}
     </div>
