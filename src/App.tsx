@@ -4,6 +4,7 @@ import { BetaSessionProvider } from "@/contexts/BetaSessionContext";
 import { BetaAccessGate } from "@/components/BetaAccessGate";
 import { SharedHeader } from "@/components/SharedHeader";
 import { BetaFeedbackForm } from "@/components/BetaFeedbackForm";
+import ConnectionStatusIndicator from "@/components/ConnectionStatusIndicator";
 import Index from "@/pages/Index";
 import Dashboard from "@/pages/Dashboard";
 import Profile from "@/pages/Profile";
@@ -123,6 +124,9 @@ function AppContent() {
         
         <Route path="*" element={<NotFound />} />
       </Routes>
+
+      {/* Connection status indicator */}
+      <ConnectionStatusIndicator />
 
       {/* Global compliance components */}
       <CookieConsent />
