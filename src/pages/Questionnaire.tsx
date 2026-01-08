@@ -7,12 +7,14 @@ import { QuestionnaireResponse } from "@/types/questionnaire";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useQuestionnaireResponses } from "@/hooks/useQuestionnaireResponses";
 
 const Questionnaire = () => {
   const { id } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [savedResponses, setSavedResponses] = useState<Record<string, any>>({});
+  const { saveResponse, getResponse } = useQuestionnaireResponses();
   
   // Determine which phase we're in from URL params or localStorage
   const phaseParam = searchParams.get('phase');
@@ -86,20 +88,20 @@ const Questionnaire = () => {
     }
   }, [id, currentPhase]);
   
-  const handleQuestionnaireComplete = (response: QuestionnaireResponse) => {
-    // Store with phase-specific key
-    const phasePrefix = currentPhase === 3 ? 'phase3' : 'phase1';
-    const phaseKey = `questionnaire-${phasePrefix}-${id}`;
-    
-    localStorage.setItem(phaseKey, JSON.stringify(response));
+  const handleQuestionnaireComplete = async (response: QuestionnaireResponse) => {
+    // Save to database via hook (will also save to localStorage as fallback)
+    await saveResponse({
+      questionnaireId: id!,
+      phase: currentPhase as 1 | 3,
+      response,
+    });
     
     // Also store in legacy key for backward compatibility during transition
     localStorage.setItem(`questionnaire-${id}`, JSON.stringify(response));
     
     if (id === 'psfs' && response.savedActivities) {
-      const activitiesKey = `psfs-activities-${phasePrefix}`;
+      const activitiesKey = `psfs-activities-phase${currentPhase}`;
       localStorage.setItem(activitiesKey, JSON.stringify(response.savedActivities));
-      // Legacy key for backward compatibility
       localStorage.setItem('psfs-activities', JSON.stringify(response.savedActivities));
     }
     

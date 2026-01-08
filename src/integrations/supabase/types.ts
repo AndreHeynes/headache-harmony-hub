@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_sheet_progress: {
+        Row: {
+          activity_sheet_id: string
+          completed_at: string | null
+          created_at: string
+          form_data: Json
+          id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          activity_sheet_id: string
+          completed_at?: string | null
+          created_at?: string
+          form_data?: Json
+          id?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          activity_sheet_id?: string
+          completed_at?: string | null
+          created_at?: string
+          form_data?: Json
+          id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       beta_feedback: {
         Row: {
           beta_user_email: string
@@ -107,6 +140,42 @@ export type Database = {
         }
         Relationships: []
       }
+      exercise_completions: {
+        Row: {
+          completed_at: string
+          created_at: string
+          day: number
+          exercise_id: string
+          id: string
+          notes: string | null
+          phase: number
+          user_id: string
+          week: number
+        }
+        Insert: {
+          completed_at?: string
+          created_at?: string
+          day: number
+          exercise_id: string
+          id?: string
+          notes?: string | null
+          phase?: number
+          user_id: string
+          week: number
+        }
+        Update: {
+          completed_at?: string
+          created_at?: string
+          day?: number
+          exercise_id?: string
+          id?: string
+          notes?: string | null
+          phase?: number
+          user_id?: string
+          week?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -128,10 +197,44 @@ export type Database = {
         }
         Relationships: []
       }
+      task_completions: {
+        Row: {
+          completed: boolean
+          completed_at: string
+          created_at: string
+          day: number
+          id: string
+          phase: number
+          task_id: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          completed_at?: string
+          created_at?: string
+          day: number
+          id?: string
+          phase: number
+          task_id: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          completed_at?: string
+          created_at?: string
+          day?: number
+          id?: string
+          phase?: number
+          task_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_progress: {
         Row: {
           created_at: string
           current_phase: number
+          data_migrated_to_db: boolean
           has_completed_onboarding: boolean
           id: string
           phase_one_day: number
@@ -143,6 +246,7 @@ export type Database = {
         Insert: {
           created_at?: string
           current_phase?: number
+          data_migrated_to_db?: boolean
           has_completed_onboarding?: boolean
           id?: string
           phase_one_day?: number
@@ -154,11 +258,57 @@ export type Database = {
         Update: {
           created_at?: string
           current_phase?: number
+          data_migrated_to_db?: boolean
           has_completed_onboarding?: boolean
           id?: string
           phase_one_day?: number
           phase_three_day?: number
           phase_two_week?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_responses: {
+        Row: {
+          answers: Json
+          completed_at: string
+          created_at: string
+          group_scores: Json | null
+          id: string
+          phase: number
+          questionnaire_id: string
+          recommended_exercises: string[] | null
+          saved_activities: Json | null
+          score: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          answers: Json
+          completed_at?: string
+          created_at?: string
+          group_scores?: Json | null
+          id?: string
+          phase: number
+          questionnaire_id: string
+          recommended_exercises?: string[] | null
+          saved_activities?: Json | null
+          score?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          answers?: Json
+          completed_at?: string
+          created_at?: string
+          group_scores?: Json | null
+          id?: string
+          phase?: number
+          questionnaire_id?: string
+          recommended_exercises?: string[] | null
+          saved_activities?: Json | null
+          score?: number | null
           updated_at?: string
           user_id?: string
         }

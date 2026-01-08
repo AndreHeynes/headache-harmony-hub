@@ -72,11 +72,15 @@ const DailyExerciseList: React.FC<DailyExerciseListProps> = ({
     );
   }
   
-  // Regular exercise days
+  // Regular exercise days - calculate week from day
+  const weekNumber = Math.ceil(day / 7);
+  
   return (
     <RegularExerciseDay 
       exercises={exercises} 
-      videoDisplayMode={videoDisplayMode} 
+      videoDisplayMode={videoDisplayMode}
+      week={weekNumber}
+      day={day}
     />
   );
 };

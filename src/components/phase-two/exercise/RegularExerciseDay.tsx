@@ -9,11 +9,15 @@ import { CategorizedExercises, categorizeExercises } from "./ExerciseCategorizer
 interface RegularExerciseDayProps {
   exercises: Exercise[];
   videoDisplayMode?: "embedded" | "link";
+  week?: number;
+  day?: number;
 }
 
 const RegularExerciseDay: React.FC<RegularExerciseDayProps> = ({ 
   exercises, 
-  videoDisplayMode = "link"
+  videoDisplayMode = "link",
+  week = 1,
+  day = 1
 }) => {
   const categories = categorizeExercises(exercises);
   
@@ -28,11 +32,13 @@ const RegularExerciseDay: React.FC<RegularExerciseDayProps> = ({
         <TabsContent value="all">
           <ExerciseGrid 
             exercises={exercises} 
-            videoDisplayMode={videoDisplayMode} 
+            videoDisplayMode={videoDisplayMode}
+            week={week}
+            day={day}
           />
         </TabsContent>
         
-        {renderTabContents(categories, videoDisplayMode)}
+        {renderTabContents(categories, videoDisplayMode, week, day)}
       </Tabs>
     </Card>
   );
@@ -88,7 +94,7 @@ const renderTabTriggers = (categories: CategorizedExercises) => {
 };
 
 // Helper function to render category contents
-const renderTabContents = (categories: CategorizedExercises, videoDisplayMode?: "embedded" | "link") => {
+const renderTabContents = (categories: CategorizedExercises, videoDisplayMode?: "embedded" | "link", week?: number, day?: number) => {
   const contents = [];
   
   if (categories.breathing.length > 0) {
@@ -96,7 +102,9 @@ const renderTabContents = (categories: CategorizedExercises, videoDisplayMode?: 
       <TabsContent key="breathing" value="breathing">
         <ExerciseGrid 
           exercises={categories.breathing} 
-          videoDisplayMode={videoDisplayMode} 
+          videoDisplayMode={videoDisplayMode}
+          week={week}
+          day={day}
         />
       </TabsContent>
     );
@@ -107,7 +115,9 @@ const renderTabContents = (categories: CategorizedExercises, videoDisplayMode?: 
       <TabsContent key="stretching" value="stretching">
         <ExerciseGrid 
           exercises={categories.stretching} 
-          videoDisplayMode={videoDisplayMode} 
+          videoDisplayMode={videoDisplayMode}
+          week={week}
+          day={day}
         />
       </TabsContent>
     );
@@ -118,7 +128,9 @@ const renderTabContents = (categories: CategorizedExercises, videoDisplayMode?: 
       <TabsContent key="strengthening" value="strengthening">
         <ExerciseGrid 
           exercises={categories.strengthening} 
-          videoDisplayMode={videoDisplayMode} 
+          videoDisplayMode={videoDisplayMode}
+          week={week}
+          day={day}
         />
       </TabsContent>
     );
@@ -129,7 +141,9 @@ const renderTabContents = (categories: CategorizedExercises, videoDisplayMode?: 
       <TabsContent key="mobilization" value="mobilization">
         <ExerciseGrid 
           exercises={categories.mobilization} 
-          videoDisplayMode={videoDisplayMode} 
+          videoDisplayMode={videoDisplayMode}
+          week={week}
+          day={day}
         />
       </TabsContent>
     );
@@ -140,7 +154,9 @@ const renderTabContents = (categories: CategorizedExercises, videoDisplayMode?: 
       <TabsContent key="tmj" value="tmj">
         <ExerciseGrid 
           exercises={categories.tmj} 
-          videoDisplayMode={videoDisplayMode} 
+          videoDisplayMode={videoDisplayMode}
+          week={week}
+          day={day}
         />
       </TabsContent>
     );
@@ -151,7 +167,9 @@ const renderTabContents = (categories: CategorizedExercises, videoDisplayMode?: 
       <TabsContent key="coordination" value="coordination">
         <ExerciseGrid 
           exercises={categories.coordination} 
-          videoDisplayMode={videoDisplayMode} 
+          videoDisplayMode={videoDisplayMode}
+          week={week}
+          day={day}
         />
       </TabsContent>
     );
@@ -162,7 +180,9 @@ const renderTabContents = (categories: CategorizedExercises, videoDisplayMode?: 
       <TabsContent key="activities" value="activities">
         <ExerciseGrid 
           exercises={categories.activities} 
-          videoDisplayMode={videoDisplayMode} 
+          videoDisplayMode={videoDisplayMode}
+          week={week}
+          day={day}
         />
       </TabsContent>
     );
@@ -174,9 +194,11 @@ const renderTabContents = (categories: CategorizedExercises, videoDisplayMode?: 
 interface ExerciseGridProps {
   exercises: Exercise[];
   videoDisplayMode?: "embedded" | "link";
+  week?: number;
+  day?: number;
 }
 
-const ExerciseGrid: React.FC<ExerciseGridProps> = ({ exercises, videoDisplayMode }) => {
+const ExerciseGrid: React.FC<ExerciseGridProps> = ({ exercises, videoDisplayMode, week = 1, day = 1 }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {exercises.map((exercise) => (
@@ -184,6 +206,8 @@ const ExerciseGrid: React.FC<ExerciseGridProps> = ({ exercises, videoDisplayMode
           key={exercise.id} 
           exercise={exercise}
           videoDisplayMode={videoDisplayMode}
+          week={week}
+          day={day}
         />
       ))}
     </div>
