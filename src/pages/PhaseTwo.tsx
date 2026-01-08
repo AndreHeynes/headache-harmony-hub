@@ -11,17 +11,37 @@ import PhaseTwoTaskList from "@/components/phase-two/PhaseTwoTaskList";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { secureStore, secureRetrieve } from "@/utils/security/encryption";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 const PhaseTwo = () => {
   const { toast } = useToast();
+  const { user, isAuthenticated } = useAuth();
   const [currentDay, setCurrentDay] = useState(1);
   const [videoDisplayMode, setVideoDisplayMode] = useState<"embedded" | "link">("link");
+  const [isLoading, setIsLoading] = useState(true);
   const totalDays = 76; // Updated from 64 to 76
   
-  // Initialize currentDay from secure storage or set to 1
+  // Initialize currentDay from database or secure storage
   useEffect(() => {
     const loadSettings = async () => {
       try {
+        // Try database first if authenticated
+        if (isAuthenticated && user) {
+          const { data, error } = await supabase
+            .from('user_progress')
+            .select('phase_two_day')
+            .eq('user_id', user.id)
+            .maybeSingle();
+          
+          if (!error && data?.phase_two_day) {
+            setCurrentDay(data.phase_two_day);
+            setIsLoading(false);
+            return;
+          }
+        }
+        
+        // Fall back to secure storage
         const savedDay = await secureRetrieve('phase2-current-day');
         if (savedDay) {
           setCurrentDay(parseInt(savedDay.toString(), 10));
@@ -34,16 +54,41 @@ const PhaseTwo = () => {
         }
       } catch (e) {
         console.error("Error loading settings:", e);
+      } finally {
+        setIsLoading(false);
       }
     };
     
     loadSettings();
-  }, []);
+  }, [user, isAuthenticated]);
   
-  // Save currentDay to secure storage whenever it changes
+  // Save currentDay to database and secure storage whenever it changes
   useEffect(() => {
-    secureStore('phase2-current-day', currentDay.toString());
-  }, [currentDay]);
+    if (isLoading) return; // Don't save during initial load
+    
+    const saveDay = async () => {
+      // Always save to secure storage as fallback
+      secureStore('phase2-current-day', currentDay.toString());
+      
+      // Save to database if authenticated
+      if (isAuthenticated && user) {
+        try {
+          await supabase
+            .from('user_progress')
+            .upsert({
+              user_id: user.id,
+              phase_two_day: currentDay,
+            }, {
+              onConflict: 'user_id',
+            });
+        } catch (err) {
+          console.error('Error saving phase 2 day to database:', err);
+        }
+      }
+    };
+    
+    saveDay();
+  }, [currentDay, user, isAuthenticated, isLoading]);
   
   const goToNextDay = () => {
     if (currentDay < totalDays) {

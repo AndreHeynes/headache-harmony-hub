@@ -239,6 +239,7 @@ export type Database = {
           id: string
           phase_one_day: number
           phase_three_day: number
+          phase_two_day: number
           phase_two_week: number
           updated_at: string
           user_id: string
@@ -251,6 +252,7 @@ export type Database = {
           id?: string
           phase_one_day?: number
           phase_three_day?: number
+          phase_two_day?: number
           phase_two_week?: number
           updated_at?: string
           user_id: string
@@ -263,6 +265,7 @@ export type Database = {
           id?: string
           phase_one_day?: number
           phase_three_day?: number
+          phase_two_day?: number
           phase_two_week?: number
           updated_at?: string
           user_id?: string
