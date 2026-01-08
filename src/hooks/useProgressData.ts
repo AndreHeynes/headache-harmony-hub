@@ -50,17 +50,13 @@ export const useProgressData = () => {
         const summary = buildProgressSummary(data || []);
         setProgress(summary);
       } else {
-        // Fall back to localStorage - use existing utility
-        const { getProgressSummary } = await import('@/utils/progressCalculation');
-        const summary = getProgressSummary();
-        setProgress(summary);
+        // No user - return empty summary
+        setProgress(buildProgressSummary([]));
       }
     } catch (err) {
       console.error('Error loading progress data:', err);
-      // Fall back to localStorage on error
-      const { getProgressSummary } = await import('@/utils/progressCalculation');
-      const summary = getProgressSummary();
-      setProgress(summary);
+      // Return empty summary on error
+      setProgress(buildProgressSummary([]));
     } finally {
       setLoading(false);
     }
