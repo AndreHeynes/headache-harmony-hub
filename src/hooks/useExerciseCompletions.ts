@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
+import { toast } from 'sonner';
 
 interface ExerciseCompletion {
   id: string;
@@ -137,6 +138,7 @@ export const useExerciseCompletions = (week: number, day: number) => {
       }
     } catch (err) {
       console.error('Error toggling exercise completion:', err);
+      toast.error('Failed to save exercise progress. Please try again.');
       // Revert optimistic update on error
       setCompletedExercises(prev => {
         const newSet = new Set(prev);

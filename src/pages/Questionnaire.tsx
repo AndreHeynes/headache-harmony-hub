@@ -77,16 +77,19 @@ const Questionnaire = () => {
   }, [id, currentPhase]);
   
   const handleQuestionnaireComplete = async (response: QuestionnaireResponse) => {
-    // Save to database via hook
-    await saveResponse({
-      questionnaireId: id!,
-      phase: currentPhase as 1 | 3,
-      response,
-    });
-    
-    console.log(`Questionnaire completed (Phase ${currentPhase}):`, response);
-    
-    if (id === 'gpoc') {
+    try {
+      // Save to database via hook
+      await saveResponse({
+        questionnaireId: id!,
+        phase: currentPhase as 1 | 3,
+        response,
+      });
+      
+      if (import.meta.env.DEV) {
+        console.log(`Questionnaire completed (Phase ${currentPhase}):`, response);
+      }
+      
+      if (id === 'gpoc') {
       const ratingAnswer = response.answers.find(a => a.questionId === 'gpoc-q1');
       const rating = ratingAnswer ? Number(ratingAnswer.value) : null;
       
@@ -107,14 +110,18 @@ const Questionnaire = () => {
       toast.success("Questionnaire completed successfully!");
     }
     
-    // Navigate back to appropriate phase
-    setTimeout(() => {
-      if (currentPhase === 3) {
-        navigate('/phase-three');
-      } else {
-        navigate('/phase-one');
-      }
-    }, 2000);
+      // Navigate back to appropriate phase
+      setTimeout(() => {
+        if (currentPhase === 3) {
+          navigate('/phase-three');
+        } else {
+          navigate('/phase-one');
+        }
+      }, 2000);
+    } catch (error) {
+      console.error('Error saving questionnaire:', error);
+      toast.error('Failed to save questionnaire. Please try again.');
+    }
   };
   
   if (isLoading) {

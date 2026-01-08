@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { secureRetrieve, secureRemove } from '@/utils/security/encryption';
+import { toast } from 'sonner';
 
 export const useTaskCompletions = (phase: number, day: number) => {
   const { user, isAuthenticated } = useAuth();
@@ -174,6 +175,7 @@ export const useTaskCompletions = (phase: number, day: number) => {
       }
     } catch (err) {
       console.error('Error toggling task completion:', err);
+      toast.error('Failed to save task progress. Please try again.');
       // Revert optimistic update on error
       setCompletedTasks(prev => ({
         ...prev,
