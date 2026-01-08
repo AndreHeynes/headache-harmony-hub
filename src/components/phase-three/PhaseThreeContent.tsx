@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import DaysOneToSevenContent from "./DaysOneToSevenContent";
 import DayEightContent from "./DayEightContent";
+import { migrateQuestionnaireData } from "@/utils/dataMigration";
 
 interface PhaseThreeContentProps {
   day: number;
@@ -12,6 +13,14 @@ const PhaseThreeContent: React.FC<PhaseThreeContentProps> = ({ day }) => {
   const [questionnaireResults, setQuestionnaireResults] = useState<Record<string, any>>({});
   
   useEffect(() => {
+    // Run migration on component mount
+    migrateQuestionnaireData();
+    
+    // Set current phase in localStorage
+    localStorage.setItem('current-phase', '3');
+  }, []);
+  
+  useEffect(() => {
     // Load completed questionnaires and results from localStorage
     const loadQuestionnaires = () => {
       const questionnaires = ['hit-6', 'midas', 'psfs', 'gpoc'];
@@ -19,7 +28,12 @@ const PhaseThreeContent: React.FC<PhaseThreeContentProps> = ({ day }) => {
       const results: Record<string, any> = {};
       
       questionnaires.forEach(id => {
-        const savedResponse = localStorage.getItem(`questionnaire-${id}`);
+        // Check Phase 3 specific keys first, then fall back to legacy
+        const phase3Key = `questionnaire-phase3-${id}`;
+        const legacyKey = `questionnaire-${id}`;
+        
+        const savedResponse = localStorage.getItem(phase3Key) || localStorage.getItem(legacyKey);
+        
         if (savedResponse) {
           completed[id] = true;
           
@@ -48,7 +62,9 @@ const PhaseThreeContent: React.FC<PhaseThreeContentProps> = ({ day }) => {
     };
   }, []);
 
-  const allCompleted = Object.keys(completedQuestionnaires).length >= 4;
+  // Check specifically for Phase 3 questionnaire completion
+  const phase3Questionnaires = ['hit-6', 'midas', 'psfs', 'gpoc'];
+  const allCompleted = phase3Questionnaires.every(id => completedQuestionnaires[id]);
   
   console.log("PhaseThreeContent - Day:", day);
   console.log("PhaseThreeContent - All Completed:", allCompleted);
