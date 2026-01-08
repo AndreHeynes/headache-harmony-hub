@@ -129,40 +129,20 @@ const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg p-6 shadow-sm border">
+      <div className="bg-white rounded-lg p-6 shadow-sm border">
           <h2 className="text-xl font-medium mb-4">Headache Tracking</h2>
-          <HeadacheTracker />
+          <HeadacheTracker userEmail={userEmail || ""} />
         </div>
         
         <div className="bg-white rounded-lg p-6 shadow-sm border">
           <h2 className="text-xl font-medium mb-4">Connected Apps</h2>
           <div className="space-y-4">
             <ConnectedApp 
-              name="Strava" 
-              status="connected" 
-              lastSync="2 hours ago" 
+              name="My Headache Experience Journal" 
+              description="Track headaches, connect Fitbit & Oura for correlation analysis"
+              launchUrl={`https://headache-harmony-journal.lovable.app?email=${encodeURIComponent(userEmail || "")}&source=headache-recovery-beta`}
+              isPrimary={true}
             />
-            <ConnectedApp 
-              name="Fitbit" 
-              status="connected" 
-              lastSync="1 day ago" 
-            />
-            <ConnectedApp 
-              name="Apple Health" 
-              status="not-connected" 
-            />
-            <ConnectedApp 
-              name="Sleep Cycle" 
-              status="not-connected" 
-            />
-          </div>
-          <div className="mt-4">
-            <Link 
-              to="/profile#connected-apps" 
-              className="text-blue-500 hover:underline text-sm"
-            >
-              Manage connected apps
-            </Link>
           </div>
         </div>
       </div>
