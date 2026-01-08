@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { QuestionnaireResponse } from '@/types/questionnaire';
 import { Json } from '@/integrations/supabase/types';
+import { toast } from 'sonner';
 
 interface UserResponse {
   id: string;
@@ -36,6 +37,7 @@ export const useQuestionnaireResponses = () => {
       // Fall back to localStorage for non-authenticated users
       const key = `questionnaire-phase${phase}-${questionnaireId}`;
       localStorage.setItem(key, JSON.stringify(response));
+      toast.info('Saved locally - sign in to sync across devices');
       return;
     }
 
@@ -67,6 +69,7 @@ export const useQuestionnaireResponses = () => {
     } catch (err: any) {
       console.error('Error saving questionnaire response:', err);
       setError(err.message);
+      toast.error('Failed to sync to cloud - saved locally instead');
       // Fall back to localStorage on error
       const key = `questionnaire-phase${phase}-${questionnaireId}`;
       localStorage.setItem(key, JSON.stringify(response));
