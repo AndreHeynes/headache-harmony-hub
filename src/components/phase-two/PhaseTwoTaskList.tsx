@@ -1,10 +1,8 @@
-
 import React, { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { QuestionnaireResponse } from "@/types/questionnaire";
 import { getExercisesForDay } from "@/utils/exercises/schedules";
-import { secureRetrieve } from "@/utils/security/encryption";
-import { Exercise } from "@/utils/exercises/types";
+import { useQuestionnaireResponses } from "@/hooks/useQuestionnaireResponses";
 import WeeklyReviewTasks from "./tasks/WeeklyReviewTasks";
 import ExerciseTasks from "./tasks/ExerciseTasks";
 import ActivitySheetTasks from "./tasks/ActivitySheetTasks";
@@ -19,21 +17,24 @@ interface PhaseTwoTaskListProps {
 const PhaseTwoTaskList: React.FC<PhaseTwoTaskListProps> = ({ day }) => {
   const [fhtResponse, setFhtResponse] = useState<QuestionnaireResponse | undefined>(undefined);
   const { completedTasks, toggleTaskCompletion, loading } = useTaskCompletions(2, day);
+  const { getResponse, loading: responsesLoading } = useQuestionnaireResponses();
   
   useEffect(() => {
     const loadFhtResponse = async () => {
       try {
-        const savedFht = await secureRetrieve('questionnaire-fht');
-        if (savedFht) {
-          setFhtResponse(savedFht);
+        const response = await getResponse('fht', 1);
+        if (response) {
+          setFhtResponse(response);
         }
       } catch (e) {
-        console.error("Error parsing FHT response:", e);
+        console.error("Error loading FHT response:", e);
       }
     };
     
-    loadFhtResponse();
-  }, []);
+    if (!responsesLoading) {
+      loadFhtResponse();
+    }
+  }, [responsesLoading]);
   
   const exercises = getExercisesForDay(day, fhtResponse);
   

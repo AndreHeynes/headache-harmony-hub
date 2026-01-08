@@ -4,10 +4,12 @@ import DayContentRenderer from "@/components/phase-one/DayContentRenderer";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserStatus } from "@/hooks/useUserStatus";
 import { supabase } from "@/integrations/supabase/client";
+import { useQuestionnaireResponses } from "@/hooks/useQuestionnaireResponses";
 
 const PhaseOne = () => {
   const { user } = useAuth();
   const userStatus = useUserStatus();
+  const { getPhaseResponses, loading: responsesLoading } = useQuestionnaireResponses();
   const [currentDay, setCurrentDay] = useState(1);
   const totalDays = 7;
   const [completedQuestionnaires, setCompletedQuestionnaires] = useState<Record<string, boolean>>({});
@@ -49,41 +51,33 @@ const PhaseOne = () => {
     saveProgress();
   }, [currentDay, user, isLoadingProgress, userStatus.phaseOneDay]);
 
-  // Load questionnaire completion status from localStorage
+  // Load questionnaire completion status from database
   useEffect(() => {
-    const loadCompletedQuestionnaires = () => {
-      const questionnaires = [
-        'hit-6', 'fht', 'psfs', 'mkq', 'midas', 'psc', 'hsloc', 'hses', 'hb'
-      ];
+    const loadCompletedQuestionnaires = async () => {
+      if (!user) return;
       
-      const completed: Record<string, boolean> = {};
-      const results: Record<string, any> = {};
-      
-      questionnaires.forEach(id => {
-        const savedResponse = localStorage.getItem(`questionnaire-${id}`);
-        if (savedResponse) {
+      try {
+        const responses = await getPhaseResponses(1);
+        
+        const completed: Record<string, boolean> = {};
+        const results: Record<string, any> = {};
+        
+        Object.entries(responses).forEach(([id, response]) => {
           completed[id] = true;
-          
-          try {
-            results[id] = JSON.parse(savedResponse);
-          } catch (e) {
-            console.error(`Error parsing ${id} questionnaire results`);
-          }
-        }
-      });
-      
-      setCompletedQuestionnaires(completed);
-      setQuestionnaireResults(results);
+          results[id] = response;
+        });
+        
+        setCompletedQuestionnaires(completed);
+        setQuestionnaireResults(results);
+      } catch (error) {
+        console.error("Error loading questionnaires from database:", error);
+      }
     };
     
-    loadCompletedQuestionnaires();
-    
-    window.addEventListener('storage', loadCompletedQuestionnaires);
-    
-    return () => {
-      window.removeEventListener('storage', loadCompletedQuestionnaires);
-    };
-  }, []);
+    if (!responsesLoading && user) {
+      loadCompletedQuestionnaires();
+    }
+  }, [user, responsesLoading]);
   
   const renderDayContent = (day: number) => {
     return <DayContentRenderer 

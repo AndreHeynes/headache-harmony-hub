@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,7 +9,7 @@ import QuestionnaireInterpretation from "./QuestionnaireInterpretation";
 import { toast } from "sonner";
 import { isSectionComplete } from "./utils/SectionValidator";
 import { calculateQuestionnaireScore, formatQuestionnaireResponse } from "./QuestionnaireScoring";
-import { secureRetrieve, secureStore, sanitizeInput } from "@/utils/security/encryption";
+import { sanitizeInput } from "@/utils/security/encryption";
 
 interface QuestionnaireFormProps {
   questionnaire: Questionnaire;
@@ -35,31 +34,12 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
 
   const currentSection = questionnaire.sections[currentSectionIndex];
   
-  // Load saved PSFS activities if applicable
+  // Load saved activities from initialAnswers if provided (for PSFS)
   useEffect(() => {
-    if (questionnaire.id === "psfs") {
-      const loadActivities = async () => {
-        try {
-          const storedActivities = await secureRetrieve(`psfs-activities`);
-          if (storedActivities) {
-            const activities = storedActivities;
-            const updatedAnswers = { ...answers };
-            activities.forEach((activity: any) => {
-              if (activity.id.includes("activity")) {
-                updatedAnswers[activity.id] = activity.text;
-              }
-            });
-            setAnswers(updatedAnswers);
-            setSavedActivities(activities);
-          }
-        } catch (e) {
-          console.error("Error parsing saved activities");
-        }
-      };
-      
-      loadActivities();
+    if (questionnaire.id === "psfs" && initialAnswers?.savedActivities) {
+      setSavedActivities(initialAnswers.savedActivities);
     }
-  }, [questionnaire.id]);
+  }, [questionnaire.id, initialAnswers]);
   
   const handleAnswerChange = (questionId: string, value: any) => {
     // If value is a string, sanitize it before storing
@@ -84,12 +64,6 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
         date: new Date().toISOString(),
         answers: sanitizedAnswers,
       });
-      
-      // Also securely store the progress
-      secureStore(`questionnaire-${questionnaire.id}-progress`, {
-        sectionIndex: currentSectionIndex,
-        answers: sanitizedAnswers
-      });
     }
 
     if (currentSectionIndex < questionnaire.sections.length - 1) {
@@ -103,7 +77,6 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
       
       if (results.savedActivities) {
         setSavedActivities(results.savedActivities);
-        secureStore(`psfs-activities`, results.savedActivities);
       }
       
       if (results.recommendedExercises) {
@@ -115,10 +88,6 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
       
       // Create and submit response
       const response = formatQuestionnaireResponse(questionnaire, answers, results);
-      
-      // Store completed questionnaire securely
-      secureStore(`questionnaire-${questionnaire.id}`, response);
-      
       onComplete(response);
     }
   };
