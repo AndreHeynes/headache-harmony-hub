@@ -1,74 +1,35 @@
-
 import React from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BookOpen, ExternalLink, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
 
-const data = [
-  { date: "Mon", intensity: 2 },
-  { date: "Tue", intensity: 1 },
-  { date: "Wed", intensity: 0 },
-  { date: "Thu", intensity: 3 },
-  { date: "Fri", intensity: 4 },
-  { date: "Sat", intensity: 2 },
-  { date: "Sun", intensity: 1 },
-];
+interface HeadacheTrackerProps {
+  userEmail?: string;
+}
 
-const HeadacheTracker: React.FC = () => {
-  const navigate = useNavigate();
-  const { toast } = useToast();
-  
-  const openExternalTracker = () => {
-    // Check if app is connected
-    const appId = localStorage.getItem("headache-app-id");
-    
-    if (appId) {
-      // Navigate to the external tracking component
-      navigate("/phase-one?tab=tracking");
-      
-      // Show toast
-      toast({
-        title: "Opening External Tracker",
-        description: "Connecting to your headache tracking app"
-      });
-    } else {
-      // Prompt to connect app first
-      toast({
-        title: "No Tracking App Connected",
-        description: "Please connect a headache tracking app first",
-        variant: "destructive"
-      });
-      
-      // Navigate to connect app page
-      navigate("/phase-one?connect=true");
-    }
-  };
-  
+const HeadacheTracker: React.FC<HeadacheTrackerProps> = ({ userEmail = "" }) => {
+  const journalUrl = `https://headache-harmony-journal.lovable.app?email=${encodeURIComponent(userEmail)}&source=headache-recovery-beta`;
+
   return (
     <div className="space-y-4">
-      <div className="h-60">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis domain={[0, 5]} />
-            <Tooltip />
-            <Line
-              type="monotone"
-              dataKey="intensity"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-      <div className="flex justify-between items-center">
-        <Button className="text-sm" onClick={openExternalTracker}>
-          Record Headache
+      <div className="text-center py-6">
+        <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-4">
+          <BookOpen className="h-8 w-8 text-primary" />
+        </div>
+        <h3 className="font-medium text-lg mb-2">My Headache Experience Journal</h3>
+        <p className="text-muted-foreground text-sm mb-4 max-w-md mx-auto">
+          Track your headache episodes, triggers, and patterns in your personal journal. 
+          Connect Fitbit or Oura for correlation analysis with sleep and activity data.
+        </p>
+        <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground mb-4">
+          <Activity className="h-3 w-3" />
+          <span>Supports Fitbit & Oura Ring integration</span>
+        </div>
+        <Button asChild>
+          <a href={journalUrl} target="_blank" rel="noopener noreferrer">
+            Open Journal App
+            <ExternalLink className="ml-2 h-4 w-4" />
+          </a>
         </Button>
-        <span className="text-sm text-neutral-600">Last recorded: Today</span>
       </div>
     </div>
   );
