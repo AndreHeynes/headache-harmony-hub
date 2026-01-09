@@ -96,16 +96,27 @@ export const BetaManagement = () => {
 
       if (error) throw error;
 
+      const betaAccessLink = `https://headache-harmony-journal.lovable.app/?token=${id}`;
+      
       toast({
         title: "Beta Tester Approved!",
         description: (
-          <div className="space-y-2">
+          <div className="space-y-3">
             <p>Account created for {data.email}</p>
-            <p className="text-xs font-mono bg-muted p-2 rounded">
-              Temp password: {data.tempPassword}
-            </p>
+            <div>
+              <p className="text-xs text-muted-foreground mb-1">Beta Access Link:</p>
+              <p className="text-xs font-mono bg-muted p-2 rounded break-all">
+                {betaAccessLink}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground mb-1">Temp password (backup):</p>
+              <p className="text-xs font-mono bg-muted p-2 rounded">
+                {data.tempPassword}
+              </p>
+            </div>
             <p className="text-xs text-muted-foreground">
-              Share this password with the user securely
+              Share the access link with the user - they'll be auto-validated
             </p>
           </div>
         ),
