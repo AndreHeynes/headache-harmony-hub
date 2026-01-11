@@ -21,29 +21,18 @@ const Index = () => {
               <h1 className="text-4xl md:text-5xl mb-4 text-neutral-900">Recover from Headache, Reclaim Your Life!</h1>
               <p className="text-lg md:text-xl text-neutral-600 mb-8">A personalized journey to understand and manage your headache disorder through skills development and expert-guided exercises</p>
               <div className="flex flex-col md:flex-row gap-4 justify-center mb-6">
-                <Link to="/sign-in">
+                <Link to="/dashboard">
                   <Button className="bg-primary text-primary-foreground px-8 py-3 rounded-lg hover:bg-primary/90">
-                    Get Started
+                    Go to Program
                   </Button>
                 </Link>
-                <Link to="/sign-in">
-                  <Button variant="outline" className="px-8 py-3 rounded-lg">Log In</Button>
+                <Link to="/learn-more">
+                  <Button variant="outline" className="px-8 py-3 rounded-lg">Learn More</Button>
                 </Link>
               </div>
-              <div className="flex flex-col md:flex-row gap-4 justify-center">
-                <Link to="/learn-more" className="text-neutral-600 hover:text-neutral-900 inline-flex items-center">
-                  Learn More
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
-                <Link to="/dashboard" className="text-neutral-600 hover:text-neutral-900 inline-flex items-center">
-                  Go to Dashboard
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
+              <p className="text-sm text-muted-foreground">
+                Beta access required. Don't have access? Visit our signup page to join the beta program.
+              </p>
             </div>
           </div>
         </section>

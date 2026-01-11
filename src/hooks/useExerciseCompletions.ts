@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from './useAuth';
+import { useCurrentUser } from './useCurrentUser';
 import { toast } from 'sonner';
 
 interface ExerciseCompletion {
@@ -13,17 +13,17 @@ interface ExerciseCompletion {
 }
 
 export const useExerciseCompletions = (week: number, day: number) => {
-  const { user, isAuthenticated } = useAuth();
+  const { id: userId, isAuthenticated } = useCurrentUser();
   const [completedExercises, setCompletedExercises] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
 
   // Load completions on mount
   useEffect(() => {
     loadCompletions();
-  }, [user, week, day]);
+  }, [userId, week, day]);
 
   const loadCompletions = async () => {
-    if (!isAuthenticated || !user) {
+    if (!isAuthenticated || !userId) {
       // Fall back to localStorage
       const key = `exercise-completions-w${week}-d${day}`;
       const data = localStorage.getItem(key);
@@ -38,7 +38,7 @@ export const useExerciseCompletions = (week: number, day: number) => {
       const { data, error } = await supabase
         .from('exercise_completions')
         .select('exercise_id')
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .eq('week', week)
         .eq('day', day);
 
@@ -51,7 +51,7 @@ export const useExerciseCompletions = (week: number, day: number) => {
       // Sync any local data to DB
       await syncLocalToDatabase();
     } catch (err) {
-      console.error('Error loading exercise completions:', err);
+      if (import.meta.env.DEV) console.error('Error loading exercise completions:', err);
       // Fall back to localStorage
       const key = `exercise-completions-w${week}-d${day}`;
       const data = localStorage.getItem(key);
@@ -64,7 +64,7 @@ export const useExerciseCompletions = (week: number, day: number) => {
   };
 
   const syncLocalToDatabase = async () => {
-    if (!isAuthenticated || !user) return;
+    if (!isAuthenticated || !userId) return;
 
     const key = `exercise-completions-w${week}-d${day}`;
     const localData = localStorage.getItem(key);
@@ -76,7 +76,7 @@ export const useExerciseCompletions = (week: number, day: number) => {
         await supabase
           .from('exercise_completions')
           .upsert({
-            user_id: user.id,
+            user_id: userId,
             exercise_id: exerciseId,
             week,
             day,
@@ -87,7 +87,7 @@ export const useExerciseCompletions = (week: number, day: number) => {
       // Clear local data after sync
       localStorage.removeItem(key);
     } catch (err) {
-      console.error('Error syncing local exercise data:', err);
+      if (import.meta.env.DEV) console.error('Error syncing local exercise data:', err);
     }
   };
 
@@ -105,7 +105,7 @@ export const useExerciseCompletions = (week: number, day: number) => {
       return newSet;
     });
 
-    if (!isAuthenticated || !user) {
+    if (!isAuthenticated || !userId) {
       // Update localStorage
       const key = `exercise-completions-w${week}-d${day}`;
       const newCompletions = isCurrentlyCompleted
@@ -121,7 +121,7 @@ export const useExerciseCompletions = (week: number, day: number) => {
         await supabase
           .from('exercise_completions')
           .delete()
-          .eq('user_id', user.id)
+          .eq('user_id', userId)
           .eq('exercise_id', exerciseId)
           .eq('week', week)
           .eq('day', day);
@@ -130,14 +130,14 @@ export const useExerciseCompletions = (week: number, day: number) => {
         await supabase
           .from('exercise_completions')
           .insert({
-            user_id: user.id,
+            user_id: userId,
             exercise_id: exerciseId,
             week,
             day,
           });
       }
     } catch (err) {
-      console.error('Error toggling exercise completion:', err);
+      if (import.meta.env.DEV) console.error('Error toggling exercise completion:', err);
       toast.error('Failed to save exercise progress. Please try again.');
       // Revert optimistic update on error
       setCompletedExercises(prev => {
@@ -150,7 +150,7 @@ export const useExerciseCompletions = (week: number, day: number) => {
         return newSet;
       });
     }
-  }, [user, isAuthenticated, week, day, completedExercises]);
+  }, [userId, isAuthenticated, week, day, completedExercises]);
 
   const isExerciseCompleted = useCallback((exerciseId: string) => {
     return completedExercises.has(exerciseId);

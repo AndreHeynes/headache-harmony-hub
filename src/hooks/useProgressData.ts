@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from './useAuth';
+import { useCurrentUser } from './useCurrentUser';
 import { 
   ProgressSummary, 
   QuestionnaireComparison, 
@@ -24,24 +24,24 @@ interface UserResponseData {
  * Falls back to localStorage for unauthenticated users
  */
 export const useProgressData = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { id: userId, isAuthenticated } = useCurrentUser();
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState<ProgressSummary | null>(null);
 
   useEffect(() => {
     loadProgressData();
-  }, [user, isAuthenticated]);
+  }, [userId, isAuthenticated]);
 
   const loadProgressData = async () => {
     setLoading(true);
 
     try {
-      if (isAuthenticated && user) {
+      if (isAuthenticated && userId) {
         // Fetch from database
         const { data, error } = await supabase
           .from('user_responses')
           .select('questionnaire_id, phase, answers, score, saved_activities')
-          .eq('user_id', user.id)
+          .eq('user_id', userId)
           .in('questionnaire_id', ['hit-6', 'midas', 'psfs', 'gpoc'])
           .in('phase', [1, 3]);
 
@@ -54,7 +54,7 @@ export const useProgressData = () => {
         setProgress(buildProgressSummary([]));
       }
     } catch (err) {
-      console.error('Error loading progress data:', err);
+      if (import.meta.env.DEV) console.error('Error loading progress data:', err);
       // Return empty summary on error
       setProgress(buildProgressSummary([]));
     } finally {
@@ -64,7 +64,7 @@ export const useProgressData = () => {
 
   const refreshProgress = useCallback(() => {
     loadProgressData();
-  }, [user, isAuthenticated]);
+  }, [userId, isAuthenticated]);
 
   return { progress, loading, refreshProgress };
 };

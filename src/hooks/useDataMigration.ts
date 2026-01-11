@@ -1,35 +1,35 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from './useAuth';
+import { useCurrentUser } from './useCurrentUser';
 import { secureRetrieve, secureRemove } from '@/utils/security/encryption';
 import { Json } from '@/integrations/supabase/types';
 
 const QUESTIONNAIRE_IDS = ['hit-6', 'midas', 'psfs', 'gpoc', 'hsloc', 'fht', 'psc', 'hb', 'mkq', 'hses', 'headache-type'];
 
 export const useDataMigration = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { id: userId, isAuthenticated } = useCurrentUser();
   const [migrating, setMigrating] = useState(false);
   const [migrated, setMigrated] = useState(false);
 
   useEffect(() => {
-    if (isAuthenticated && user) {
+    if (isAuthenticated && userId) {
       checkAndMigrateData();
     }
-  }, [user, isAuthenticated]);
+  }, [userId, isAuthenticated]);
 
   const checkAndMigrateData = async () => {
-    if (!user) return;
+    if (!userId) return;
 
     try {
       // Check if already migrated
       const { data: progressData, error: progressError } = await supabase
         .from('user_progress')
         .select('data_migrated_to_db')
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .maybeSingle();
 
       if (progressError) {
-        console.error('Error checking migration status:', progressError);
+        if (import.meta.env.DEV) console.error('Error checking migration status:', progressError);
         return;
       }
 
@@ -41,15 +41,15 @@ export const useDataMigration = () => {
       // Perform migration
       await migrateLocalData();
     } catch (err) {
-      console.error('Error in migration check:', err);
+      if (import.meta.env.DEV) console.error('Error in migration check:', err);
     }
   };
 
   const migrateLocalData = useCallback(async () => {
-    if (!user || migrating) return;
+    if (!userId || migrating) return;
 
     setMigrating(true);
-    console.log('Starting data migration to database...');
+    if (import.meta.env.DEV) console.log('Starting data migration to database...');
 
     try {
       // 1. Migrate questionnaire responses
@@ -62,23 +62,23 @@ export const useDataMigration = () => {
       await supabase
         .from('user_progress')
         .upsert({
-          user_id: user.id,
+          user_id: userId,
           data_migrated_to_db: true,
         }, {
           onConflict: 'user_id',
         });
 
       setMigrated(true);
-      console.log('Data migration completed successfully');
+      if (import.meta.env.DEV) console.log('Data migration completed successfully');
     } catch (err) {
-      console.error('Error during data migration:', err);
+      if (import.meta.env.DEV) console.error('Error during data migration:', err);
     } finally {
       setMigrating(false);
     }
-  }, [user, migrating]);
+  }, [userId, migrating]);
 
   const migrateQuestionnaireResponses = async () => {
-    if (!user) return;
+    if (!userId) return;
 
     for (const phase of [1, 3]) {
       for (const questionnaireId of QUESTIONNAIRE_IDS) {
@@ -98,7 +98,7 @@ export const useDataMigration = () => {
           await supabase
             .from('user_responses')
             .upsert({
-              user_id: user.id,
+              user_id: userId,
               questionnaire_id: questionnaireId,
               phase,
               answers: response.answers as unknown as Json,
@@ -112,9 +112,9 @@ export const useDataMigration = () => {
             });
 
           // Don't remove localStorage data yet - keep as fallback
-          console.log(`Migrated ${key}`);
+          if (import.meta.env.DEV) console.log(`Migrated ${key}`);
         } catch (err) {
-          console.error(`Error migrating ${key}:`, err);
+          if (import.meta.env.DEV) console.error(`Error migrating ${key}:`, err);
         }
       }
     }
@@ -130,7 +130,7 @@ export const useDataMigration = () => {
           const existingResponse = await supabase
             .from('user_responses')
             .select('id')
-            .eq('user_id', user.id)
+            .eq('user_id', userId)
             .eq('questionnaire_id', 'psfs')
             .eq('phase', phase)
             .maybeSingle();
@@ -144,14 +144,14 @@ export const useDataMigration = () => {
               .eq('id', existingResponse.data.id);
           }
         } catch (err) {
-          console.error(`Error migrating PSFS activities for phase ${phase}:`, err);
+          if (import.meta.env.DEV) console.error(`Error migrating PSFS activities for phase ${phase}:`, err);
         }
       }
     }
   };
 
   const migrateTaskCompletions = async () => {
-    if (!user) return;
+    if (!userId) return;
 
     // Migrate Phase 2 task completions (from secureStore)
     for (let day = 1; day <= 77; day++) {
@@ -163,7 +163,7 @@ export const useDataMigration = () => {
               await supabase
                 .from('task_completions')
                 .upsert({
-                  user_id: user.id,
+                  user_id: userId,
                   task_id: taskId,
                   phase: 2,
                   day,
@@ -173,7 +173,7 @@ export const useDataMigration = () => {
                 });
             }
           }
-          console.log(`Migrated Phase 2 Day ${day} tasks`);
+          if (import.meta.env.DEV) console.log(`Migrated Phase 2 Day ${day} tasks`);
         }
       } catch (err) {
         // Likely no data for this day
@@ -193,7 +193,7 @@ export const useDataMigration = () => {
                 await supabase
                   .from('task_completions')
                   .upsert({
-                    user_id: user.id,
+                    user_id: userId,
                     task_id: taskId,
                     phase,
                     day,
@@ -203,9 +203,9 @@ export const useDataMigration = () => {
                   });
               }
             }
-            console.log(`Migrated Phase ${phase} Day ${day} tasks`);
+            if (import.meta.env.DEV) console.log(`Migrated Phase ${phase} Day ${day} tasks`);
           } catch (err) {
-            console.error(`Error migrating ${key}:`, err);
+            if (import.meta.env.DEV) console.error(`Error migrating ${key}:`, err);
           }
         }
       }

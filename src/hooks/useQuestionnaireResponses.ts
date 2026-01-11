@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from './useAuth';
+import { useCurrentUser } from './useCurrentUser';
 import { QuestionnaireResponse } from '@/types/questionnaire';
 import { Json } from '@/integrations/supabase/types';
 import { toast } from 'sonner';
@@ -27,13 +27,13 @@ interface SaveResponseParams {
 }
 
 export const useQuestionnaireResponses = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { id: userId, isAuthenticated } = useCurrentUser();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Save a questionnaire response
   const saveResponse = useCallback(async ({ questionnaireId, phase, response }: SaveResponseParams) => {
-    if (!isAuthenticated || !user) {
+    if (!isAuthenticated || !userId) {
       // Fall back to localStorage for non-authenticated users
       const key = `questionnaire-phase${phase}-${questionnaireId}`;
       localStorage.setItem(key, JSON.stringify(response));
@@ -48,7 +48,7 @@ export const useQuestionnaireResponses = () => {
       const { error: upsertError } = await supabase
         .from('user_responses')
         .upsert({
-          user_id: user.id,
+          user_id: userId,
           questionnaire_id: questionnaireId,
           phase,
           answers: response.answers as unknown as Json,
@@ -67,7 +67,7 @@ export const useQuestionnaireResponses = () => {
       const key = `questionnaire-phase${phase}-${questionnaireId}`;
       localStorage.setItem(key, JSON.stringify(response));
     } catch (err: any) {
-      console.error('Error saving questionnaire response:', err);
+      if (import.meta.env.DEV) console.error('Error saving questionnaire response:', err);
       setError(err.message);
       toast.error('Failed to sync to cloud - saved locally instead');
       // Fall back to localStorage on error
@@ -76,11 +76,11 @@ export const useQuestionnaireResponses = () => {
     } finally {
       setLoading(false);
     }
-  }, [user, isAuthenticated]);
+  }, [userId, isAuthenticated]);
 
   // Get a single response
   const getResponse = useCallback(async (questionnaireId: string, phase: 1 | 3): Promise<QuestionnaireResponse | null> => {
-    if (!isAuthenticated || !user) {
+    if (!isAuthenticated || !userId) {
       // Fall back to localStorage
       const key = `questionnaire-phase${phase}-${questionnaireId}`;
       const data = localStorage.getItem(key);
@@ -91,7 +91,7 @@ export const useQuestionnaireResponses = () => {
       const { data, error } = await supabase
         .from('user_responses')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .eq('questionnaire_id', questionnaireId)
         .eq('phase', phase)
         .maybeSingle();
@@ -107,19 +107,19 @@ export const useQuestionnaireResponses = () => {
       const localData = localStorage.getItem(key);
       return localData ? JSON.parse(localData) : null;
     } catch (err: any) {
-      console.error('Error fetching questionnaire response:', err);
+      if (import.meta.env.DEV) console.error('Error fetching questionnaire response:', err);
       // Fall back to localStorage on error
       const key = `questionnaire-phase${phase}-${questionnaireId}`;
       const data = localStorage.getItem(key);
       return data ? JSON.parse(data) : null;
     }
-  }, [user, isAuthenticated]);
+  }, [userId, isAuthenticated]);
 
   // Get all responses for a phase
   const getPhaseResponses = useCallback(async (phase: 1 | 3): Promise<Record<string, QuestionnaireResponse>> => {
     const responses: Record<string, QuestionnaireResponse> = {};
 
-    if (!isAuthenticated || !user) {
+    if (!isAuthenticated || !userId) {
       // Fall back to localStorage
       const questionnaireIds = ['hit-6', 'midas', 'psfs', 'gpoc', 'hsloc', 'fht', 'psc', 'hb', 'mkq', 'hses'];
       for (const id of questionnaireIds) {
@@ -136,7 +136,7 @@ export const useQuestionnaireResponses = () => {
       const { data, error } = await supabase
         .from('user_responses')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .eq('phase', phase);
 
       if (error) throw error;
@@ -147,11 +147,11 @@ export const useQuestionnaireResponses = () => {
         }
       }
     } catch (err: any) {
-      console.error('Error fetching phase responses:', err);
+      if (import.meta.env.DEV) console.error('Error fetching phase responses:', err);
     }
 
     return responses;
-  }, [user, isAuthenticated]);
+  }, [userId, isAuthenticated]);
 
   // Get baseline (Phase 1) data for progress comparison
   const getBaselineData = useCallback(async (questionnaireId: string) => {
