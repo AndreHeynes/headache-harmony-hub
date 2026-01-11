@@ -1,21 +1,21 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from './useAuth';
+import { useCurrentUser } from './useCurrentUser';
 import { secureRetrieve, secureRemove } from '@/utils/security/encryption';
 import { toast } from 'sonner';
 
 export const useTaskCompletions = (phase: number, day: number) => {
-  const { user, isAuthenticated } = useAuth();
+  const { id: userId, isAuthenticated } = useCurrentUser();
   const [completedTasks, setCompletedTasks] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
 
   // Load completions on mount
   useEffect(() => {
     loadCompletions();
-  }, [user, phase, day]);
+  }, [userId, phase, day]);
 
   const loadCompletions = async () => {
-    if (!isAuthenticated || !user) {
+    if (!isAuthenticated || !userId) {
       // Fall back to localStorage/secureStore
       await loadFromLocalStorage();
       setLoading(false);
@@ -26,7 +26,7 @@ export const useTaskCompletions = (phase: number, day: number) => {
       const { data, error } = await supabase
         .from('task_completions')
         .select('task_id, completed')
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .eq('phase', phase)
         .eq('day', day);
 
@@ -43,7 +43,7 @@ export const useTaskCompletions = (phase: number, day: number) => {
       // Sync any local data to DB
       await syncLocalToDatabase();
     } catch (err) {
-      console.error('Error loading task completions:', err);
+      if (import.meta.env.DEV) console.error('Error loading task completions:', err);
       // Fall back to localStorage
       await loadFromLocalStorage();
     } finally {
@@ -69,12 +69,12 @@ export const useTaskCompletions = (phase: number, day: number) => {
         setCompletedTasks(JSON.parse(data));
       }
     } catch (err) {
-      console.error('Error loading from localStorage:', err);
+      if (import.meta.env.DEV) console.error('Error loading from localStorage:', err);
     }
   };
 
   const syncLocalToDatabase = async () => {
-    if (!isAuthenticated || !user) return;
+    if (!isAuthenticated || !userId) return;
 
     try {
       // Sync Phase 2 secure store data
@@ -85,7 +85,7 @@ export const useTaskCompletions = (phase: number, day: number) => {
             await supabase
               .from('task_completions')
               .upsert({
-                user_id: user.id,
+                user_id: userId,
                 task_id: taskId,
                 phase,
                 day,
@@ -108,7 +108,7 @@ export const useTaskCompletions = (phase: number, day: number) => {
           await supabase
             .from('task_completions')
             .upsert({
-              user_id: user.id,
+              user_id: userId,
               task_id: taskId,
               phase,
               day,
@@ -120,7 +120,7 @@ export const useTaskCompletions = (phase: number, day: number) => {
         localStorage.removeItem(key);
       }
     } catch (err) {
-      console.error('Error syncing local task data:', err);
+      if (import.meta.env.DEV) console.error('Error syncing local task data:', err);
     }
   };
 
@@ -134,7 +134,7 @@ export const useTaskCompletions = (phase: number, day: number) => {
       [taskId]: newCompleted,
     }));
 
-    if (!isAuthenticated || !user) {
+    if (!isAuthenticated || !userId) {
       // Update localStorage/secureStore
       const updatedTasks = {
         ...completedTasks,
@@ -156,7 +156,7 @@ export const useTaskCompletions = (phase: number, day: number) => {
         await supabase
           .from('task_completions')
           .upsert({
-            user_id: user.id,
+            user_id: userId,
             task_id: taskId,
             phase,
             day,
@@ -168,13 +168,13 @@ export const useTaskCompletions = (phase: number, day: number) => {
         await supabase
           .from('task_completions')
           .delete()
-          .eq('user_id', user.id)
+          .eq('user_id', userId)
           .eq('task_id', taskId)
           .eq('phase', phase)
           .eq('day', day);
       }
     } catch (err) {
-      console.error('Error toggling task completion:', err);
+      if (import.meta.env.DEV) console.error('Error toggling task completion:', err);
       toast.error('Failed to save task progress. Please try again.');
       // Revert optimistic update on error
       setCompletedTasks(prev => ({
@@ -182,7 +182,7 @@ export const useTaskCompletions = (phase: number, day: number) => {
         [taskId]: isCurrentlyCompleted,
       }));
     }
-  }, [user, isAuthenticated, phase, day, completedTasks]);
+  }, [userId, isAuthenticated, phase, day, completedTasks]);
 
   const isTaskCompleted = useCallback((taskId: string) => {
     return completedTasks[taskId] ?? false;

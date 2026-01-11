@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PageLayout from "@/components/layout/PageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -7,11 +7,38 @@ import { SecurityDashboard } from "@/components/compliance/SecurityDashboard";
 import { useBetaSession } from "@/contexts/BetaSessionContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
 
 const Profile = () => {
   const { session } = useBetaSession();
   const userName = session.user?.fullName || session.user?.full_name || '';
   const userEmail = session.user?.email || '';
+
+  // Notification preferences state
+  const [emailNotifications, setEmailNotifications] = useState(() => {
+    const saved = localStorage.getItem('pref_email_notifications');
+    return saved ? JSON.parse(saved) : true;
+  });
+  const [pushNotifications, setPushNotifications] = useState(() => {
+    const saved = localStorage.getItem('pref_push_notifications');
+    return saved ? JSON.parse(saved) : false;
+  });
+  const [saving, setSaving] = useState(false);
+
+  const handleSavePreferences = async () => {
+    setSaving(true);
+    try {
+      // Save to localStorage for beta
+      localStorage.setItem('pref_email_notifications', JSON.stringify(emailNotifications));
+      localStorage.setItem('pref_push_notifications', JSON.stringify(pushNotifications));
+      toast.success('Preferences saved successfully');
+    } catch (err) {
+      toast.error('Failed to save preferences');
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     <PageLayout>
@@ -71,22 +98,43 @@ const Profile = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-2">
+                <div className="space-y-4">
                   <label className="text-sm font-medium">Notification Preferences</label>
-                  <div className="space-y-2">
-                    <label className="flex items-center">
-                      <input type="checkbox" className="mr-2" />
-                      Email notifications
-                    </label>
-                    <label className="flex items-center">
-                      <input type="checkbox" className="mr-2" />
-                      Push notifications
-                    </label>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="email-notifications"
+                        checked={emailNotifications}
+                        onCheckedChange={(checked) => setEmailNotifications(!!checked)}
+                      />
+                      <label 
+                        htmlFor="email-notifications" 
+                        className="text-sm cursor-pointer"
+                      >
+                        Email notifications
+                      </label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="push-notifications"
+                        checked={pushNotifications}
+                        onCheckedChange={(checked) => setPushNotifications(!!checked)}
+                      />
+                      <label 
+                        htmlFor="push-notifications" 
+                        className="text-sm cursor-pointer"
+                      >
+                        Push notifications
+                      </label>
+                    </div>
                   </div>
                 </div>
-                <button className="px-4 py-2 bg-blue-600 text-white rounded">
-                  Save Preferences
-                </button>
+                <Button 
+                  onClick={handleSavePreferences}
+                  disabled={saving}
+                >
+                  {saving ? 'Saving...' : 'Save Preferences'}
+                </Button>
               </CardContent>
             </Card>
           </TabsContent>
