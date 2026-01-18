@@ -8,3 +8,9 @@ verify_jwt = false
 
 [functions.submit-beta-feedback]
 verify_jwt = false
+
+[functions.send-onboarding-email]
+verify_jwt = false
+
+[functions.trigger-milestone-emails]
+verify_jwt = false

@@ -118,6 +118,33 @@ serve(async (req) => {
       console.error("Error updating signup:", updateError);
     }
 
+    // Send welcome email
+    try {
+      const emailResponse = await fetch(`${supabaseUrl}/functions/v1/send-onboarding-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${serviceRoleKey}`,
+        },
+        body: JSON.stringify({
+          userEmail: signup.email,
+          userName: signup.name,
+          emailType: "welcome",
+          userId: newUser.user.id,
+        }),
+      });
+
+      if (emailResponse.ok) {
+        console.log("Welcome email sent successfully");
+      } else {
+        const errorText = await emailResponse.text();
+        console.error("Failed to send welcome email:", errorText);
+      }
+    } catch (emailError: any) {
+      console.error("Error sending welcome email:", emailError);
+      // Don't fail the approval if email fails
+    }
+
     console.log("Beta approval completed successfully");
 
     return new Response(
@@ -126,7 +153,7 @@ serve(async (req) => {
         userId: newUser.user.id,
         email: signup.email,
         tempPassword: tempPassword,
-        message: "User account created and beta_tester role assigned"
+        message: "User account created, beta_tester role assigned, and welcome email sent"
       }),
       {
         status: 200,
