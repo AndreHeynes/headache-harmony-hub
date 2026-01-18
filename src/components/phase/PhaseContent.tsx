@@ -52,7 +52,7 @@ const PhaseContent = ({
             <p className="text-neutral-500 mb-3">
               Watch this short video for a visual walkthrough of your Phase 1 program.
             </p>
-            <VideoPreview title="Phase 1 Introduction" />
+            <VideoPreview title="Phase 1 Introduction" videoSrc="/videos/phase-one-intro.mp4" />
           </div>
         </div>
         
