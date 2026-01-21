@@ -102,7 +102,7 @@ serve(async (req) => {
 
     // Send the email
     const { data: emailResult, error: sendError } = await resend.emails.send({
-      from: "Headache Program <onboarding@resend.dev>",
+      from: "Recover & Reclaim <noreply@recoverfromheadachereclaimyourlife.org>",
       to: [userEmail],
       subject: EMAIL_SUBJECTS[emailType],
       html,
