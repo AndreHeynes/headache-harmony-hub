@@ -1,10 +1,9 @@
-
 import React from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import ContentHeader from "./ContentHeader";
-import VideoPreview from "./VideoPreview";
+import PhaseOneWalkthrough from "@/components/phase-one/PhaseOneWalkthrough";
 
 interface PhaseContentProps {
   day?: number;
@@ -48,11 +47,11 @@ const PhaseContent = ({
           </div>
           
           <div className="border rounded-lg p-4 hover:bg-neutral-50 transition-colors">
-            <h3 className="font-medium mb-2">Introduction Video</h3>
+            <h3 className="font-medium mb-2">Interactive Walkthrough</h3>
             <p className="text-neutral-500 mb-3">
-              Watch this short video for a visual walkthrough of your Phase 1 program.
+              Explore this interactive guide for a visual walkthrough of your Phase 1 program.
             </p>
-            <VideoPreview title="Phase 1 Introduction" videoSrc="/videos/phase-one-intro.mp4" />
+            <PhaseOneWalkthrough />
           </div>
         </div>
         
