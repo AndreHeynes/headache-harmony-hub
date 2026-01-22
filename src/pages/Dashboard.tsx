@@ -13,14 +13,10 @@ import { AlertCircle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/integrations/supabase/client";
 
-// Beta admin emails - matches BetaAdminGuard
-const BETA_ADMIN_EMAILS = [
-  "admin@headache-recovery.com",
-];
-
 const Dashboard = () => {
   const [currentProgress, setCurrentProgress] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { session } = useBetaSession();
   const navigate = useNavigate();
 
@@ -28,14 +24,39 @@ const Dashboard = () => {
   const userName = session.user?.fullName || session.user?.full_name || session.user?.email?.split('@')[0] || 'there';
   const userEmail = session.user?.email?.toLowerCase();
   const userId = session.user?.id;
-  const isAdmin = userEmail && BETA_ADMIN_EMAILS.map(e => e.toLowerCase()).includes(userEmail);
   
   // Default to phase 1 during beta
   const [currentPhase, setCurrentPhase] = useState(1);
 
   useEffect(() => {
     loadProgressData();
+    checkAdminRole();
   }, [userId]);
+
+  const checkAdminRole = async () => {
+    if (!userId) {
+      setIsAdmin(false);
+      return;
+    }
+
+    try {
+      // Check admin role server-side using has_role RPC
+      const { data, error } = await supabase.rpc("has_role", {
+        _user_id: userId,
+        _role: "admin"
+      });
+
+      if (error) {
+        console.error("Error checking admin role:", error);
+        setIsAdmin(false);
+      } else {
+        setIsAdmin(data === true);
+      }
+    } catch (err) {
+      console.error("Error checking admin role:", err);
+      setIsAdmin(false);
+    }
+  };
 
   const loadProgressData = async () => {
     if (!userId) {

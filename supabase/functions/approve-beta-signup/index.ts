@@ -152,8 +152,7 @@ serve(async (req) => {
         success: true,
         userId: newUser.user.id,
         email: signup.email,
-        tempPassword: tempPassword,
-        message: "User account created, beta_tester role assigned, and welcome email sent"
+        message: "User account created, beta_tester role assigned, and welcome email sent. Temporary password sent via email."
       }),
       {
         status: 200,
