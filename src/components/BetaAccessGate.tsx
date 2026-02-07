@@ -10,7 +10,7 @@ interface BetaAccessGateProps {
 
 export function BetaAccessGate({ 
   children, 
-  signupUrl = "https://headache-recovery.lovable.app" 
+  signupUrl = "https://headacherecovery.org" 
 }: BetaAccessGateProps) {
   const { isValidating, isValid, error, isExpired } = useTokenValidation();
 

@@ -144,7 +144,7 @@ function AppContent() {
 function App() {
   return (
     <BetaSessionProvider>
-      <BetaAccessGate signupUrl="https://headache-recovery.lovable.app">
+      <BetaAccessGate signupUrl="https://headacherecovery.org">
         <Router>
           <AppContent />
         </Router>
