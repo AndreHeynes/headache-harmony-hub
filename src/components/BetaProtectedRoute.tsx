@@ -8,7 +8,7 @@ interface BetaProtectedRouteProps {
   signupUrl?: string;
 }
 
-const DEFAULT_SIGNUP_URL = 'https://headache-recovery.lovable.app/#beta-signup';
+const DEFAULT_SIGNUP_URL = 'https://headacherecovery.org/#beta-signup';
 
 export const BetaProtectedRoute = ({ 
   children, 
