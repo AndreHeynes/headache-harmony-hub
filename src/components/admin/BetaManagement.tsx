@@ -96,7 +96,7 @@ export const BetaManagement = () => {
 
       if (error) throw error;
 
-      const betaAccessLink = `https://headache-harmony-journal.lovable.app/?token=${id}`;
+      const betaAccessLink = `https://headache-harmony-hub.lovable.app/?token=${id}`;
       
       toast({
         title: "Beta Tester Approved!",
