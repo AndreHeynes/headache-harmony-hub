@@ -118,31 +118,34 @@ serve(async (req) => {
       console.error("Error updating signup:", updateError);
     }
 
-    // Send welcome email
+    // Trigger beta_program email sequence via Landing Page
     try {
-      const emailResponse = await fetch(`${supabaseUrl}/functions/v1/send-onboarding-email`, {
+      const landingPageUrl = "https://plgarmijuqynxeyymkco.supabase.co/functions/v1/queue-email-sequence";
+      const landingPageAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsZ2FybWlqdXF5bnhleXlta2NvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ5NDg4NDMsImV4cCI6MjA4MDUyNDg0M30.Mmp7C2efUazxM2poJlB44aob-c3CQce-wzU8a_0ExxQ";
+
+      const emailResponse = await fetch(landingPageUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${serviceRoleKey}`,
+          "Authorization": `Bearer ${landingPageAnonKey}`,
         },
         body: JSON.stringify({
-          userEmail: signup.email,
-          userName: signup.name,
-          emailType: "welcome",
-          userId: newUser.user.id,
+          email: signup.email,
+          name: signup.name,
+          sequence_name: "beta_program",
+          source: "beta_app",
         }),
       });
 
       if (emailResponse.ok) {
-        console.log("Welcome email sent successfully");
+        console.log("Beta email sequence queued successfully via Landing Page");
       } else {
         const errorText = await emailResponse.text();
-        console.error("Failed to send welcome email:", errorText);
+        console.error("Failed to queue email sequence:", errorText);
       }
     } catch (emailError: any) {
-      console.error("Error sending welcome email:", emailError);
-      // Don't fail the approval if email fails
+      console.error("Error queuing email sequence:", emailError);
+      // Don't fail the approval if email queueing fails
     }
 
     console.log("Beta approval completed successfully");
