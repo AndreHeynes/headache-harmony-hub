@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /onboarding
+Disallow: /questionnaire
+Disallow: /phase-one
+Disallow: /phase-two
+Disallow: /phase-three
+Disallow: /phase-four
+Disallow: /admin
+
+Sitemap: https://www.recoverfromheadachereclaimyourlife.org/sitemap.xml
