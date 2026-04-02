@@ -18,6 +18,7 @@ const QuestionnaireSection: React.FC<QuestionnaireSectionProps> = ({
   questions,
   answers,
   onAnswerChange,
+  readOnlyFields = [],
 }) => {
   const renderQuestion = (question: Question) => {
     switch (question.type) {
