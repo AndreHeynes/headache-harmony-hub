@@ -212,6 +212,39 @@ export type Database = {
         }
         Relationships: []
       }
+      maintenance_programs: {
+        Row: {
+          created_at: string
+          goals: Json
+          id: string
+          selected_exercises: Json
+          sport_plan: Json
+          updated_at: string
+          user_id: string
+          weekly_schedule: Json
+        }
+        Insert: {
+          created_at?: string
+          goals?: Json
+          id?: string
+          selected_exercises?: Json
+          sport_plan?: Json
+          updated_at?: string
+          user_id: string
+          weekly_schedule?: Json
+        }
+        Update: {
+          created_at?: string
+          goals?: Json
+          id?: string
+          selected_exercises?: Json
+          sport_plan?: Json
+          updated_at?: string
+          user_id?: string
+          weekly_schedule?: Json
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
