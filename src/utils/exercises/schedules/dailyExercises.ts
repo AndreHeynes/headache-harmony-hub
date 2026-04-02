@@ -31,112 +31,120 @@ import {
 } from "./weeklyReviews";
 
 /**
- * Get exercises for a specific day in Phase 2
+ * Filter a day's hardcoded exercises against the user's FHT-recommended set.
+ * Activity sheets and general exercises always pass through.
+ * If no FHT response is provided, returns the unfiltered list.
+ */
+const applyFhtFilter = (
+  dayExercises: Exercise[],
+  fhtResponse?: QuestionnaireResponse
+): Exercise[] => {
+  if (!fhtResponse) return dayExercises;
+
+  const recommended = getRecommendedExercises(fhtResponse);
+  const recommendedIds = new Set(recommended.map(ex => ex.id));
+
+  return dayExercises.filter(ex => {
+    if (ex.type === "activity") return true;
+    if (ex.isGeneralExercise) return true;
+    return recommendedIds.has(ex.id);
+  });
+};
+
+/**
+ * Get exercises for a specific day in Phase 2, filtered by FHT response
  */
 export const getExercisesForDay = (
   day: number,
   fhtResponse?: QuestionnaireResponse
 ): Exercise[] => {
-  // Get all recommended exercises based on FHT questionnaire
-  const allRecommended = getRecommendedExercises(fhtResponse);
-  
-  // For weekly review days (7, 14, etc.)
+  let rawExercises: Exercise[];
+
   if (day % 7 === 0) {
-    // Select the appropriate weekly review function based on week number
-    if (day === 7) {
-      return getDay7Exercises();
-    } else if (day === 14) {
-      return getDay14Exercises();
-    } else if (day === 21) {
-      return getDay21Exercises();
-    } else if (day === 28) {
-      return getDay28Exercises();
-    } else if (day === 35) {
-      return getDay35Exercises();
-    } else if (day === 42) {
-      return getDay42Exercises();
-    } else if (day === 49) {
-      return getDay49Exercises();
-    } else if (day === 56) {
-      return getDay56Exercises();
-    } else if (day === 63) {
-      return getDay63Exercises();
-    } else if (day === 70) {
-      return getDay70Exercises();
-    } else {
-      // For other weekly review days, use a default set of exercises
-      return exercises.filter(ex => ex.type === "activity").slice(0, 6);
-    }
+    if (day === 7) rawExercises = getDay7Exercises();
+    else if (day === 14) rawExercises = getDay14Exercises();
+    else if (day === 21) rawExercises = getDay21Exercises();
+    else if (day === 28) rawExercises = getDay28Exercises();
+    else if (day === 35) rawExercises = getDay35Exercises();
+    else if (day === 42) rawExercises = getDay42Exercises();
+    else if (day === 49) rawExercises = getDay49Exercises();
+    else if (day === 56) rawExercises = getDay56Exercises();
+    else if (day === 63) rawExercises = getDay63Exercises();
+    else if (day === 70) rawExercises = getDay70Exercises();
+    else rawExercises = exercises.filter(ex => ex.type === "activity").slice(0, 6);
+
+    return applyFhtFilter(rawExercises, fhtResponse);
   }
-  
-  // For regular exercise days, use the appropriate day function
+
   switch (day) {
-    case 1: return getDay1Exercises();
-    case 2: return getDay2Exercises();
-    case 3: return getDay3Exercises();
-    case 4: return getDay4Exercises();
-    case 5: return getDay5Exercises();
-    case 6: return getDay6Exercises();
-    case 8: return getDay8Exercises();
-    case 9: return getDay9Exercises();
-    case 10: return getDay10Exercises();
-    case 11: return getDay11Exercises();
-    case 12: return getDay12Exercises();
-    case 13: return getDay13Exercises();
-    case 15: return getDay15Exercises();
-    case 16: return getDay16Exercises();
-    case 17: return getDay17Exercises();
-    case 18: return getDay18Exercises();
-    case 19: return getDay19Exercises();
-    case 20: return getDay20Exercises();
-    case 22: return getDay22Exercises();
-    case 23: return getDay23Exercises();
-    case 24: return getDay24Exercises();
-    case 25: return getDay25Exercises();
-    case 26: return getDay26Exercises();
-    case 27: return getDay27Exercises();
-    case 29: return getDay29Exercises();
-    case 30: return getDay30Exercises();
-    case 31: return getDay31Exercises();
-    case 32: return getDay32Exercises();
-    case 33: return getDay33Exercises();
-    case 34: return getDay34Exercises();
-    case 36: return getDay36Exercises();
-    case 37: return getDay37Exercises();
-    case 38: return getDay38Exercises();
-    case 39: return getDay39Exercises();
-    case 40: return getDay40Exercises();
-    case 41: return getDay41Exercises();
-    case 43: return getDay43Exercises();
-    case 44: return getDay44Exercises();
-    case 45: return getDay45Exercises();
-    case 46: return getDay46Exercises();
-    case 47: return getDay47Exercises();
-    case 48: return getDay48Exercises();
-    case 50: return getDay50Exercises();
-    case 51: return getDay51Exercises();
-    case 52: return getDay52Exercises();
-    case 53: return getDay53Exercises();
-    case 54: return getDay54Exercises();
-    case 55: return getDay55Exercises();
-    case 57: return getDay57Exercises();
-    case 58: return getDay58Exercises();
-    case 59: return getDay59Exercises();
-    case 60: return getDay60Exercises();
-    case 61: return getDay61Exercises();
-    case 62: return getDay62Exercises();
-    case 64: return getDay64Exercises();
-    case 65: return getDay65Exercises();
-    case 66: return getDay66Exercises();
-    case 67: return getDay67Exercises();
-    case 68: return getDay68Exercises();
-    case 69: return getDay69Exercises();
-    case 71: return getDay71Exercises();
-    case 72: return getDay72Exercises();
-    case 73: return getDay73Exercises();
-    case 74: return getDay74Exercises();
-    case 75: return getDay75Exercises();
-    case 76: return getDay76Exercises();
+    case 1: rawExercises = getDay1Exercises(); break;
+    case 2: rawExercises = getDay2Exercises(); break;
+    case 3: rawExercises = getDay3Exercises(); break;
+    case 4: rawExercises = getDay4Exercises(); break;
+    case 5: rawExercises = getDay5Exercises(); break;
+    case 6: rawExercises = getDay6Exercises(); break;
+    case 8: rawExercises = getDay8Exercises(); break;
+    case 9: rawExercises = getDay9Exercises(); break;
+    case 10: rawExercises = getDay10Exercises(); break;
+    case 11: rawExercises = getDay11Exercises(); break;
+    case 12: rawExercises = getDay12Exercises(); break;
+    case 13: rawExercises = getDay13Exercises(); break;
+    case 15: rawExercises = getDay15Exercises(); break;
+    case 16: rawExercises = getDay16Exercises(); break;
+    case 17: rawExercises = getDay17Exercises(); break;
+    case 18: rawExercises = getDay18Exercises(); break;
+    case 19: rawExercises = getDay19Exercises(); break;
+    case 20: rawExercises = getDay20Exercises(); break;
+    case 22: rawExercises = getDay22Exercises(); break;
+    case 23: rawExercises = getDay23Exercises(); break;
+    case 24: rawExercises = getDay24Exercises(); break;
+    case 25: rawExercises = getDay25Exercises(); break;
+    case 26: rawExercises = getDay26Exercises(); break;
+    case 27: rawExercises = getDay27Exercises(); break;
+    case 29: rawExercises = getDay29Exercises(); break;
+    case 30: rawExercises = getDay30Exercises(); break;
+    case 31: rawExercises = getDay31Exercises(); break;
+    case 32: rawExercises = getDay32Exercises(); break;
+    case 33: rawExercises = getDay33Exercises(); break;
+    case 34: rawExercises = getDay34Exercises(); break;
+    case 36: rawExercises = getDay36Exercises(); break;
+    case 37: rawExercises = getDay37Exercises(); break;
+    case 38: rawExercises = getDay38Exercises(); break;
+    case 39: rawExercises = getDay39Exercises(); break;
+    case 40: rawExercises = getDay40Exercises(); break;
+    case 41: rawExercises = getDay41Exercises(); break;
+    case 43: rawExercises = getDay43Exercises(); break;
+    case 44: rawExercises = getDay44Exercises(); break;
+    case 45: rawExercises = getDay45Exercises(); break;
+    case 46: rawExercises = getDay46Exercises(); break;
+    case 47: rawExercises = getDay47Exercises(); break;
+    case 48: rawExercises = getDay48Exercises(); break;
+    case 50: rawExercises = getDay50Exercises(); break;
+    case 51: rawExercises = getDay51Exercises(); break;
+    case 52: rawExercises = getDay52Exercises(); break;
+    case 53: rawExercises = getDay53Exercises(); break;
+    case 54: rawExercises = getDay54Exercises(); break;
+    case 55: rawExercises = getDay55Exercises(); break;
+    case 57: rawExercises = getDay57Exercises(); break;
+    case 58: rawExercises = getDay58Exercises(); break;
+    case 59: rawExercises = getDay59Exercises(); break;
+    case 60: rawExercises = getDay60Exercises(); break;
+    case 61: rawExercises = getDay61Exercises(); break;
+    case 62: rawExercises = getDay62Exercises(); break;
+    case 64: rawExercises = getDay64Exercises(); break;
+    case 65: rawExercises = getDay65Exercises(); break;
+    case 66: rawExercises = getDay66Exercises(); break;
+    case 67: rawExercises = getDay67Exercises(); break;
+    case 68: rawExercises = getDay68Exercises(); break;
+    case 69: rawExercises = getDay69Exercises(); break;
+    case 71: rawExercises = getDay71Exercises(); break;
+    case 72: rawExercises = getDay72Exercises(); break;
+    case 73: rawExercises = getDay73Exercises(); break;
+    case 74: rawExercises = getDay74Exercises(); break;
+    case 75: rawExercises = getDay75Exercises(); break;
+    case 76: rawExercises = getDay76Exercises(); break;
     default: return [];
   }
+
+  return applyFhtFilter(rawExercises, fhtResponse);
 };
