@@ -1,40 +1,30 @@
 
 
-## Plan: Fix FHT-Based Exercise Filtering in Phase 2
+## Plan: Lock PSFS Activity Names in Phase 3
 
 ### Problem
-Phase 2 shows TMJ (Set 6) and Neural/Occipital (Set 4) exercises to ALL users regardless of their FHT questionnaire answers. The `getExercisesForDay()` function accepts an FHT response but ignores it, and `PhaseTwoContent` never passes one.
+When a user takes the PSFS in Phase 3, the activity text fields from Phase 1 are pre-populated (the fetch logic in `Questionnaire.tsx` lines 49-67 already works), but the text inputs remain **editable**. Users could change the activity names, breaking the before/after comparison.
 
-Phase 4's Exercise Library is already correctly filtering — this fix brings Phase 2 to parity.
+### What's already working (no changes needed)
+- **HIT-6 comparison**: Phase 1 score vs Phase 3 score — fetched, compared, displayed correctly
+- **MIDAS comparison**: Phase 1 score vs Phase 3 score — fetched, compared, displayed correctly
+- **PSFS comparison**: Activity-by-activity matching by ID (`psfs-activity1`, etc.) — works correctly in `useProgressData`
+- **GPOC**: Phase 3 only, no comparison needed — works correctly
+- **DayEightContent**: Renders all comparisons with color-coded cards, percentage changes, and direction indicators
 
-### Solution
-Apply `getRecommendedExercises()` as a post-filter on each day's hardcoded exercise list, removing exercises the user shouldn't see based on their FHT results.
+### Fix needed: 1 file change
 
-### Changes
+**`src/components/questionnaire/QuestionnaireSection.tsx`**
 
-**1. `src/components/phase-two/PhaseTwoContent.tsx`**
-- Import `useQuestionnaireResponses` hook
-- Fetch the user's FHT response on mount
-- Pass it to `getExercisesForDay(day, fhtResponse)`
+In the `text` input renderer, detect when the question is a PSFS activity field AND the value was pre-populated (i.e., it has an initial value). Make the input **read-only** with a visual indicator (grayed-out background, lock icon or label saying "From Phase 1").
 
-**2. `src/utils/exercises/schedules/dailyExercises.ts`**
-- After the hardcoded day function returns its exercise list, cross-filter it against `getRecommendedExercises(fhtResponse)`
-- Only return exercises that appear in both the day's list AND the user's recommended set
-- This preserves the daily schedule structure while removing exercises the user shouldn't see (e.g., TMJ exercises for non-Set-6 users, Neural exercises for non-Set-4 users)
+This requires passing an additional prop (e.g., `readOnlyFields?: string[]`) from `QuestionnaireForm` → `QuestionnaireSection`, which `QuestionnaireForm` populates when `questionnaire.id === 'psfs'` and Phase 1 activities exist in `initialAnswers`.
 
-**3. `src/components/phase-two/DailyExerciseList.tsx`**
-- Pass the FHT response through to weekly review day functions so they also get filtered
+### Technical detail
 
-### How it works
+1. **`QuestionnaireForm.tsx`**: Derive a `readOnlyFields` array from `initialAnswers.savedActivities` IDs (e.g., `['psfs-activity1', 'psfs-activity2']`). Pass to `QuestionnaireSection`.
 
-```text
-Day's hardcoded exercises ──┐
-                            ├── intersection ──> Filtered daily list
-User's FHT-recommended set ─┘
-```
+2. **`QuestionnaireSection.tsx`**: Accept `readOnlyFields` prop. When rendering a `text` type question whose ID is in `readOnlyFields`, set `readOnly={true}` and apply `bg-neutral-100 cursor-not-allowed` styling with a small label "Activity from Phase 1".
 
-The hardcoded daily schedules stay as-is (they define the program structure). The FHT filter removes exercises the user doesn't qualify for. For users with no FHT data, only `isGeneralExercise` exercises are shown (existing fallback behavior in `filters.ts`).
-
-### No database changes required
-The FHT response is already stored in `user_responses` and retrieved via `useQuestionnaireResponses`.
+No database changes. No new files. The comparison display system is already complete.
 
