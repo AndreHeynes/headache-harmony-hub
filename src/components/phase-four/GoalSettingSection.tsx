@@ -1,85 +1,227 @@
 
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Card, CardContent } from "@/components/ui/card";
+import { CalendarIcon, Plus, Trash2, Target, TrendingUp, CheckCircle, Crosshair, Clock } from "lucide-react";
+import { format, differenceInDays } from "date-fns";
+import { cn } from "@/lib/utils";
+import { SmartGoal } from "@/hooks/useMaintenanceProgram";
 
-const GoalSettingSection = () => {
+interface GoalSettingSectionProps {
+  goals: SmartGoal[];
+  onGoalsChange: (goals: SmartGoal[]) => void;
+}
+
+const GoalSettingSection: React.FC<GoalSettingSectionProps> = ({ goals, onGoalsChange }) => {
+  const [expandedGoalId, setExpandedGoalId] = useState<string | null>(null);
+
+  const addGoal = () => {
+    if (goals.length >= 3) return;
+    const newGoal: SmartGoal = {
+      id: crypto.randomUUID(),
+      specific: "",
+      measurable: "",
+      achievable: "",
+      relevant: "",
+      targetDate: "",
+    };
+    onGoalsChange([...goals, newGoal]);
+    setExpandedGoalId(newGoal.id);
+  };
+
+  const updateGoal = (id: string, field: keyof SmartGoal, value: string) => {
+    onGoalsChange(goals.map(g => g.id === id ? { ...g, [field]: value } : g));
+  };
+
+  const removeGoal = (id: string) => {
+    onGoalsChange(goals.filter(g => g.id !== id));
+    if (expandedGoalId === id) setExpandedGoalId(null);
+  };
+
+  const getDaysRemaining = (dateStr: string) => {
+    if (!dateStr) return null;
+    const days = differenceInDays(new Date(dateStr), new Date());
+    return days;
+  };
+
+  const smartIcons = [
+    { key: "specific", icon: Crosshair, label: "Specific", description: "Clear target outcome" },
+    { key: "measurable", icon: TrendingUp, label: "Measurable", description: "Track progress" },
+    { key: "achievable", icon: CheckCircle, label: "Achievable", description: "Realistic goals" },
+    { key: "relevant", icon: Target, label: "Relevant", description: "Aligns with needs" },
+    { key: "targetDate", icon: Clock, label: "Time-bound", description: "Set deadline" },
+  ];
+
   return (
-    <section className="bg-gray-800 rounded-xl p-8 mb-8">
-      <div className="max-w-3xl">
-        <div className="flex flex-col mb-6">
-          <h2 className="text-2xl font-bold">Define Your SMART Goal</h2>
-          <p className="text-sm text-gray-400 mt-1">In 1981, George T. Doran wrote a paper titled, "There's a S.M.A.R.T. Way to Write Management's Goals and Objectives."</p>
+    <section className="bg-card rounded-xl p-6 md:p-8 mb-8 border border-border">
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-foreground">Define Your SMART Goals</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            In 1981, George T. Doran wrote a paper titled, "There's a S.M.A.R.T. Way to Write Management's Goals and Objectives."
+          </p>
         </div>
-        <div className="mb-8">
-          <textarea 
-            className="w-full bg-gray-700 border border-gray-600 rounded-lg p-4 text-gray-100" 
-            rows={4} 
-            placeholder="Enter your specific, measurable, achievable, relevant, and time-bound goal..."
-          />
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-5 gap-4">
-            <div className="bg-gray-700 p-4 rounded-lg">
-              <div className="text-blue-400 mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-              </div>
-              <h3 className="font-medium mb-1">Specific</h3>
-              <p className="text-sm text-gray-400">Clear target outcome</p>
-            </div>
-            <div className="bg-gray-700 p-4 rounded-lg">
-              <div className="text-blue-400 mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
-              </div>
-              <h3 className="font-medium mb-1">Measurable</h3>
-              <p className="text-sm text-gray-400">Track progress</p>
-            </div>
-            <div className="bg-gray-700 p-4 rounded-lg">
-              <div className="text-blue-400 mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              </div>
-              <h3 className="font-medium mb-1">Achievable</h3>
-              <p className="text-sm text-gray-400">Realistic goals</p>
-            </div>
-            <div className="bg-gray-700 p-4 rounded-lg">
-              <div className="text-blue-400 mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-              </div>
-              <h3 className="font-medium mb-1">Relevant</h3>
-              <p className="text-sm text-gray-400">Aligns with needs</p>
-            </div>
-            <div className="bg-gray-700 p-4 rounded-lg">
-              <div className="text-blue-400 mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              </div>
-              <h3 className="font-medium mb-1">Time-bound</h3>
-              <p className="text-sm text-gray-400">Set deadline</p>
-            </div>
-          </div>
-        </div>
+        {goals.length < 3 && (
+          <Button onClick={addGoal} variant="outline" size="sm">
+            <Plus className="h-4 w-4 mr-1" /> Add Goal
+          </Button>
+        )}
+      </div>
 
-        <div className="bg-gray-700 rounded-lg p-6">
-          <h3 className="text-lg font-medium mb-4">Key Habits to Maintain</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex items-start space-x-3">
-              <div className="text-blue-400 mt-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="16" y1="19" x2="16" y2="19"/><line x1="19" y1="16" x2="19" y2="16"/><circle cx="17" cy="17" r="4"/></svg>
-              </div>
-              <div>
-                <h4 className="font-medium">Activity Sheet AS4</h4>
-                <p className="text-sm text-gray-400">Trigger Management Review</p>
-                <Link to="/phase-two" className="text-blue-400 text-sm hover:underline">Review AS4 Document</Link>
-              </div>
-            </div>
-            <div className="flex items-start space-x-3">
-              <div className="text-blue-400 mt-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-              </div>
-              <div>
-                <h4 className="font-medium">Sleep Hygiene (AS3)</h4>
-                <p className="text-sm text-gray-400">Maintain Sleep Routine</p>
-                <Link to="/phase-two" className="text-blue-400 text-sm hover:underline">Review AS3 Document</Link>
-              </div>
-            </div>
+      {/* SMART reference cards */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+        {smartIcons.map(({ icon: Icon, label, description }) => (
+          <div key={label} className="bg-muted p-3 rounded-lg">
+            <Icon className="h-5 w-5 text-primary mb-1" />
+            <h3 className="font-medium text-sm text-foreground">{label}</h3>
+            <p className="text-xs text-muted-foreground">{description}</p>
           </div>
+        ))}
+      </div>
+
+      {goals.length === 0 && (
+        <div className="text-center py-8 bg-muted rounded-lg">
+          <Target className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
+          <p className="text-muted-foreground">No goals set yet. Click "Add Goal" to define your first SMART goal.</p>
         </div>
+      )}
+
+      {/* Goal Cards */}
+      <div className="space-y-4">
+        {goals.map((goal, index) => {
+          const daysLeft = getDaysRemaining(goal.targetDate);
+          const isExpanded = expandedGoalId === goal.id;
+          const isComplete = goal.specific && goal.measurable && goal.achievable && goal.relevant && goal.targetDate;
+
+          return (
+            <Card key={goal.id} className={cn("border transition-all", isComplete ? "border-primary/50 bg-primary/5" : "border-border bg-muted")}>
+              <CardContent className="p-4">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-3 cursor-pointer" onClick={() => setExpandedGoalId(isExpanded ? null : goal.id)}>
+                  <div className="flex items-center gap-3">
+                    <div className={cn(
+                      "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold",
+                      isComplete ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"
+                    )}>
+                      {index + 1}
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-foreground">
+                        {goal.specific ? goal.specific.substring(0, 60) + (goal.specific.length > 60 ? '...' : '') : `Goal ${index + 1}`}
+                      </h4>
+                      {daysLeft !== null && (
+                        <span className={cn(
+                          "text-xs font-medium px-2 py-0.5 rounded-full",
+                          daysLeft > 30 ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200" :
+                          daysLeft > 7 ? "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200" :
+                          "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                        )}>
+                          {daysLeft > 0 ? `${daysLeft} days remaining` : daysLeft === 0 ? "Due today!" : `${Math.abs(daysLeft)} days overdue`}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <Button variant="ghost" size="icon" onClick={(e) => { e.stopPropagation(); removeGoal(goal.id); }}>
+                    <Trash2 className="h-4 w-4 text-destructive" />
+                  </Button>
+                </div>
+
+                {/* Expanded Form */}
+                {isExpanded && (
+                  <div className="space-y-4 pt-3 border-t border-border">
+                    <div>
+                      <label className="block text-sm font-medium mb-1 text-foreground">Specific — What exactly do you want to achieve?</label>
+                      <Textarea
+                        value={goal.specific}
+                        onChange={(e) => updateGoal(goal.id, "specific", e.target.value)}
+                        placeholder="e.g., Reduce headache frequency to less than 2 per month"
+                        className="bg-background border-border"
+                        rows={2}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1 text-foreground">Measurable — How will you track progress?</label>
+                      <Textarea
+                        value={goal.measurable}
+                        onChange={(e) => updateGoal(goal.id, "measurable", e.target.value)}
+                        placeholder="e.g., Track headache days per month in diary"
+                        className="bg-background border-border"
+                        rows={2}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1 text-foreground">Achievable — What steps will you take?</label>
+                      <Textarea
+                        value={goal.achievable}
+                        onChange={(e) => updateGoal(goal.id, "achievable", e.target.value)}
+                        placeholder="e.g., Exercise 4x weekly, maintain sleep routine"
+                        className="bg-background border-border"
+                        rows={2}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1 text-foreground">Relevant — Why does this matter to you?</label>
+                      <Textarea
+                        value={goal.relevant}
+                        onChange={(e) => updateGoal(goal.id, "relevant", e.target.value)}
+                        placeholder="e.g., Being able to enjoy weekend activities without pain"
+                        className="bg-background border-border"
+                        rows={2}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1 text-foreground">Time-bound — Target date</label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button variant="outline" className={cn("w-full md:w-[280px] justify-start text-left font-normal", !goal.targetDate && "text-muted-foreground")}>
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {goal.targetDate ? format(new Date(goal.targetDate), "PPP") : "Pick a target date"}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={goal.targetDate ? new Date(goal.targetDate) : undefined}
+                            onSelect={(date) => date && updateGoal(goal.id, "targetDate", date.toISOString())}
+                            disabled={(date) => date < new Date()}
+                            initialFocus
+                            className={cn("p-3 pointer-events-auto")}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  </div>
+                )}
+
+                {/* Visual Goal Preview (collapsed, complete) */}
+                {!isExpanded && isComplete && (
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                    <div className="bg-background rounded p-2">
+                      <span className="text-muted-foreground">Measure:</span>
+                      <p className="text-foreground truncate">{goal.measurable}</p>
+                    </div>
+                    <div className="bg-background rounded p-2">
+                      <span className="text-muted-foreground">Steps:</span>
+                      <p className="text-foreground truncate">{goal.achievable}</p>
+                    </div>
+                    <div className="bg-background rounded p-2">
+                      <span className="text-muted-foreground">Why:</span>
+                      <p className="text-foreground truncate">{goal.relevant}</p>
+                    </div>
+                    <div className="bg-background rounded p-2">
+                      <span className="text-muted-foreground">Deadline:</span>
+                      <p className="text-foreground">{goal.targetDate ? format(new Date(goal.targetDate), "MMM d, yyyy") : '-'}</p>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
     </section>
   );

@@ -1,259 +1,213 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, ChevronDown, Clock, Minus, Plus } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Check, Minus, Plus, Calendar, List } from "lucide-react";
+import { SelectedExercise, WeeklySchedule, SmartGoal } from "@/hooks/useMaintenanceProgram";
+import { EXERCISE_CATEGORY_COLORS, ExerciseCategory } from "@/utils/exercises/exerciseCategoryMap";
+import { cn } from "@/lib/utils";
 
-const ProgramBuilder = () => {
+const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+interface ProgramBuilderProps {
+  selectedExercises: SelectedExercise[];
+  onExercisesChange: (exercises: SelectedExercise[]) => void;
+  weeklySchedule: WeeklySchedule;
+  onScheduleChange: (schedule: WeeklySchedule) => void;
+  goals: SmartGoal[];
+  activeDaysCount: number;
+}
+
+const ProgramBuilder: React.FC<ProgramBuilderProps> = ({
+  selectedExercises, onExercisesChange,
+  weeklySchedule, onScheduleChange,
+  goals, activeDaysCount,
+}) => {
+  const [view, setView] = useState<"schedule" | "diary">("schedule");
+
+  const updateExercise = (exerciseId: string, field: "sets" | "reps", delta: number) => {
+    onExercisesChange(selectedExercises.map(ex =>
+      ex.exerciseId === exerciseId ? { ...ex, [field]: Math.max(1, ex[field] + delta) } : ex
+    ));
+  };
+
+  const toggleExerciseOnDay = (day: string, exerciseId: string) => {
+    const current = weeklySchedule[day] || [];
+    const updated = current.includes(exerciseId)
+      ? current.filter(id => id !== exerciseId)
+      : [...current, exerciseId];
+    onScheduleChange({ ...weeklySchedule, [day]: updated });
+  };
+
+  const getExerciseById = (id: string) => selectedExercises.find(e => e.exerciseId === id);
+
+  if (selectedExercises.length === 0) {
+    return (
+      <section className="bg-card rounded-xl p-6 md:p-8 mb-8 border border-border">
+        <h2 className="text-2xl font-bold mb-4 text-foreground">Customize Your Routine</h2>
+        <div className="text-center py-8 bg-muted rounded-lg">
+          <p className="text-muted-foreground">Select exercises from the Exercise Vault above to start building your program.</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section className="bg-gray-800 rounded-xl p-8 mb-8">
-      <h2 className="text-2xl font-bold mb-6">Customize Your Routine</h2>
-      
-      {/* Selected Exercises Customization */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        <div className="bg-gray-700 rounded-xl p-6">
-          <h3 className="text-lg font-medium mb-4">Selected Exercises</h3>
-          
-          {/* Exercise Item with Controls */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-gray-600 rounded-lg">
-              <div className="flex items-center">
-                <div className="w-2 h-12 bg-blue-600 rounded-full mr-4"></div>
-                <div>
-                  <h4 className="font-medium">Neck Flexion/Extension</h4>
-                  <p className="text-sm text-gray-400">Mobility Exercise</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-6">
-                <div className="flex items-center space-x-2">
-                  <label className="text-sm">Sets</label>
-                  <div className="flex items-center">
-                    <Button variant="outline" size="icon" className="h-8 w-8 rounded-l-lg rounded-r-none">
-                      <Minus className="h-4 w-4" />
-                    </Button>
-                    <input type="number" className="w-12 h-8 bg-gray-800 text-center" defaultValue={3} />
-                    <Button variant="outline" size="icon" className="h-8 w-8 rounded-r-lg rounded-l-none">
-                      <Plus className="h-4 w-4" />
-                    </Button>
+    <section className="bg-card rounded-xl p-6 md:p-8 mb-8 border border-border">
+      <div className="flex flex-col md:flex-row justify-between items-start mb-6 gap-3">
+        <h2 className="text-2xl font-bold text-foreground">Customize Your Routine</h2>
+        <div className="flex items-center gap-2">
+          <Button variant={view === "schedule" ? "default" : "secondary"} size="sm" onClick={() => setView("schedule")}>
+            <Calendar className="h-4 w-4 mr-1" /> Schedule
+          </Button>
+          <Button variant={view === "diary" ? "default" : "secondary"} size="sm" onClick={() => setView("diary")}>
+            <List className="h-4 w-4 mr-1" /> Diary
+          </Button>
+        </div>
+      </div>
+
+      {/* Frequency indicator */}
+      <div className={cn(
+        "rounded-lg px-4 py-2 mb-6 text-sm font-medium",
+        activeDaysCount >= 4 ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300" :
+        "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
+      )}>
+        {activeDaysCount}/7 days scheduled — {activeDaysCount >= 4 ? "✓ Meets recommended 4x weekly frequency" : `Add ${4 - activeDaysCount} more day(s) to meet the recommended 4x weekly frequency`}
+      </div>
+
+      {view === "schedule" ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Exercise Customization */}
+          <div className="bg-muted rounded-xl p-4">
+            <h3 className="text-lg font-medium mb-4 text-foreground">Selected Exercises</h3>
+            <div className="space-y-3 max-h-[400px] overflow-y-auto">
+              {selectedExercises.map(ex => (
+                <div key={ex.exerciseId} className="flex items-center justify-between p-3 bg-background rounded-lg">
+                  <div className="flex items-center min-w-0">
+                    <div className={cn("w-1.5 h-10 rounded-full mr-3 shrink-0", EXERCISE_CATEGORY_COLORS[ex.category as ExerciseCategory] || "bg-primary")}></div>
+                    <div className="min-w-0">
+                      <h4 className="font-medium text-sm text-foreground truncate">{ex.title}</h4>
+                      <p className="text-xs text-muted-foreground">{ex.category}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 shrink-0">
+                    <div className="flex items-center gap-1">
+                      <span className="text-xs text-muted-foreground">Sets</span>
+                      <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => updateExercise(ex.exerciseId, "sets", -1)}>
+                        <Minus className="h-3 w-3" />
+                      </Button>
+                      <span className="w-6 text-center text-sm text-foreground">{ex.sets}</span>
+                      <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => updateExercise(ex.exerciseId, "sets", 1)}>
+                        <Plus className="h-3 w-3" />
+                      </Button>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className="text-xs text-muted-foreground">Reps</span>
+                      <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => updateExercise(ex.exerciseId, "reps", -1)}>
+                        <Minus className="h-3 w-3" />
+                      </Button>
+                      <span className="w-6 text-center text-sm text-foreground">{ex.reps}</span>
+                      <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => updateExercise(ex.exerciseId, "reps", 1)}>
+                        <Plus className="h-3 w-3" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <label className="text-sm">Reps</label>
-                  <div className="flex items-center">
-                    <Button variant="outline" size="icon" className="h-8 w-8 rounded-l-lg rounded-r-none">
-                      <Minus className="h-4 w-4" />
-                    </Button>
-                    <input type="number" className="w-12 h-8 bg-gray-800 text-center" defaultValue={10} />
-                    <Button variant="outline" size="icon" className="h-8 w-8 rounded-r-lg rounded-l-none">
-                      <Plus className="h-4 w-4" />
-                    </Button>
-                  </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Weekly Schedule Grid */}
+          <div className="bg-muted rounded-xl p-4">
+            <h3 className="text-lg font-medium mb-4 text-foreground">Weekly Schedule</h3>
+            <div className="grid grid-cols-7 gap-1">
+              {DAYS.map(day => (
+                <div key={day} className="text-center text-xs font-medium text-muted-foreground pb-1">
+                  {day.substring(0, 3)}
                 </div>
+              ))}
+              {DAYS.map(day => {
+                const dayExercises = weeklySchedule[day] || [];
+                return (
+                  <div key={`slot-${day}`} className="bg-background rounded-lg p-1.5 min-h-[80px] border border-dashed border-border">
+                    {dayExercises.map(exId => {
+                      const ex = getExerciseById(exId);
+                      if (!ex) return null;
+                      return (
+                        <div
+                          key={exId}
+                          className={cn("rounded px-1.5 py-1 text-[10px] text-white mb-1 cursor-pointer truncate", EXERCISE_CATEGORY_COLORS[ex.category as ExerciseCategory] || "bg-primary")}
+                          onClick={() => toggleExerciseOnDay(day, exId)}
+                          title={`${ex.title} (click to remove)`}
+                        >
+                          {ex.title.substring(0, 12)}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+            {/* Quick assign */}
+            <div className="mt-4">
+              <p className="text-xs text-muted-foreground mb-2">Click an exercise below, then click a day to assign:</p>
+              <div className="flex flex-wrap gap-1">
+                {selectedExercises.map(ex => (
+                  <button
+                    key={ex.exerciseId}
+                    className={cn("text-[10px] px-2 py-1 rounded text-white", EXERCISE_CATEGORY_COLORS[ex.category as ExerciseCategory] || "bg-primary")}
+                    onClick={() => {
+                      // Add to next empty/available day
+                      const nextDay = DAYS.find(d => !(weeklySchedule[d] || []).includes(ex.exerciseId));
+                      if (nextDay) toggleExerciseOnDay(nextDay, ex.exerciseId);
+                    }}
+                  >
+                    + {ex.title.substring(0, 15)}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
         </div>
+      ) : (
+        /* Diary View */
+        <div>
+          {/* Goals highlight */}
+          {goals.length > 0 && (
+            <div className="mb-4 p-3 bg-primary/10 rounded-lg border border-primary/20">
+              <h4 className="text-sm font-semibold text-primary mb-1">Your Goals</h4>
+              {goals.filter(g => g.specific).map(g => (
+                <p key={g.id} className="text-xs text-foreground">• {g.specific}</p>
+              ))}
+            </div>
+          )}
 
-        {/* Weekly Schedule */}
-        <div className="bg-gray-700 rounded-xl p-6">
-          <h3 className="text-lg font-medium mb-4">Weekly Schedule</h3>
-          <div className="grid grid-cols-7 gap-2">
-            {/* Days of Week */}
-            <div className="text-center p-2 text-sm text-gray-400">Mon</div>
-            <div className="text-center p-2 text-sm text-gray-400">Tue</div>
-            <div className="text-center p-2 text-sm text-gray-400">Wed</div>
-            <div className="text-center p-2 text-sm text-gray-400">Thu</div>
-            <div className="text-center p-2 text-sm text-gray-400">Fri</div>
-            <div className="text-center p-2 text-sm text-gray-400">Sat</div>
-            <div className="text-center p-2 text-sm text-gray-400">Sun</div>
-            
-            {/* Schedule Slots */}
-            <div className="bg-gray-800 rounded-lg p-2 min-h-[100px] border-2 border-dashed border-gray-600">
-              <div className="bg-blue-600 rounded p-2 text-sm mb-2">Neck Flexion</div>
-              <div className="bg-green-600 rounded p-2 text-sm">Isometric Hold</div>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-2 min-h-[100px] border-2 border-dashed border-gray-600"></div>
-            <div className="bg-gray-800 rounded-lg p-2 min-h-[100px] border-2 border-dashed border-gray-600">
-              <div className="bg-purple-600 rounded p-2 text-sm">Upper Trap Stretch</div>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-2 min-h-[100px] border-2 border-dashed border-gray-600"></div>
-            <div className="bg-gray-800 rounded-lg p-2 min-h-[100px] border-2 border-dashed border-gray-600">
-              <div className="bg-blue-600 rounded p-2 text-sm">Neck Flexion</div>
-            </div>
-            <div className="bg-gray-600 rounded-lg p-2 min-h-[100px] flex items-center justify-center">
-              <span className="text-sm text-gray-400">Rest Day</span>
-            </div>
-            <div className="bg-gray-600 rounded-lg p-2 min-h-[100px] flex items-center justify-center">
-              <span className="text-sm text-gray-400">Rest Day</span>
-            </div>
+          {/* Weekly diary */}
+          <div className="space-y-3">
+            {DAYS.map(day => {
+              const dayExercises = (weeklySchedule[day] || []).map(id => getExerciseById(id)).filter(Boolean);
+              return (
+                <div key={day} className="bg-muted rounded-lg p-3">
+                  <h4 className="font-medium text-sm text-foreground mb-2">{day}</h4>
+                  {dayExercises.length === 0 ? (
+                    <p className="text-xs text-muted-foreground italic">Rest day</p>
+                  ) : (
+                    <div className="space-y-2">
+                      {dayExercises.map(ex => ex && (
+                        <div key={ex.exerciseId} className="flex items-center gap-2 text-sm">
+                          <Checkbox />
+                          <span className="text-foreground">{ex.title}</span>
+                          <span className="text-xs text-muted-foreground">{ex.sets}×{ex.reps}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
-      </div>
-
-      {/* Activity Sheets */}
-      <div id="activity-sheets" className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        {/* Sleep Hygiene Form */}
-        <div className="bg-gray-700 rounded-xl p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center">
-              <h3 className="text-lg font-medium">Sleep Hygiene (AS3)</h3>
-              <Link 
-                to="/phase-two" 
-                className="ml-3 text-blue-400 hover:text-blue-300 text-sm flex items-center"
-                title="View Activity Sheet 3 from Phase 2"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                <span className="ml-1">View Original</span>
-              </Link>
-            </div>
-            <Button variant="ghost" size="icon">
-              <ChevronDown className="h-4 w-4" />
-            </Button>
-          </div>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm mb-2">Bedtime Routine</label>
-              <textarea className="w-full bg-gray-800 rounded-lg p-3" rows={3} placeholder="Describe your evening routine..."></textarea>
-            </div>
-            <div>
-              <label className="block text-sm mb-2">Sleep Environment</label>
-              <div className="space-y-2">
-                <label className="flex items-center">
-                  <input type="checkbox" className="mr-2" />
-                  Dark room
-                </label>
-                <label className="flex items-center">
-                  <input type="checkbox" className="mr-2" />
-                  Comfortable temperature
-                </label>
-                <label className="flex items-center">
-                  <input type="checkbox" className="mr-2" />
-                  Quiet environment
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Trigger Management Form */}
-        <div className="bg-gray-700 rounded-xl p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center">
-              <h3 className="text-lg font-medium">Trigger Management (AS4)</h3>
-              <Link 
-                to="/phase-two" 
-                className="ml-3 text-blue-400 hover:text-blue-300 text-sm flex items-center"
-                title="View Activity Sheet 4 from Phase 2"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                <span className="ml-1">View Original</span>
-              </Link>
-            </div>
-            <Button variant="ghost" size="icon">
-              <ChevronDown className="h-4 w-4" />
-            </Button>
-          </div>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm mb-2">Identified Triggers</label>
-              <div className="flex flex-wrap gap-2">
-                <span className="bg-gray-600 px-3 py-1 rounded-full text-sm">Poor Posture</span>
-                <span className="bg-gray-600 px-3 py-1 rounded-full text-sm">Screen Time</span>
-                <span className="bg-gray-600 px-3 py-1 rounded-full text-sm">Stress</span>
-                <Button variant="outline" className="px-3 py-1 rounded-full text-sm h-auto">+ Add New</Button>
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm mb-2">Management Strategy</label>
-              <textarea className="w-full bg-gray-800 rounded-lg p-3" rows={3} placeholder="How do you plan to manage these triggers?"></textarea>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Educational Support */}
-      <div className="bg-gray-700 rounded-xl p-6 mb-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Video Walkthrough */}
-          <div className="lg:col-span-2">
-            <h3 className="text-lg font-medium mb-4">Program Walkthrough</h3>
-            <div className="aspect-video bg-gray-800 rounded-lg flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-10 w-10"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-            </div>
-          </div>
-
-          {/* FAQ Guide */}
-          <div>
-            <h3 className="text-lg font-medium mb-4">Quick Guide</h3>
-            <div className="space-y-3">
-              <div className="bg-gray-800 rounded-lg p-4">
-                <button className="flex items-center justify-between w-full">
-                  <span className="font-medium">How many exercises should I choose?</span>
-                  <ChevronDown className="h-4 w-4 text-gray-400" />
-                </button>
-              </div>
-              <div className="bg-gray-800 rounded-lg p-4">
-                <button className="flex items-center justify-between w-full">
-                  <span className="font-medium">How often should I exercise?</span>
-                  <ChevronDown className="h-4 w-4 text-gray-400" />
-                </button>
-              </div>
-              <div className="bg-gray-800 rounded-lg p-4">
-                <button className="flex items-center justify-between w-full">
-                  <span className="font-medium">When should I take rest days?</span>
-                  <ChevronDown className="h-4 w-4 text-gray-400" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Final Summary Section */}
-      <div className="bg-gray-700 rounded-xl p-6 mb-8">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h3 className="text-lg font-bold mb-1">Program Summary</h3>
-            <p className="text-sm text-gray-400">Review and finalize your personalized exercise program</p>
-          </div>
-          <div className="flex space-x-4">
-            <Button variant="outline" className="text-sm h-auto">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-1"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-              Edit Program
-            </Button>
-            <Button className="text-sm h-auto">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-1"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Save & Download PDF
-            </Button>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between p-4 bg-gray-600 rounded-lg">
-          <div className="flex items-center">
-            <div className="w-2 h-12 bg-blue-600 rounded-full mr-4"></div>
-            <div>
-              <h4 className="font-medium">Neck Flexion/Extension</h4>
-              <p className="text-sm text-gray-400">3 sets × 10 reps</p>
-            </div>
-          </div>
-          <span className="text-sm bg-blue-600 px-3 py-1 rounded-full">Mon, Wed, Fri</span>
-        </div>
-      </div>
-
-      {/* Navigation Buttons */}
-      <div className="flex justify-end items-center">
-        <Button className="px-6 py-3 bg-green-600 hover:bg-green-700">
-          Complete Program
-          <Check className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
-
-      {/* Floating Help Button */}
-      <div className="fixed bottom-8 right-8">
-        <Button size="icon" className="w-14 h-14 rounded-full bg-blue-600 hover:bg-blue-700 shadow-lg">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-        </Button>
-      </div>
+      )}
     </section>
   );
 };
