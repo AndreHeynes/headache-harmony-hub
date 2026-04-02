@@ -11,6 +11,7 @@ interface QuestionnaireSectionProps {
   questions: Question[];
   answers: Record<string, any>;
   onAnswerChange: (questionId: string, value: any) => void;
+  readOnlyFields?: string[];
 }
 
 const QuestionnaireSection: React.FC<QuestionnaireSectionProps> = ({
