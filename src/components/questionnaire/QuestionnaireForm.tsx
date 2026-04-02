@@ -130,6 +130,7 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
             questions={currentSection.questions}
             answers={answers}
             onAnswerChange={handleAnswerChange}
+            readOnlyFields={readOnlyFields}
           />
         ) : (
           <QuestionnaireInterpretation 
