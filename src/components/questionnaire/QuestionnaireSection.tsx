@@ -11,12 +11,14 @@ interface QuestionnaireSectionProps {
   questions: Question[];
   answers: Record<string, any>;
   onAnswerChange: (questionId: string, value: any) => void;
+  readOnlyFields?: string[];
 }
 
 const QuestionnaireSection: React.FC<QuestionnaireSectionProps> = ({
   questions,
   answers,
   onAnswerChange,
+  readOnlyFields = [],
 }) => {
   const renderQuestion = (question: Question) => {
     switch (question.type) {
@@ -131,6 +133,7 @@ const QuestionnaireSection: React.FC<QuestionnaireSectionProps> = ({
           );
         }
         
+        const isReadOnly = readOnlyFields.includes(question.id);
         return (
           <div className="mb-6">
             <Label htmlFor={question.id} className="block mb-2">
@@ -139,11 +142,15 @@ const QuestionnaireSection: React.FC<QuestionnaireSectionProps> = ({
             {question.info && (
               <p className="text-sm text-neutral-500 mb-2">{question.info}</p>
             )}
+            {isReadOnly && (
+              <p className="text-xs text-muted-foreground mb-1 italic">Activity from Phase 1</p>
+            )}
             <Input
               id={question.id}
               value={answers[question.id] || ""}
+              readOnly={isReadOnly}
               onChange={(e) => {
-                // For numeric fields that need conversion
+                if (isReadOnly) return;
                 if (
                   question.id.startsWith("midas-q") && 
                   !isNaN(Number(e.target.value))
@@ -163,7 +170,7 @@ const QuestionnaireSection: React.FC<QuestionnaireSectionProps> = ({
                   ? "0"
                   : undefined
               }
-              className="w-full"
+              className={`w-full ${isReadOnly ? "bg-muted cursor-not-allowed" : ""}`}
             />
           </div>
         );

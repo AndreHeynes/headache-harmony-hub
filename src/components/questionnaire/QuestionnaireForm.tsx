@@ -33,6 +33,14 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
   const [recommendedExercises, setRecommendedExercises] = useState<string[]>([]);
 
   const currentSection = questionnaire.sections[currentSectionIndex];
+
+  // Derive read-only fields for PSFS Phase 3 (lock activity names from Phase 1)
+  const readOnlyFields = React.useMemo(() => {
+    if (questionnaire.id === "psfs" && initialAnswers?.savedActivities?.length > 0) {
+      return initialAnswers.savedActivities.map((a: any) => a.id);
+    }
+    return [];
+  }, [questionnaire.id, initialAnswers]);
   
   // Load saved activities from initialAnswers if provided (for PSFS)
   useEffect(() => {
@@ -122,6 +130,7 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
             questions={currentSection.questions}
             answers={answers}
             onAnswerChange={handleAnswerChange}
+            readOnlyFields={readOnlyFields}
           />
         ) : (
           <QuestionnaireInterpretation 
