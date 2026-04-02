@@ -77,7 +77,7 @@ export const useMaintenanceProgram = () => {
   const [program, setProgram] = useState<MaintenanceProgram>(DEFAULT_PROGRAM);
   const [loading, setLoading] = useState(true);
   const [recordId, setRecordId] = useState<string | null>(null);
-  const debounceRef = useRef<NodeJS.Timeout | null>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Load on mount
   useEffect(() => {

@@ -6,25 +6,59 @@ import PhaseProgress from "@/components/phase-four/PhaseProgress";
 import GoalSettingSection from "@/components/phase-four/GoalSettingSection";
 import ExerciseLibrary from "@/components/phase-four/ExerciseLibrary";
 import ProgramBuilder from "@/components/phase-four/ProgramBuilder";
+import ReturnToSportSection from "@/components/phase-four/ReturnToSportSection";
+import PostureEducationSection from "@/components/phase-four/PostureEducationSection";
+import { useMaintenanceProgram } from "@/hooks/useMaintenanceProgram";
+import { Button } from "@/components/ui/button";
+import { Check, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 const PhaseFour = () => {
+  const {
+    program, loading,
+    setGoals, setSelectedExercises, setWeeklySchedule, setSportPlan,
+    activeDaysCount,
+  } = useMaintenanceProgram();
+
+  if (loading) {
+    return (
+      <PageLayout>
+        <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      </PageLayout>
+    );
+  }
+
   return (
     <PageLayout>
-      <div className="min-h-screen bg-gray-900 text-gray-100">
+      <div className="min-h-screen bg-background text-foreground">
         <PhaseHeader />
-        <PhaseProgress />
+        <PhaseProgress activeDaysCount={activeDaysCount} goalsCount={program.goals.length} exercisesCount={program.selectedExercises.length} />
         
         <main className="container mx-auto px-4 pt-40 pb-20">
-          <GoalSettingSection />
-          <ExerciseLibrary />
-          <ProgramBuilder />
+          <GoalSettingSection goals={program.goals} onGoalsChange={setGoals} />
+          <ExerciseLibrary selectedExercises={program.selectedExercises} onSelectionChange={setSelectedExercises} />
+          <ProgramBuilder
+            selectedExercises={program.selectedExercises}
+            onExercisesChange={setSelectedExercises}
+            weeklySchedule={program.weeklySchedule}
+            onScheduleChange={setWeeklySchedule}
+            goals={program.goals}
+            activeDaysCount={activeDaysCount}
+          />
+          <ReturnToSportSection sportPlan={program.sportPlan} onUpdate={setSportPlan} />
+          <PostureEducationSection />
           
-          {/* Navigation Buttons - Previous button removed as requested */}
           <div className="flex justify-end items-center mb-8">
-            <button className="px-6 py-3 bg-green-600 hover:bg-green-700 rounded-lg flex items-center">
-              Complete Program
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 ml-2"><polyline points="20 6 9 17 4 12"/></svg>
-            </button>
+            <Button
+              className="px-6 py-3"
+              variant="default"
+              onClick={() => toast.success("Program saved successfully!")}
+            >
+              <Check className="mr-2 h-4 w-4" />
+              Save Program
+            </Button>
           </div>
         </main>
       </div>
