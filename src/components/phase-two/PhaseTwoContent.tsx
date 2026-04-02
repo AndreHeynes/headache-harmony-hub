@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DailyExerciseList from "./DailyExerciseList";
 import { getExercisesForDay } from "@/utils/exercises/schedules";
+import { useQuestionnaireResponses } from "@/hooks/useQuestionnaireResponses";
+import { QuestionnaireResponse } from "@/types/questionnaire";
 
 interface PhaseTwoContentProps {
   day: number;
@@ -11,8 +13,15 @@ const PhaseTwoContent: React.FC<PhaseTwoContentProps> = ({
   day, 
   videoDisplayMode = "link" 
 }) => {
-  // Get recommended exercises for the current day
-  const exercises = getExercisesForDay(day);
+  const { getResponse } = useQuestionnaireResponses();
+  const [fhtResponse, setFhtResponse] = useState<QuestionnaireResponse | null>(null);
+
+  useEffect(() => {
+    getResponse("fht", 1).then(setFhtResponse);
+  }, [getResponse]);
+
+  // Get recommended exercises for the current day, filtered by FHT
+  const exercises = getExercisesForDay(day, fhtResponse ?? undefined);
 
   // Description for the current day
   let dayDescription = "";
@@ -32,7 +41,8 @@ const PhaseTwoContent: React.FC<PhaseTwoContentProps> = ({
       <DailyExerciseList 
         exercises={exercises} 
         day={day} 
-        videoDisplayMode={videoDisplayMode} 
+        videoDisplayMode={videoDisplayMode}
+        fhtResponse={fhtResponse ?? undefined}
       />
       
       {day % 7 !== 0 && (
