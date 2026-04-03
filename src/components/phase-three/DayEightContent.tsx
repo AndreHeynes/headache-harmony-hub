@@ -146,8 +146,8 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
 
         {/* Show message if no baseline comparison available */}
         {!progress.hasBaselineData && (
-          <div className="bg-white/50 p-4 rounded-md mt-4">
-            <p className="text-indigo-700 text-sm">
+          <div className="bg-card p-4 rounded-md mt-4">
+            <p className="text-muted-foreground text-sm">
               <strong>Note:</strong> Phase 1 baseline data not found. The scores shown reflect your current Phase 3 assessments only.
             </p>
           </div>
