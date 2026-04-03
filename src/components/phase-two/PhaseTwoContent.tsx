@@ -37,7 +37,7 @@ const PhaseTwoContent: React.FC<PhaseTwoContentProps> = ({
     <div className="space-y-6">
       <p className="text-neutral-600 font-medium">{dayDescription}</p>
       
-      <h3 className="font-medium text-lg mt-4 text-purple-900">Today's Exercises</h3>
+      <h3 className="font-medium text-lg mt-4 text-foreground">Today's Exercises</h3>
       <DailyExerciseList 
         exercises={exercises} 
         day={day} 
