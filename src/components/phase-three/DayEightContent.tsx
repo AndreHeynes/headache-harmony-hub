@@ -211,7 +211,7 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
             <div className={`rounded-lg border p-5 ${getDirectionColor(progress.midas.direction).bg} ${getDirectionColor(progress.midas.direction).border}`}>
               <div className="flex items-start">
                 <div className="mr-4">
-                  <ActivitySquare className="h-8 w-8 text-purple-500" />
+                  <ActivitySquare className="h-8 w-8 text-primary" />
                 </div>
                 <div className="flex-1">
                   <h3 className={`font-medium text-lg mb-2 ${getDirectionColor(progress.midas.direction).text}`}>
