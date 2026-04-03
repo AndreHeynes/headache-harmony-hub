@@ -255,13 +255,13 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
           
           {/* GPOC Card */}
           {progress.gpoc && (
-            <div className="rounded-lg border p-5 bg-blue-50 border-blue-200">
+            <div className="rounded-lg border p-5 bg-muted border-border">
               <div className="flex items-start">
                 <div className="mr-4">
-                  <ArrowRight className="h-8 w-8 text-blue-500" />
+                  <ArrowRight className="h-8 w-8 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-lg mb-2 text-blue-800">
+                  <h3 className="font-medium text-lg mb-2 text-foreground">
                     Global Perception of Change
                   </h3>
                   <p className="text-neutral-700 mb-2">
