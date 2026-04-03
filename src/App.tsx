@@ -54,6 +54,8 @@ function AppContent() {
         <Route path="/support" element={<Support />} />
         <Route path="/story" element={<Story />} />
         <Route path="/learn-more" element={<LearnMore />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/pricing" element={<Navigate to="/dashboard" replace />} />
         <Route path="/policy" element={<Policy />} />
         <Route path="/not-diagnosed" element={<NotDiagnosed />} />
