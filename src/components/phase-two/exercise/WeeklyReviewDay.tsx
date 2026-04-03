@@ -33,7 +33,7 @@ const WeeklyReviewDay: React.FC<WeeklyReviewDayProps> = ({
         
         <button 
           onClick={() => setShowExercisesOnReviewDay(!showExercisesOnReviewDay)}
-          className="text-blue-600 underline text-sm font-medium hover:text-blue-800"
+          className="text-primary underline text-sm font-medium hover:text-primary/80"
         >
           {showExercisesOnReviewDay ? "Hide exercises" : "Show recommended exercises for today"}
         </button>
