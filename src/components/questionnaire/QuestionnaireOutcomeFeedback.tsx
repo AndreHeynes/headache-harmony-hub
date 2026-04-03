@@ -31,7 +31,7 @@ const QuestionnaireOutcomeFeedback: React.FC<QuestionnaireOutcomeFeedbackProps> 
              score <= 20 ? "bg-amber-50 border-amber-200" : 
              "bg-rose-50 border-rose-200";
     }
-    return "bg-blue-50 border-blue-200"; // default
+    return "bg-muted border-border"; // default
   };
   
   const getTextColorForImpactLevel = (score: number, type: string) => {
