@@ -61,7 +61,7 @@ const ReviewDayExerciseTabs: React.FC<ReviewDayExerciseTabsProps> = ({
   const categories = categorizeExercises(exercises);
   
   return (
-    <Card className="p-6 bg-gradient-to-br from-white to-purple-50/10 mt-4">
+    <Card className="p-6 bg-card mt-4">
       <Tabs defaultValue="all">
         <TabsList className="mb-4">
           <TabsTrigger value="all">All Exercises</TabsTrigger>

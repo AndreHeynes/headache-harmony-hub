@@ -54,7 +54,7 @@ const ActivitySheet: React.FC<ActivitySheetProps> = ({
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <ActivitySheetIcon className="h-4 w-4 mr-2 text-blue-600" />
+          <ActivitySheetIcon className="h-4 w-4 mr-2 text-primary" />
           <span className="text-xs font-medium">Activity Sheet: {activitySheetName}</span>
         </div>
         <CollapsibleTrigger asChild>

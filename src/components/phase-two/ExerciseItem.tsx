@@ -77,7 +77,7 @@ const ExerciseItem: React.FC<ExerciseItemProps> = ({
         <Button 
           variant={isCompleted ? "outline" : "default"} 
           size="sm"
-          className={`w-full transition-colors text-xs ${isCompleted ? 'hover:bg-green-50' : 'bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white'}`}
+          className={`w-full transition-colors text-xs ${isCompleted ? 'hover:bg-green-50' : 'bg-primary hover:bg-primary/90 text-primary-foreground'}`}
           onClick={handleToggle}
         >
           {isCompleted ? "Mark as Incomplete" : "Mark as Complete"}
