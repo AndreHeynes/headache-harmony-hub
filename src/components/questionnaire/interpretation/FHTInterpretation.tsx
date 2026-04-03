@@ -29,7 +29,7 @@ const FHTInterpretation: React.FC<FHTInterpretationProps> = ({
       {recommendedExercises.length > 0 && (
         <div className="mt-6">
           <h4 className="font-medium mb-3 flex items-center">
-            <Dumbbell className="mr-2 h-5 w-5 text-purple-600" />
+            <Dumbbell className="mr-2 h-5 w-5 text-primary" />
             Recommended Exercises
           </h4>
           <div className="space-y-2">
