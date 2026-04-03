@@ -82,7 +82,7 @@ const StandardInterpretation: React.FC<StandardInterpretationProps> = ({
           <ArrowRight className="mr-2 h-5 w-5 text-primary" />
           Next Steps
         </h4>
-        <p className="text-neutral-700">
+        <p className="text-muted-foreground">
           Discuss these results with your healthcare provider. The information from this
           questionnaire can help guide your treatment and care.
         </p>

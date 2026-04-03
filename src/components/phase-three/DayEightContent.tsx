@@ -269,7 +269,7 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
                   </p>
                   <div className="bg-white/60 rounded p-3 inline-block">
                     <p className="text-xs text-neutral-500 uppercase tracking-wide">Rating</p>
-                    <p className="text-2xl font-bold text-blue-800">{progress.gpoc.rating}/7</p>
+                    <p className="text-2xl font-bold text-foreground">{progress.gpoc.rating}/7</p>
                   </div>
                 </div>
               </div>

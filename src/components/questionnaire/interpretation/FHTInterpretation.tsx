@@ -34,7 +34,7 @@ const FHTInterpretation: React.FC<FHTInterpretationProps> = ({
           </h4>
           <div className="space-y-2">
             {recommendedExercises.map((exerciseId, index) => (
-              <div key={index} className="p-3 border rounded-md bg-neutral-50">
+              <div key={index} className="p-3 border rounded-md bg-muted">
                 Exercise {index + 1}: {exerciseId}
               </div>
             ))}
