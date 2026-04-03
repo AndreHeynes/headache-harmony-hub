@@ -6,6 +6,8 @@ import { SharedHeader } from "@/components/SharedHeader";
 import { BetaFeedbackForm } from "@/components/BetaFeedbackForm";
 import ConnectionStatusIndicator from "@/components/ConnectionStatusIndicator";
 import Index from "@/pages/Index";
+import SignIn from "@/pages/SignIn";
+import Register from "@/pages/Register";
 import Dashboard from "@/pages/Dashboard";
 import Profile from "@/pages/Profile";
 import NotFound from "@/pages/NotFound";
