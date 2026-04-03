@@ -51,7 +51,7 @@ const QuestionnaireOutcomeFeedback: React.FC<QuestionnaireOutcomeFeedbackProps> 
   const getIconForCategory = (category: string) => {
     switch (category) {
       case 'hit-6':
-        return <Gauge className="h-8 w-8 text-indigo-500" />;
+        return <Gauge className="h-8 w-8 text-primary" />;
       case 'midas':
         return <ActivitySquare className="h-8 w-8 text-purple-500" />;
       case 'hsloc':
