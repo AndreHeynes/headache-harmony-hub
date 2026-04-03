@@ -171,14 +171,14 @@ const QuestionnaireOutcomeFeedback: React.FC<QuestionnaireOutcomeFeedbackProps> 
           
           {/* Generic feedback if few questionnaires are completed */}
           {Object.keys(questionnaireResults).length < 3 && (
-            <div className="rounded-lg border-2 border-dashed border-blue-200 p-5 bg-blue-50">
+            <div className="rounded-lg border-2 border-dashed border-border p-5 bg-muted">
               <div className="flex items-start">
                 <div className="mr-4">
-                  <ArrowRight className="h-8 w-8 text-blue-500" />
+                  <ArrowRight className="h-8 w-8 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-lg mb-2 text-blue-800">Continue Your Assessment</h3>
-                  <p className="text-neutral-700">
+                  <h3 className="font-medium text-lg mb-2 text-foreground">Continue Your Assessment</h3>
+                  <p className="text-muted-foreground">
                     Complete more questionnaires to receive a more comprehensive assessment of your headache 
                     condition and personalized recommendations.
                   </p>
