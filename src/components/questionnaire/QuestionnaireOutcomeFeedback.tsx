@@ -41,7 +41,7 @@ const QuestionnaireOutcomeFeedback: React.FC<QuestionnaireOutcomeFeedbackProps> 
              "text-rose-800";
     } else if (type === 'midas') {
       return score <= 5 ? "text-emerald-800" : 
-             score <= 10 ? "text-blue-800" : 
+             score <= 10 ? "text-foreground" : 
              score <= 20 ? "text-amber-800" : 
              "text-rose-800";
     }
