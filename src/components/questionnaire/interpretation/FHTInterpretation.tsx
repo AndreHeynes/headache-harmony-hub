@@ -11,14 +11,14 @@ const FHTInterpretation: React.FC<FHTInterpretationProps> = ({
 }) => {
   return (
     <div className="space-y-6">
-      <div className="p-4 rounded-md border bg-blue-50 border-blue-200">
+      <div className="p-4 rounded-md border bg-muted border-border">
         <div className="flex items-start">
-          <div className="mr-3 mt-1"><Info className="h-8 w-8 text-blue-600" /></div>
+          <div className="mr-3 mt-1"><Info className="h-8 w-8 text-primary" /></div>
           <div>
-            <h4 className="font-medium mb-1 text-blue-800">
+            <h4 className="font-medium mb-1 text-foreground">
               Headache Type Assessment Complete
             </h4>
-            <p className="text-neutral-800">
+            <p className="text-muted-foreground">
               Based on your responses, we have identified your headache characteristics and 
               will recommend specific exercises that may help alleviate your symptoms.
             </p>
