@@ -27,7 +27,7 @@ const QuestionnaireOutcomeFeedback: React.FC<QuestionnaireOutcomeFeedbackProps> 
              "bg-rose-50 border-rose-200";
     } else if (type === 'midas') {
       return score <= 5 ? "bg-emerald-50 border-emerald-200" : 
-             score <= 10 ? "bg-blue-50 border-blue-200" : 
+             score <= 10 ? "bg-muted border-border" : 
              score <= 20 ? "bg-amber-50 border-amber-200" : 
              "bg-rose-50 border-rose-200";
     }
