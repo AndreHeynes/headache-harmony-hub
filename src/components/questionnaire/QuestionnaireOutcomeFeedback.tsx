@@ -55,7 +55,7 @@ const QuestionnaireOutcomeFeedback: React.FC<QuestionnaireOutcomeFeedbackProps> 
       case 'midas':
         return <ActivitySquare className="h-8 w-8 text-primary" />;
       case 'hsloc':
-        return <Brain className="h-8 w-8 text-cyan-500" />;
+        return <Brain className="h-8 w-8 text-primary" />;
       case 'psc':
         return <ScrollText className="h-8 w-8 text-amber-500" />;
       case 'psfs':
