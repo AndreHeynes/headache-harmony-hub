@@ -85,9 +85,9 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
   return (
     <div className="space-y-6">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-lg border border-indigo-100">
-        <h3 className="font-semibold text-xl text-indigo-900 mb-2">Your Recovery Journey Summary</h3>
-        <p className="text-indigo-800 mb-4">
+      <div className="bg-muted p-6 rounded-lg border border-border">
+        <h3 className="font-semibold text-xl text-foreground mb-2">Your Recovery Journey Summary</h3>
+        <p className="text-muted-foreground mb-4">
           Congratulations on completing the 3-month headache management program! Here's how your scores have changed from Phase 1 to Phase 3.
         </p>
         
