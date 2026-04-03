@@ -23,13 +23,13 @@ const DaysOneToSevenContent: React.FC<DaysOneToSevenContentProps> = ({
         Complete the following questionnaires to help us assess your progress.
         These assessments will help us understand how your condition has changed since the beginning of the program.
       </p>
-      <div className="bg-blue-50 p-4 rounded-md border border-blue-100">
+      <div className="bg-muted p-4 rounded-md border border-border">
         <h4 className="font-medium mb-2">Today's Focus: Assessment</h4>
         <p>
           These questionnaires will help us measure your progress compared to your Phase 1 baseline and adjust your maintenance plan accordingly.
           You have all week to complete these assessments.
         </p>
-        <p className="mt-2 text-sm text-blue-700">
+        <p className="mt-2 text-sm text-muted-foreground">
           Progress: {completedCount}/4 questionnaires completed
         </p>
       </div>

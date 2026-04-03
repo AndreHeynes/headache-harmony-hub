@@ -27,11 +27,11 @@ const QuestionnaireOutcomeFeedback: React.FC<QuestionnaireOutcomeFeedbackProps> 
              "bg-rose-50 border-rose-200";
     } else if (type === 'midas') {
       return score <= 5 ? "bg-emerald-50 border-emerald-200" : 
-             score <= 10 ? "bg-blue-50 border-blue-200" : 
+             score <= 10 ? "bg-muted border-border" : 
              score <= 20 ? "bg-amber-50 border-amber-200" : 
              "bg-rose-50 border-rose-200";
     }
-    return "bg-blue-50 border-blue-200"; // default
+    return "bg-muted border-border"; // default
   };
   
   const getTextColorForImpactLevel = (score: number, type: string) => {
@@ -41,36 +41,36 @@ const QuestionnaireOutcomeFeedback: React.FC<QuestionnaireOutcomeFeedbackProps> 
              "text-rose-800";
     } else if (type === 'midas') {
       return score <= 5 ? "text-emerald-800" : 
-             score <= 10 ? "text-blue-800" : 
+             score <= 10 ? "text-foreground" : 
              score <= 20 ? "text-amber-800" : 
              "text-rose-800";
     }
-    return "text-blue-800"; // default
+    return "text-foreground"; // default
   };
   
   const getIconForCategory = (category: string) => {
     switch (category) {
       case 'hit-6':
-        return <Gauge className="h-8 w-8 text-indigo-500" />;
+        return <Gauge className="h-8 w-8 text-primary" />;
       case 'midas':
-        return <ActivitySquare className="h-8 w-8 text-purple-500" />;
+        return <ActivitySquare className="h-8 w-8 text-primary" />;
       case 'hsloc':
-        return <Brain className="h-8 w-8 text-cyan-500" />;
+        return <Brain className="h-8 w-8 text-primary" />;
       case 'psc':
         return <ScrollText className="h-8 w-8 text-amber-500" />;
       case 'psfs':
         return <Lightbulb className="h-8 w-8 text-emerald-500" />;
       case 'gpoc':
-        return <ArrowRight className="h-8 w-8 text-blue-500" />;
+        return <ArrowRight className="h-8 w-8 text-primary" />;
       default:
-        return <ArrowRight className="h-8 w-8 text-blue-500" />;
+        return <ArrowRight className="h-8 w-8 text-primary" />;
     }
   };
   
   return (
     <Card className="mt-8 shadow-md border border-neutral-200">
-      <CardHeader className="bg-gradient-to-r from-indigo-50 to-blue-50 border-b pb-4">
-        <CardTitle className="text-xl text-indigo-900">Outcome</CardTitle>
+      <CardHeader className="bg-muted border-b pb-4">
+        <CardTitle className="text-xl text-foreground">Outcome</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6 pt-6">
         <p className="text-neutral-700">
@@ -127,13 +127,13 @@ const QuestionnaireOutcomeFeedback: React.FC<QuestionnaireOutcomeFeedbackProps> 
           
           {/* GPOC Interpretation */}
           {questionnaireResults['gpoc'] && questionnaireResults['gpoc'].responses && (
-            <div className="rounded-lg border p-5 bg-blue-50 border-blue-200">
+            <div className="rounded-lg border p-5 bg-muted border-border">
               <div className="flex items-start">
                 <div className="mr-4">
                   {getIconForCategory('gpoc')}
                 </div>
                 <div>
-                  <h3 className="font-medium text-lg mb-2 text-blue-800">
+                  <h3 className="font-medium text-lg mb-2 text-foreground">
                     Global Perception of Change
                   </h3>
                   <p className="text-neutral-700">
@@ -171,14 +171,14 @@ const QuestionnaireOutcomeFeedback: React.FC<QuestionnaireOutcomeFeedbackProps> 
           
           {/* Generic feedback if few questionnaires are completed */}
           {Object.keys(questionnaireResults).length < 3 && (
-            <div className="rounded-lg border-2 border-dashed border-blue-200 p-5 bg-blue-50">
+            <div className="rounded-lg border-2 border-dashed border-border p-5 bg-muted">
               <div className="flex items-start">
                 <div className="mr-4">
-                  <ArrowRight className="h-8 w-8 text-blue-500" />
+                  <ArrowRight className="h-8 w-8 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-lg mb-2 text-blue-800">Continue Your Assessment</h3>
-                  <p className="text-neutral-700">
+                  <h3 className="font-medium text-lg mb-2 text-foreground">Continue Your Assessment</h3>
+                  <p className="text-muted-foreground">
                     Complete more questionnaires to receive a more comprehensive assessment of your headache 
                     condition and personalized recommendations.
                   </p>

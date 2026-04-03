@@ -77,12 +77,12 @@ const StandardInterpretation: React.FC<StandardInterpretationProps> = ({
         </div>
       )}
 
-      <div className="mt-6 p-4 bg-blue-50 rounded-md">
+      <div className="mt-6 p-4 bg-muted rounded-md">
         <h4 className="font-medium mb-2 flex items-center">
-          <ArrowRight className="mr-2 h-5 w-5 text-blue-600" />
+          <ArrowRight className="mr-2 h-5 w-5 text-primary" />
           Next Steps
         </h4>
-        <p className="text-neutral-700">
+        <p className="text-muted-foreground">
           Discuss these results with your healthcare provider. The information from this
           questionnaire can help guide your treatment and care.
         </p>

@@ -19,11 +19,11 @@ const ExerciseTasks: React.FC<ExerciseTasksProps> = ({
   
   return (
     <div>
-      <h3 className="text-sm font-semibold text-purple-700 mb-2 flex items-center">
+      <h3 className="text-sm font-semibold text-primary mb-2 flex items-center">
         <Dumbbell className="h-4 w-4 mr-1.5" /> 
         Physical Exercises
       </h3>
-      <div className="space-y-2 bg-gradient-to-r from-purple-50 to-white p-3 rounded-md">
+      <div className="space-y-2 bg-muted p-3 rounded-md">
         {exercises.map((exercise) => (
           <TaskItem
             key={exercise.id}

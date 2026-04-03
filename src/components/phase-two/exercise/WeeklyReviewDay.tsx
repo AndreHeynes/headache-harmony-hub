@@ -23,9 +23,9 @@ const WeeklyReviewDay: React.FC<WeeklyReviewDayProps> = ({
   
   return (
     <div className="space-y-4">
-      <div className="bg-blue-50/50 p-6 rounded-lg border border-blue-100">
-        <h3 className="font-medium text-blue-800 mb-2">Weekly Review Day</h3>
-        <p className="text-blue-700 mb-4">
+      <div className="bg-muted p-6 rounded-lg border border-border">
+        <h3 className="font-medium text-foreground mb-2">Weekly Review Day</h3>
+        <p className="text-muted-foreground mb-4">
           Today is your weekly review day (Week {weekNumber}). Take some time to reflect on your progress
           and make note of any changes in your symptoms. Continue with your tracking
           and consider which exercises have been most helpful this week.
@@ -33,7 +33,7 @@ const WeeklyReviewDay: React.FC<WeeklyReviewDayProps> = ({
         
         <button 
           onClick={() => setShowExercisesOnReviewDay(!showExercisesOnReviewDay)}
-          className="text-blue-600 underline text-sm font-medium hover:text-blue-800"
+          className="text-primary underline text-sm font-medium hover:text-primary/80"
         >
           {showExercisesOnReviewDay ? "Hide exercises" : "Show recommended exercises for today"}
         </button>
@@ -61,7 +61,7 @@ const ReviewDayExerciseTabs: React.FC<ReviewDayExerciseTabsProps> = ({
   const categories = categorizeExercises(exercises);
   
   return (
-    <Card className="p-6 bg-gradient-to-br from-white to-purple-50/10 mt-4">
+    <Card className="p-6 bg-card mt-4">
       <Tabs defaultValue="all">
         <TabsList className="mb-4">
           <TabsTrigger value="all">All Exercises</TabsTrigger>

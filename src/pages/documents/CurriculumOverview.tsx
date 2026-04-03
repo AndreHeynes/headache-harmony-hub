@@ -12,7 +12,7 @@ const CurriculumOverview = () => {
       <div className="flex items-center mb-6">
         <button 
           onClick={() => navigate(-1)} 
-          className="mr-4 p-2 rounded-full hover:bg-neutral-100"
+          className="mr-4 p-2 rounded-full hover:bg-muted"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
@@ -42,7 +42,7 @@ const CurriculumOverview = () => {
           <CardTitle>Phase 1: Understanding Baseline (Week 1 - 7 Days)</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="bg-blue-50 p-4 rounded-lg">
+          <div className="bg-muted p-4 rounded-lg">
             <p className="font-medium mb-2">Learning Outcomes:</p>
             <ul className="list-disc pl-5 space-y-1 text-sm">
               <li>Establish headache impact baseline (HIT-6)</li>
@@ -73,7 +73,7 @@ const CurriculumOverview = () => {
           <CardTitle>Phase 2: Active Management (Weeks 2-11 - 70 Days)</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="bg-green-50 p-4 rounded-lg">
+          <div className="bg-muted p-4 rounded-lg">
             <p className="font-medium mb-2">Learning Outcomes:</p>
             <ul className="list-disc pl-5 space-y-1 text-sm">
               <li>Master therapeutic exercises (mobility, strength, relaxation)</li>
@@ -86,7 +86,7 @@ const CurriculumOverview = () => {
           <div>
             <p className="font-medium mb-2">Weekly Structure (10 Weeks):</p>
             <div className="text-sm space-y-2">
-              <div className="border-l-4 border-blue-500 pl-3">
+              <div className="border-l-4 border-primary pl-3">
                 <strong>Weeks 1-3:</strong> Foundation phase
                 <ul className="list-disc pl-5 mt-1">
                   <li>Breathing exercises & basic mobility</li>
@@ -95,7 +95,7 @@ const CurriculumOverview = () => {
                 </ul>
               </div>
               
-              <div className="border-l-4 border-green-500 pl-3">
+              <div className="border-l-4 border-primary/70 pl-3">
                 <strong>Weeks 4-7:</strong> Progressive strengthening
                 <ul className="list-disc pl-5 mt-1">
                   <li>Neck strengthening (beginner to intermediate)</li>
@@ -105,7 +105,7 @@ const CurriculumOverview = () => {
                 </ul>
               </div>
               
-              <div className="border-l-4 border-purple-500 pl-3">
+              <div className="border-l-4 border-primary/50 pl-3">
                 <strong>Weeks 8-10:</strong> Advanced integration
                 <ul className="list-disc pl-5 mt-1">
                   <li>Advanced strengthening & combined movements</li>
@@ -137,7 +137,7 @@ const CurriculumOverview = () => {
           <CardTitle>Phase 3: Progress Evaluation (Week 12, Days 1-7)</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="bg-yellow-50 p-4 rounded-lg">
+          <div className="bg-muted p-4 rounded-lg">
             <p className="font-medium mb-2">Learning Outcomes:</p>
             <ul className="list-disc pl-5 space-y-1 text-sm">
               <li>Quantify improvement across multiple domains</li>
@@ -168,7 +168,7 @@ const CurriculumOverview = () => {
           <CardTitle>Phase 4: Maintenance Planning (Week 12, Day 8+)</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="bg-purple-50 p-4 rounded-lg">
+          <div className="bg-muted p-4 rounded-lg">
             <p className="font-medium mb-2">Learning Outcomes:</p>
             <ul className="list-disc pl-5 space-y-1 text-sm">
               <li>Create personalized long-term program</li>

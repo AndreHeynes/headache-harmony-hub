@@ -31,8 +31,8 @@ const PSFSInterpretation: React.FC<PSFSInterpretationProps> = ({
         ))}
       </div>
       
-      <div className="mt-4 p-4 bg-blue-50 rounded-md">
-        <p className="text-neutral-700">
+      <div className="mt-4 p-4 bg-muted rounded-md">
+        <p className="text-muted-foreground">
           These activities and ratings will be saved and used for comparison in Phase 3 
           to evaluate your progress.
         </p>

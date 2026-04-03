@@ -85,9 +85,9 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
   return (
     <div className="space-y-6">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-lg border border-indigo-100">
-        <h3 className="font-semibold text-xl text-indigo-900 mb-2">Your Recovery Journey Summary</h3>
-        <p className="text-indigo-800 mb-4">
+      <div className="bg-muted p-6 rounded-lg border border-border">
+        <h3 className="font-semibold text-xl text-foreground mb-2">Your Recovery Journey Summary</h3>
+        <p className="text-muted-foreground mb-4">
           Congratulations on completing the 3-month headache management program! Here's how your scores have changed from Phase 1 to Phase 3.
         </p>
         
@@ -146,8 +146,8 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
 
         {/* Show message if no baseline comparison available */}
         {!progress.hasBaselineData && (
-          <div className="bg-white/50 p-4 rounded-md mt-4">
-            <p className="text-indigo-700 text-sm">
+          <div className="bg-card p-4 rounded-md mt-4">
+            <p className="text-muted-foreground text-sm">
               <strong>Note:</strong> Phase 1 baseline data not found. The scores shown reflect your current Phase 3 assessments only.
             </p>
           </div>
@@ -164,7 +164,7 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
             <div className={`rounded-lg border p-5 ${getDirectionColor(progress.hit6.direction).bg} ${getDirectionColor(progress.hit6.direction).border}`}>
               <div className="flex items-start">
                 <div className="mr-4">
-                  <Gauge className="h-8 w-8 text-indigo-500" />
+                  <Gauge className="h-8 w-8 text-primary" />
                 </div>
                 <div className="flex-1">
                   <h3 className={`font-medium text-lg mb-2 ${getDirectionColor(progress.hit6.direction).text}`}>
@@ -211,7 +211,7 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
             <div className={`rounded-lg border p-5 ${getDirectionColor(progress.midas.direction).bg} ${getDirectionColor(progress.midas.direction).border}`}>
               <div className="flex items-start">
                 <div className="mr-4">
-                  <ActivitySquare className="h-8 w-8 text-purple-500" />
+                  <ActivitySquare className="h-8 w-8 text-primary" />
                 </div>
                 <div className="flex-1">
                   <h3 className={`font-medium text-lg mb-2 ${getDirectionColor(progress.midas.direction).text}`}>
@@ -255,13 +255,13 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
           
           {/* GPOC Card */}
           {progress.gpoc && (
-            <div className="rounded-lg border p-5 bg-blue-50 border-blue-200">
+            <div className="rounded-lg border p-5 bg-muted border-border">
               <div className="flex items-start">
                 <div className="mr-4">
-                  <ArrowRight className="h-8 w-8 text-blue-500" />
+                  <ArrowRight className="h-8 w-8 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-lg mb-2 text-blue-800">
+                  <h3 className="font-medium text-lg mb-2 text-foreground">
                     Global Perception of Change
                   </h3>
                   <p className="text-neutral-700 mb-2">
@@ -269,7 +269,7 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
                   </p>
                   <div className="bg-white/60 rounded p-3 inline-block">
                     <p className="text-xs text-neutral-500 uppercase tracking-wide">Rating</p>
-                    <p className="text-2xl font-bold text-blue-800">{progress.gpoc.rating}/7</p>
+                    <p className="text-2xl font-bold text-foreground">{progress.gpoc.rating}/7</p>
                   </div>
                 </div>
               </div>

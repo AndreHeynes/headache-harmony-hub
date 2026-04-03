@@ -19,11 +19,11 @@ const ActivitySheetTasks: React.FC<ActivitySheetTasksProps> = ({
   
   return (
     <div>
-      <h3 className="text-sm font-semibold text-blue-600 mb-2 flex items-center">
+      <h3 className="text-sm font-semibold text-primary mb-2 flex items-center">
         <FileText className="h-4 w-4 mr-1.5" /> 
         Activity Sheets
       </h3>
-      <div className="space-y-2 bg-gradient-to-r from-blue-50 to-white p-3 rounded-md">
+      <div className="space-y-2 bg-muted p-3 rounded-md">
         {activities.map((activity) => (
           <TaskItem
             key={activity.id}

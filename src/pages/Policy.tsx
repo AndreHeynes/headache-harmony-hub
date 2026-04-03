@@ -90,7 +90,7 @@ const Policy = () => {
 
             <div className="mt-8 flex justify-between items-center">
               <p className="text-sm text-neutral-500">
-                If you have any questions about our policies, please <a href="#" className="text-blue-600 hover:underline">contact us</a>.
+                If you have any questions about our policies, please <a href="#" className="text-primary hover:underline">contact us</a>.
               </p>
               <Button variant="outline" asChild>
                 <Link to="/pricing">View Pricing</Link>

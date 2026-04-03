@@ -29,12 +29,12 @@ const DayOneContent: React.FC = () => {
         </AlertDescription>
       </Alert>
 
-      <div className="bg-blue-50 p-4 rounded-md mt-4 border border-blue-100">
+      <div className="bg-muted p-4 rounded-md mt-4 border border-border">
         <div className="flex items-start">
-          <Info className="h-5 w-5 text-blue-700 mr-2 mt-0.5" />
+          <Info className="h-5 w-5 text-primary mr-2 mt-0.5" />
           <div>
-            <h4 className="font-medium text-blue-800">Already using a headache tracker?</h4>
-            <p className="text-blue-700 text-sm mt-1">
+            <h4 className="font-medium text-foreground">Already using a headache tracker?</h4>
+            <p className="text-muted-foreground text-sm mt-1">
               If you're already using our headache tracking app, you can link your existing 
               account in the tracking panel on the right. This will allow us to analyze your 
               historical data for more personalized recommendations.
