@@ -61,9 +61,9 @@ const QuestionnaireOutcomeFeedback: React.FC<QuestionnaireOutcomeFeedbackProps> 
       case 'psfs':
         return <Lightbulb className="h-8 w-8 text-emerald-500" />;
       case 'gpoc':
-        return <ArrowRight className="h-8 w-8 text-blue-500" />;
+        return <ArrowRight className="h-8 w-8 text-primary" />;
       default:
-        return <ArrowRight className="h-8 w-8 text-blue-500" />;
+        return <ArrowRight className="h-8 w-8 text-primary" />;
     }
   };
   
