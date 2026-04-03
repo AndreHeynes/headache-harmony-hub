@@ -69,8 +69,8 @@ const QuestionnaireOutcomeFeedback: React.FC<QuestionnaireOutcomeFeedbackProps> 
   
   return (
     <Card className="mt-8 shadow-md border border-neutral-200">
-      <CardHeader className="bg-gradient-to-r from-indigo-50 to-blue-50 border-b pb-4">
-        <CardTitle className="text-xl text-indigo-900">Outcome</CardTitle>
+      <CardHeader className="bg-muted border-b pb-4">
+        <CardTitle className="text-xl text-foreground">Outcome</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6 pt-6">
         <p className="text-neutral-700">
