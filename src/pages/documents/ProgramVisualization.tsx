@@ -12,7 +12,7 @@ const ProgramVisualization = () => {
       <div className="flex items-center mb-6">
         <button 
           onClick={() => navigate(-1)} 
-          className="mr-4 p-2 rounded-full hover:bg-neutral-100"
+          className="mr-4 p-2 rounded-full hover:bg-muted"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
@@ -28,7 +28,7 @@ const ProgramVisualization = () => {
             The complete program flow showing progression from entry through all four phases to 
             independent headache management.
           </p>
-          <div className="bg-gray-50 p-4 rounded space-y-2 text-sm">
+          <div className="bg-muted p-4 rounded space-y-2 text-sm">
             <p><strong>Phase 1 (Week 1):</strong> Baseline assessment with HIT-6 and headache type identification</p>
             <p><strong>Phase 2 (Weeks 2-11):</strong> Active management including exercises, education, and lifestyle modifications</p>
             <p><strong>Phase 3 (Week 12, Days 1-7):</strong> Progress evaluation with complete assessment battery</p>
@@ -43,29 +43,29 @@ const ProgramVisualization = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <div className="border-l-4 border-blue-500 pl-4 py-2">
+            <div className="border-l-4 border-primary pl-4 py-2">
               <p className="font-semibold">Week 1: Discovery</p>
-              <p className="text-sm text-gray-600">Complete assessment, understand headache profile, begin tracking</p>
+              <p className="text-sm text-muted-foreground">Complete assessment, understand headache profile, begin tracking</p>
             </div>
-            <div className="border-l-4 border-green-500 pl-4 py-2">
+            <div className="border-l-4 border-primary/80 pl-4 py-2">
               <p className="font-semibold">Weeks 2-4: Learning</p>
-              <p className="text-sm text-gray-600">Learn exercises, understand pain science, identify triggers</p>
+              <p className="text-sm text-muted-foreground">Learn exercises, understand pain science, identify triggers</p>
             </div>
-            <div className="border-l-4 border-yellow-500 pl-4 py-2">
+            <div className="border-l-4 border-primary/60 pl-4 py-2">
               <p className="font-semibold">Weeks 5-8: Building Skills</p>
-              <p className="text-sm text-gray-600">Practice strengthening, implement lifestyle changes, manage triggers</p>
+              <p className="text-sm text-muted-foreground">Practice strengthening, implement lifestyle changes, manage triggers</p>
             </div>
-            <div className="border-l-4 border-purple-500 pl-4 py-2">
+            <div className="border-l-4 border-primary/50 pl-4 py-2">
               <p className="font-semibold">Weeks 9-11: Mastery</p>
-              <p className="text-sm text-gray-600">Advanced exercises, mindful practices, consistent self-management</p>
+              <p className="text-sm text-muted-foreground">Advanced exercises, mindful practices, consistent self-management</p>
             </div>
-            <div className="border-l-4 border-orange-500 pl-4 py-2">
+            <div className="border-l-4 border-primary/40 pl-4 py-2">
               <p className="font-semibold">Week 12: Evaluation</p>
-              <p className="text-sm text-gray-600">Complete reassessment, recognize progress, plan maintenance</p>
+              <p className="text-sm text-muted-foreground">Complete reassessment, recognize progress, plan maintenance</p>
             </div>
-            <div className="border-l-4 border-pink-500 pl-4 py-2">
+            <div className="border-l-4 border-primary/30 pl-4 py-2">
               <p className="font-semibold">Beyond: Independence</p>
-              <p className="text-sm text-gray-600">Independent management with sustained improvement</p>
+              <p className="text-sm text-muted-foreground">Independent management with sustained improvement</p>
             </div>
           </div>
         </CardContent>
@@ -76,39 +76,39 @@ const ProgramVisualization = () => {
           <CardTitle>Phase 2 Weekly Structure</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="bg-gray-50 p-6 rounded-lg">
+          <div className="bg-muted p-6 rounded-lg">
             <p className="font-semibold mb-4">Typical Week Pattern:</p>
             <div className="grid grid-cols-7 gap-2 mb-4">
-              <div className="text-center p-2 bg-blue-100 rounded text-xs">
+              <div className="text-center p-2 bg-accent rounded text-xs">
                 <p className="font-semibold">Day 1</p>
                 <p>Set A</p>
               </div>
-              <div className="text-center p-2 bg-green-100 rounded text-xs">
+              <div className="text-center p-2 bg-accent rounded text-xs">
                 <p className="font-semibold">Day 2</p>
                 <p>Set B</p>
               </div>
-              <div className="text-center p-2 bg-purple-100 rounded text-xs">
+              <div className="text-center p-2 bg-accent rounded text-xs">
                 <p className="font-semibold">Day 3</p>
                 <p>Set C</p>
               </div>
-              <div className="text-center p-2 bg-blue-100 rounded text-xs">
+              <div className="text-center p-2 bg-accent rounded text-xs">
                 <p className="font-semibold">Day 4</p>
                 <p>Set A</p>
               </div>
-              <div className="text-center p-2 bg-green-100 rounded text-xs">
+              <div className="text-center p-2 bg-accent rounded text-xs">
                 <p className="font-semibold">Day 5</p>
                 <p>Set B</p>
               </div>
-              <div className="text-center p-2 bg-purple-100 rounded text-xs">
+              <div className="text-center p-2 bg-accent rounded text-xs">
                 <p className="font-semibold">Day 6</p>
                 <p>Set C</p>
               </div>
-              <div className="text-center p-2 bg-yellow-100 rounded text-xs">
+              <div className="text-center p-2 bg-accent rounded text-xs">
                 <p className="font-semibold">Day 7</p>
                 <p>Review</p>
               </div>
             </div>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-muted-foreground">
               Each week follows this pattern with progressively more challenging exercises. 
               Day 7 includes a comprehensive weekly review and progress assessment.
             </p>
@@ -122,8 +122,8 @@ const ProgramVisualization = () => {
         </CardHeader>
         <CardContent>
           <div className="grid md:grid-cols-4 gap-4">
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <p className="font-semibold text-blue-900 mb-3">Physical</p>
+            <div className="bg-muted p-4 rounded-lg">
+              <p className="font-semibold text-foreground mb-3">Physical</p>
               <ul className="text-xs space-y-1">
                 <li>• Breathing Exercises</li>
                 <li>• Myofascial Release</li>
@@ -131,8 +131,8 @@ const ProgramVisualization = () => {
                 <li>• Mobility Training</li>
               </ul>
             </div>
-            <div className="bg-green-50 p-4 rounded-lg">
-              <p className="font-semibold text-green-900 mb-3">Cognitive-Behavioral</p>
+            <div className="bg-muted p-4 rounded-lg">
+              <p className="font-semibold text-foreground mb-3">Cognitive-Behavioral</p>
               <ul className="text-xs space-y-1">
                 <li>• Pain Neuroscience Ed</li>
                 <li>• Belief Modification</li>
@@ -140,8 +140,8 @@ const ProgramVisualization = () => {
                 <li>• Mindfulness</li>
               </ul>
             </div>
-            <div className="bg-yellow-50 p-4 rounded-lg">
-              <p className="font-semibold text-yellow-900 mb-3">Lifestyle</p>
+            <div className="bg-muted p-4 rounded-lg">
+              <p className="font-semibold text-foreground mb-3">Lifestyle</p>
               <ul className="text-xs space-y-1">
                 <li>• Sleep Hygiene</li>
                 <li>• Trigger Management</li>
@@ -149,8 +149,8 @@ const ProgramVisualization = () => {
                 <li>• Activity Pacing</li>
               </ul>
             </div>
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <p className="font-semibold text-purple-900 mb-3">Self-Management</p>
+            <div className="bg-muted p-4 rounded-lg">
+              <p className="font-semibold text-foreground mb-3">Self-Management</p>
               <ul className="text-xs space-y-1">
                 <li>• Daily Tracking</li>
                 <li>• Weekly Reviews</li>
@@ -176,7 +176,7 @@ const ProgramVisualization = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <div className="border-l-4 border-blue-500 pl-4">
+            <div className="border-l-4 border-primary pl-4">
               <p className="font-semibold">Phase 1 (Week 1)</p>
               <ul className="text-sm space-y-1 mt-2">
                 <li>• Day 1: HIT-6 Baseline Assessment</li>
@@ -184,7 +184,7 @@ const ProgramVisualization = () => {
                 <li>• Days 1-7: Daily Tracking</li>
               </ul>
             </div>
-            <div className="border-l-4 border-green-500 pl-4">
+            <div className="border-l-4 border-primary/80 pl-4">
               <p className="font-semibold">Phase 2 (Weeks 2-11)</p>
               <ul className="text-sm space-y-1 mt-2">
                 <li>• Weekly progress reviews (10 weeks)</li>
@@ -192,14 +192,14 @@ const ProgramVisualization = () => {
                 <li>• Activity sheet completion throughout</li>
               </ul>
             </div>
-            <div className="border-l-4 border-yellow-500 pl-4">
+            <div className="border-l-4 border-primary/60 pl-4">
               <p className="font-semibold">Phase 3 (Week 12, Days 1-7)</p>
               <ul className="text-sm space-y-1 mt-2">
                 <li>• Days 1-2: HIT-6 Outcome & MIDAS</li>
                 <li>• Days 3-4: PSFS & GPOC</li>
               </ul>
             </div>
-            <div className="border-l-4 border-purple-500 pl-4">
+            <div className="border-l-4 border-primary/40 pl-4">
               <p className="font-semibold">Phase 4 (Week 12, Day 8+)</p>
               <ul className="text-sm space-y-1 mt-2">
                 <li>• Program customization (2-3 days)</li>
@@ -216,16 +216,16 @@ const ProgramVisualization = () => {
         </CardHeader>
         <CardContent>
           <div className="grid md:grid-cols-3 gap-4">
-            <div className="bg-green-50 p-4 rounded-lg">
-              <p className="font-semibold text-green-900 mb-3">Primary Outcomes</p>
+            <div className="bg-muted p-4 rounded-lg">
+              <p className="font-semibold text-foreground mb-3">Primary Outcomes</p>
               <ul className="text-sm space-y-2">
                 <li><strong>Headache Impact:</strong> HIT-6</li>
                 <li><strong>Disability:</strong> MIDAS</li>
                 <li><strong>Function:</strong> PSFS</li>
               </ul>
             </div>
-            <div className="bg-yellow-50 p-4 rounded-lg">
-              <p className="font-semibold text-yellow-900 mb-3">Secondary Outcomes</p>
+            <div className="bg-muted p-4 rounded-lg">
+              <p className="font-semibold text-foreground mb-3">Secondary Outcomes</p>
               <ul className="text-sm space-y-2">
                 <li><strong>Perceived Change:</strong> GPOC</li>
                 <li><strong>Self-Efficacy:</strong> PSC subscales</li>
@@ -233,8 +233,8 @@ const ProgramVisualization = () => {
                 <li><strong>Frequency/Intensity:</strong> Tracking data</li>
               </ul>
             </div>
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <p className="font-semibold text-purple-900 mb-3">Process Measures</p>
+            <div className="bg-muted p-4 rounded-lg">
+              <p className="font-semibold text-foreground mb-3">Process Measures</p>
               <ul className="text-sm space-y-2">
                 <li><strong>Exercise Adherence:</strong> Completion rates</li>
                 <li><strong>Activity Sheets:</strong> Completion tracking</li>
