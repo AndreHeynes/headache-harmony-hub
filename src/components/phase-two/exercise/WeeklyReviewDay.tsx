@@ -23,9 +23,9 @@ const WeeklyReviewDay: React.FC<WeeklyReviewDayProps> = ({
   
   return (
     <div className="space-y-4">
-      <div className="bg-blue-50/50 p-6 rounded-lg border border-blue-100">
-        <h3 className="font-medium text-blue-800 mb-2">Weekly Review Day</h3>
-        <p className="text-blue-700 mb-4">
+      <div className="bg-muted p-6 rounded-lg border border-border">
+        <h3 className="font-medium text-foreground mb-2">Weekly Review Day</h3>
+        <p className="text-muted-foreground mb-4">
           Today is your weekly review day (Week {weekNumber}). Take some time to reflect on your progress
           and make note of any changes in your symptoms. Continue with your tracking
           and consider which exercises have been most helpful this week.
