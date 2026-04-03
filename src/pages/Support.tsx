@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Brain, Mail, MessageSquare, Search, HelpCircle, FileText, Shield } from "lucide-react";
+import { Mail, MessageSquare, Search, HelpCircle, FileText, Shield } from "lucide-react";
 import MainHeader from "@/components/layout/MainHeader";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import PageFooter from "@/components/layout/PageFooter";
 
 const Support = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -38,39 +39,39 @@ const Support = () => {
 
   const faqs = [
     {
-      question: "How do I track my migraine symptoms?",
-      answer: "You can log your migraine symptoms through the dashboard. Click on 'Log Symptoms' and fill in the details about your migraine episode, including pain level, duration, triggers, and any medications taken."
+      question: "How does the recovery program work?",
+      answer: "The program guides you through 4 phases over approximately 3 months, using evidence-based exercises and education to help manage cervicogenic headaches. Each phase builds on the previous one."
     },
     {
-      question: "Can I export my migraine data?",
-      answer: "Yes! You can export your migraine tracking data in CSV or PDF format. Go to your profile settings and select 'Export Data' to download your records."
+      question: "How do I track my headache symptoms?",
+      answer: "You can log your headache symptoms through the Headache Journal, which is linked from your dashboard and exercise pages. Track frequency, intensity, and related factors."
     },
     {
-      question: "How do I cancel my subscription?",
-      answer: "You can cancel your subscription at any time from your account settings. Go to 'Billing' and click on 'Cancel Subscription'. Your access will continue until the end of your current billing cycle."
+      question: "Can I export my progress data?",
+      answer: "Currently during the beta period, data export is not available. This feature is planned for future releases."
     },
     {
       question: "Is my health data secure?",
-      answer: "We take data security very seriously. All your health information is encrypted and stored securely following HIPAA-compliant protocols. We never share your personal health data with third parties without your explicit consent."
+      answer: "We take data security very seriously. All your health information is encrypted and stored securely. We never share your personal health data with third parties without your explicit consent."
     },
     {
-      question: "How can I update my payment information?",
-      answer: "You can update your payment method in the account settings under 'Billing & Payments'. We use secure payment processors and don't store your full card details on our servers."
+      question: "How do I provide feedback during the beta?",
+      answer: "You can use the feedback button available on every page to submit bug reports, feature requests, or general feedback. Your input helps us improve the program."
     }
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <MainHeader />
 
       <main className="pt-20 pb-16">
         <section className="container mx-auto px-4 mb-12">
           <div className="max-w-3xl mx-auto text-center mb-10">
-            <h1 className="text-4xl font-bold text-neutral-900 mb-4">How can we help you?</h1>
-            <p className="text-lg text-neutral-600">Find answers, resources, and get support for MigraineTracker</p>
+            <h1 className="text-4xl font-bold text-foreground mb-4">How can we help you?</h1>
+            <p className="text-lg text-muted-foreground">Find answers, resources, and get support for Recover & Reclaim</p>
             
             <div className="relative mt-8 max-w-xl mx-auto">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
               <Input
                 type="text"
                 placeholder="Search for help topics..."
@@ -81,97 +82,12 @@ const Support = () => {
             </div>
           </div>
 
-          <Tabs defaultValue="guides" className="max-w-4xl mx-auto">
-            <TabsList className="grid w-full grid-cols-4 mb-8">
-              <TabsTrigger value="guides">Help Guides</TabsTrigger>
+          <Tabs defaultValue="faq" className="max-w-4xl mx-auto">
+            <TabsList className="grid w-full grid-cols-3 mb-8">
               <TabsTrigger value="faq">FAQs</TabsTrigger>
               <TabsTrigger value="contact">Contact Us</TabsTrigger>
-              <TabsTrigger value="community">Community</TabsTrigger>
+              <TabsTrigger value="guides">Program Guides</TabsTrigger>
             </TabsList>
-            
-            <TabsContent value="guides" className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <FileText className="h-5 w-5" />
-                      Getting Started
-                    </CardTitle>
-                    <CardDescription>Learn the basics of using MigraineTracker</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2">
-                      <li><a href="#" className="text-blue-600 hover:underline">Setting up your account</a></li>
-                      <li><a href="#" className="text-blue-600 hover:underline">Tracking your first migraine</a></li>
-                      <li><a href="#" className="text-blue-600 hover:underline">Understanding your dashboard</a></li>
-                    </ul>
-                  </CardContent>
-                  <CardFooter>
-                    <Button variant="outline" size="sm">View all guides</Button>
-                  </CardFooter>
-                </Card>
-                
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <HelpCircle className="h-5 w-5" />
-                      Advanced Features
-                    </CardTitle>
-                    <CardDescription>Get more out of your MigraineTracker experience</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2">
-                      <li><a href="#" className="text-blue-600 hover:underline">Creating custom triggers</a></li>
-                      <li><a href="#" className="text-blue-600 hover:underline">Using the analytics dashboard</a></li>
-                      <li><a href="#" className="text-blue-600 hover:underline">Sharing reports with healthcare providers</a></li>
-                    </ul>
-                  </CardContent>
-                  <CardFooter>
-                    <Button variant="outline" size="sm">View all features</Button>
-                  </CardFooter>
-                </Card>
-                
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Shield className="h-5 w-5" />
-                      Account & Privacy
-                    </CardTitle>
-                    <CardDescription>Manage your account security and data privacy</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2">
-                      <li><a href="#" className="text-blue-600 hover:underline">Password reset instructions</a></li>
-                      <li><a href="#" className="text-blue-600 hover:underline">Managing notification preferences</a></li>
-                      <li><a href="#" className="text-blue-600 hover:underline">Data export and deletion</a></li>
-                    </ul>
-                  </CardContent>
-                  <CardFooter>
-                    <Button variant="outline" size="sm">View all settings</Button>
-                  </CardFooter>
-                </Card>
-                
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Mail className="h-5 w-5" />
-                      Billing Support
-                    </CardTitle>
-                    <CardDescription>Get help with payments and subscriptions</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2">
-                      <li><a href="#" className="text-blue-600 hover:underline">Updating payment methods</a></li>
-                      <li><a href="#" className="text-blue-600 hover:underline">Understanding your invoice</a></li>
-                      <li><a href="#" className="text-blue-600 hover:underline">Cancellation and refund policy</a></li>
-                    </ul>
-                  </CardContent>
-                  <CardFooter>
-                    <Button variant="outline" size="sm">View billing help</Button>
-                  </CardFooter>
-                </Card>
-              </div>
-            </TabsContent>
             
             <TabsContent value="faq">
               <Card>
@@ -190,7 +106,7 @@ const Support = () => {
                   </Accordion>
                 </CardContent>
                 <CardFooter className="flex justify-between">
-                  <p className="text-sm text-neutral-500">Can't find what you're looking for?</p>
+                  <p className="text-sm text-muted-foreground">Can't find what you're looking for?</p>
                   <Button onClick={() => setContactOpen(true)}>Contact Support</Button>
                 </CardFooter>
               </Card>
@@ -244,54 +160,82 @@ const Support = () => {
                   </form>
                 </CardContent>
                 <CardFooter>
-                  <p className="text-sm text-neutral-500">By submitting this form, you agree to our privacy policy and terms of service.</p>
-                </CardFooter>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="community">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Community Support</CardTitle>
-                  <CardDescription>Join our members-only community for peer support and discussion</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-6">
-                    <h3 className="text-lg font-medium mb-2 flex items-center gap-2">
-                      <MessageSquare className="h-5 w-5" />
-                      Private Community Forum
-                    </h3>
-                    <p className="text-neutral-600 mb-4">
-                      Our private forums are available exclusively to MigraineTracker subscribers. Join discussions with other members, share your experiences, and learn from others.
-                    </p>
-                    <Button>Sign In To Access Forums</Button>
-                  </div>
-                  
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="border border-neutral-200 rounded-lg p-4">
-                      <h4 className="font-medium mb-2">Latest Discussions</h4>
-                      <ul className="space-y-2">
-                        <li className="text-sm">• Natural remedies discussion thread</li>
-                        <li className="text-sm">• Tracking visual auras and symptoms</li>
-                        <li className="text-sm">• Weather-related triggers and prevention</li>
-                      </ul>
-                    </div>
-                    <div className="border border-neutral-200 rounded-lg p-4">
-                      <h4 className="font-medium mb-2">Member Resources</h4>
-                      <ul className="space-y-2">
-                        <li className="text-sm">• Community guidelines</li>
-                        <li className="text-sm">• How to safely share experiences</li>
-                        <li className="text-sm">• Moderation and support policies</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <p className="text-sm text-neutral-500">
-                    Community access is restricted to verified members only. All forum activities are moderated to ensure a supportive environment.
+                  <p className="text-sm text-muted-foreground">
+                    By submitting this form, you agree to our{" "}
+                    <Link to="/policy" className="text-primary hover:underline">privacy policy and terms of service</Link>.
                   </p>
                 </CardFooter>
               </Card>
+            </TabsContent>
+
+            <TabsContent value="guides" className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <FileText className="h-5 w-5" />
+                      Getting Started
+                    </CardTitle>
+                    <CardDescription>Learn the basics of the recovery program</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2">
+                      <li><Link to="/dashboard" className="text-primary hover:underline">Go to your dashboard</Link></li>
+                      <li><Link to="/phase-one" className="text-primary hover:underline">Start Phase 1: Education</Link></li>
+                      <li><Link to="/learn-more" className="text-primary hover:underline">Learn more about the program</Link></li>
+                    </ul>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <HelpCircle className="h-5 w-5" />
+                      Program Phases
+                    </CardTitle>
+                    <CardDescription>Understand each phase of your recovery</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2">
+                      <li><Link to="/phase-one" className="text-primary hover:underline">Phase 1: Education & Assessment</Link></li>
+                      <li><Link to="/phase-two" className="text-primary hover:underline">Phase 2: Exercise Program</Link></li>
+                      <li><Link to="/phase-three" className="text-primary hover:underline">Phase 3: Consolidation</Link></li>
+                    </ul>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Shield className="h-5 w-5" />
+                      Account & Privacy
+                    </CardTitle>
+                    <CardDescription>Manage your account security and data privacy</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2">
+                      <li><Link to="/profile" className="text-primary hover:underline">Manage your profile</Link></li>
+                      <li><Link to="/policy" className="text-primary hover:underline">Privacy policy & terms</Link></li>
+                    </ul>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Mail className="h-5 w-5" />
+                      Need More Help?
+                    </CardTitle>
+                    <CardDescription>Get in touch with our support team</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground mb-4">
+                      Can't find what you're looking for? Our support team is here to help.
+                    </p>
+                    <Button onClick={() => setContactOpen(true)} variant="outline">Contact Support</Button>
+                  </CardContent>
+                </Card>
+              </div>
             </TabsContent>
           </Tabs>
         </section>
@@ -346,55 +290,7 @@ const Support = () => {
         </DialogContent>
       </Dialog>
 
-      <footer className="bg-neutral-100 py-8">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <h4 className="mb-4">About</h4>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Our Story</a></li>
-                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Team</a></li>
-                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Careers</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="mb-4">Support</h4>
-              <ul className="space-y-2">
-                <li><Link to="/support" className="text-neutral-600 hover:text-neutral-900">Help Center</Link></li>
-                <li><Link to="/policy" className="text-neutral-600 hover:text-neutral-900">Privacy & Terms</Link></li>
-                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Terms</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="mb-4">Contact</h4>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Email Us</a></li>
-                <li><a href="#" className="text-neutral-600 hover:text-neutral-900">Office</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="mb-4">Follow Us</h4>
-              <div className="flex space-x-4">
-                <a href="#" className="text-neutral-600 hover:text-neutral-900">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8l-8 8m0-8l8 8" />
-                  </svg>
-                </a>
-                <a href="#" className="text-neutral-600 hover:text-neutral-900">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8l-8 8m0-8l8 8" />
-                  </svg>
-                </a>
-                <a href="#" className="text-neutral-600 hover:text-neutral-900">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8l-8 8m0-8l8 8" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <PageFooter />
     </div>
   );
 };

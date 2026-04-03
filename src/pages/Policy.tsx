@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { isGdprCountry } from "@/utils/policy/countryUtils";
 import MainHeader from "@/components/layout/MainHeader";
@@ -88,13 +87,11 @@ const Policy = () => {
               )}
             </Tabs>
 
-            <div className="mt-8 flex justify-between items-center">
-              <p className="text-sm text-neutral-500">
-                If you have any questions about our policies, please <a href="#" className="text-primary hover:underline">contact us</a>.
+            <div className="mt-8">
+              <p className="text-sm text-muted-foreground">
+                If you have any questions about our policies, please{" "}
+                <Link to="/support" className="text-primary hover:underline">contact us</Link>.
               </p>
-              <Button variant="outline" asChild>
-                <Link to="/pricing">View Pricing</Link>
-              </Button>
             </div>
           </div>
         </div>

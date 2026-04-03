@@ -268,16 +268,16 @@ const MarketingOverview = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
-              to="/pricing"
+              to="/dashboard"
               className="px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-center font-medium"
             >
-              View Pricing Options
+              Go to Dashboard
             </Link>
             <Link 
-              to="/register"
+              to="/learn-more"
               className="px-8 py-3 bg-background text-foreground border-2 border-border rounded-lg hover:bg-muted transition-colors text-center font-medium"
             >
-              Start Your Journey Today
+              Learn More
             </Link>
           </div>
         </CardContent>

@@ -2,64 +2,77 @@
 import React, { useState, useEffect } from "react";
 import PageLayout from "@/components/layout/PageLayout";
 import PhaseHeading from "@/components/phase/PhaseHeading";
-import TestDayButton from "@/components/phase-three/TestDayButton";
 import PhaseThreeTopSection from "@/components/phase-three/PhaseThreeTopSection";
 import PhaseThreeMainContent from "@/components/phase-three/PhaseThreeMainContent";
 import PageFooter from "@/components/layout/PageFooter";
 import { usePhaseThreeToasts } from "@/components/phase-three/usePhaseThreeToasts";
+import { useQuestionnaireResponses } from "@/hooks/useQuestionnaireResponses";
+import { useUserStatus } from "@/hooks/useUserStatus";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 const PhaseThree = () => {
-  const [currentDay, setCurrentDay] = useState(1);
-  const totalDays = 8; // 8 days to include feedback day
+  const { user } = useAuth();
+  const userStatus = useUserStatus();
+  const [currentDay, setCurrentDay] = useState(userStatus.phaseThreeDay || 1);
+  const totalDays = 8;
   const { 
     showIncompletionToast, 
     showQuestionnairesReminderToast, 
     showCompletionToast 
   } = usePhaseThreeToasts();
+  const { getPhaseResponses, loading: questLoading } = useQuestionnaireResponses();
   
-  // Initialize currentDay from localStorage or set to 1
-  useEffect(() => {
-    const savedDay = localStorage.getItem('phase3-current-day');
-    if (savedDay) {
-      setCurrentDay(parseInt(savedDay, 10));
-    }
-  }, []);
-  
-  // Save currentDay to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('phase3-current-day', currentDay.toString());
-    console.log("Current day set to:", currentDay);
-  }, [currentDay]);
-  
-  // Track completed questionnaires
+  // Track completed questionnaires from DB
   const [completedQuestionnaires, setCompletedQuestionnaires] = useState<Record<string, boolean>>({});
   
+  // Sync currentDay from userStatus when it initializes
   useEffect(() => {
-    // Load completed questionnaires from localStorage
-    const loadCompletedQuestionnaires = () => {
-      const questionnaires = ['hit-6', 'midas', 'psfs', 'gpoc'];
-      const completed: Record<string, boolean> = {};
-      
-      questionnaires.forEach(id => {
-        const savedResponse = localStorage.getItem(`questionnaire-${id}`);
-        if (savedResponse) {
+    if (userStatus.isInitialized && userStatus.phaseThreeDay) {
+      setCurrentDay(userStatus.phaseThreeDay);
+    }
+  }, [userStatus.isInitialized, userStatus.phaseThreeDay]);
+  
+  // Load completed questionnaires from DB
+  useEffect(() => {
+    const loadQuestionnaires = async () => {
+      if (questLoading) return;
+      try {
+        const responses = await getPhaseResponses(3);
+        const completed: Record<string, boolean> = {};
+        Object.keys(responses).forEach(id => {
           completed[id] = true;
-        }
-      });
+        });
+        setCompletedQuestionnaires(completed);
+        console.log("PhaseThree - Loaded questionnaires from DB:", completed);
+      } catch (error) {
+        console.error("Error loading questionnaires:", error);
+      }
+    };
+    
+    loadQuestionnaires();
+  }, [questLoading, getPhaseResponses]);
+  
+  // Persist currentDay to database when it changes
+  useEffect(() => {
+    const persistDay = async () => {
+      if (!user || !userStatus.isInitialized) return;
+      if (currentDay === userStatus.phaseThreeDay) return;
       
-      setCompletedQuestionnaires(completed);
-      console.log("Loaded questionnaires in PhaseThree:", completed);
+      try {
+        await supabase
+          .from('user_progress')
+          .update({ phase_three_day: currentDay })
+          .eq('user_id', user.id);
+        
+        userStatus.updateLocalStatus({ phaseThreeDay: currentDay });
+      } catch (error) {
+        console.error("Error persisting phase 3 day:", error);
+      }
     };
     
-    loadCompletedQuestionnaires();
-    
-    // Listen for changes to localStorage
-    window.addEventListener('storage', loadCompletedQuestionnaires);
-    
-    return () => {
-      window.removeEventListener('storage', loadCompletedQuestionnaires);
-    };
-  }, []);
+    persistDay();
+  }, [currentDay, user, userStatus.isInitialized]);
   
   // Show a reminder toast when user reaches day 7 and hasn't completed all questionnaires
   useEffect(() => {
@@ -97,33 +110,11 @@ const PhaseThree = () => {
     }
   };
 
-  // FOR TESTING ONLY: Navigate directly to day 8
-  const goToDay8 = () => {
-    console.log("Going to day 8 for testing");
-    // Add some mock data for testing
-    const questionnaires = ['hit-6', 'midas', 'psfs', 'gpoc'];
-    questionnaires.forEach(id => {
-      if (!localStorage.getItem(`questionnaire-${id}`)) {
-        localStorage.setItem(`questionnaire-${id}`, JSON.stringify({completed: true}));
-      }
-    });
-    
-    setCurrentDay(8);
-    // Force reload completed questionnaires
-    const completed: Record<string, boolean> = {};
-    questionnaires.forEach(id => {
-      completed[id] = true;
-    });
-    setCompletedQuestionnaires(completed);
-    console.log("Set current day to 8 and completed questionnaires:", completed);
-  };
-
   return (
     <>
       <PageLayout>
         <div className="flex justify-between items-center mb-8">
           <PhaseHeading title="Consolidating your recovery progress" />
-          <TestDayButton onClick={goToDay8} />
         </div>
         
         <PhaseThreeTopSection 
