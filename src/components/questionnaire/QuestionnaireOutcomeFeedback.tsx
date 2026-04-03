@@ -45,7 +45,7 @@ const QuestionnaireOutcomeFeedback: React.FC<QuestionnaireOutcomeFeedbackProps> 
              score <= 20 ? "text-amber-800" : 
              "text-rose-800";
     }
-    return "text-blue-800"; // default
+    return "text-foreground"; // default
   };
   
   const getIconForCategory = (category: string) => {
