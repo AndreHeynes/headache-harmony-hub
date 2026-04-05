@@ -62,7 +62,7 @@ export const PrivacyModule = () => {
         
         <div>
           <h3 className="text-lg font-medium mb-2">Age Verification</h3>
-          <p className="text-sm text-neutral-500 mb-4">
+          <p className="text-sm text-muted-foreground mb-4">
             Reset your age verification status
           </p>
           <Button variant="outline" onClick={resetAgeVerification}>
