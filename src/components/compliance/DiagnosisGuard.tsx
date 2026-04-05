@@ -1,6 +1,8 @@
 import React, { PropsWithChildren, useMemo } from "react";
 import { DiagnosisAttestation } from "@/components/compliance/DiagnosisAttestation";
 
+// TODO [POST-BETA]: Migrate attestation storage from localStorage to database
+// so it persists across devices and sessions. Currently acceptable for beta.
 const ATTESTED_KEY = "diagnosis-attested";
 const DATE_KEY = "diagnosis-attestation-date";
 const ATTTESTATION_TTL_DAYS = 180;

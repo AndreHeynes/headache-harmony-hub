@@ -15,7 +15,8 @@ const Profile = () => {
   const userName = session.user?.fullName || session.user?.full_name || '';
   const userEmail = session.user?.email || '';
 
-  // Notification preferences state
+  // TODO [POST-BETA]: Migrate notification preferences from localStorage to database
+  // Notification preferences state (localStorage-only for beta)
   const [emailNotifications, setEmailNotifications] = useState(() => {
     const saved = localStorage.getItem('pref_email_notifications');
     return saved ? JSON.parse(saved) : true;

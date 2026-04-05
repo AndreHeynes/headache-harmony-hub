@@ -163,7 +163,7 @@ export const CookieConsent = () => {
       {!open && (
         <button 
           onClick={resetConsent}
-          className="fixed bottom-4 left-4 bg-neutral-800 text-white text-xs px-3 py-1 rounded-full opacity-50 hover:opacity-100 transition-opacity"
+          className="fixed bottom-4 left-4 bg-foreground text-background text-xs px-3 py-1 rounded-full opacity-50 hover:opacity-100 transition-opacity"
         >
           Manage Cookies
         </button>

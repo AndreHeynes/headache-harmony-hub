@@ -12,7 +12,8 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useNavigate } from "react-router-dom";
 
-// Minimal, non-PHI attestation keys
+// TODO [POST-BETA]: Migrate attestation storage from localStorage to database
+// so it persists across devices and sessions. Currently acceptable for beta.
 const ATTESTED_KEY = "diagnosis-attested"; // "true" | undefined
 const CATEGORY_KEY = "diagnosis-category"; // "primary" | "secondary:cervicogenic" | "secondary:tmj"
 const DATE_KEY = "diagnosis-attestation-date"; // ISO string
