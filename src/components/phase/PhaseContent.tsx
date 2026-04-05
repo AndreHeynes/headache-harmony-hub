@@ -38,7 +38,7 @@ const PhaseContent = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="border rounded-lg p-4 hover:bg-muted transition-colors">
             <h3 className="font-medium mb-2">Phase 1 Guide Document</h3>
-            <p className="text-neutral-500 mb-3">
+            <p className="text-muted-foreground mb-3">
               This document explains how Phase 1 works and what you should expect over the next 7 days.
             </p>
             <Link to="/documents/phase-one-guide">
