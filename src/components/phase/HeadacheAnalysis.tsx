@@ -81,15 +81,16 @@ const HeadacheAnalysis: React.FC<HeadacheAnalysisProps> = ({ isConnected, showIn
           </div>
           
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-neutral-50 p-3 rounded">
-              <p className="text-sm text-neutral-500">Weekly Headaches</p>
+            <div className="bg-muted p-3 rounded">
+              <p className="text-sm text-muted-foreground">Weekly Headaches</p>
               <p className="text-2xl font-bold">3</p>
             </div>
-            <div className="bg-neutral-50 p-3 rounded">
-              <p className="text-sm text-neutral-500">Avg. Severity</p>
+            <div className="bg-muted p-3 rounded">
+              <p className="text-sm text-muted-foreground">Avg. Severity</p>
               <p className="text-2xl font-bold">5.7/10</p>
             </div>
           </div>
+          <p className="text-xs text-muted-foreground italic">Sample data — will update with your real tracking data</p>
         </TabsContent>
         
         <TabsContent value="monthly" className="space-y-4">
