@@ -30,7 +30,7 @@ const PhaseContent = ({
   const renderPhase1Day1Content = () => {
     return (
       <div className="space-y-6">
-        <p className="text-neutral-600">
+        <p className="text-muted-foreground">
           Welcome to Phase 1 of your headache management program. To get started, please review the 
           Phase 1 guide and watch the introduction video.
         </p>
