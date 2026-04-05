@@ -116,7 +116,7 @@ const PhaseContent = ({
         ) : customContent ? (
           customContent
         ) : (
-          <p className="text-neutral-600 mb-6">
+          <p className="text-muted-foreground mb-6">
             {dayContent}
           </p>
         )}
