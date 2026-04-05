@@ -11,7 +11,7 @@ interface HeadacheAnalysisProps {
   showInPhaseThree?: boolean;
 }
 
-// Sample data - in a real app, this would come from the external tracking app
+// Sample data — placeholder for beta. Will be replaced with real tracking data post-beta.
 const weeklyData = [
   { day: "Mon", count: 0, severity: 0 },
   { day: "Tue", count: 1, severity: 6 },
