@@ -74,7 +74,7 @@ const PhaseContent = ({
       <div className="space-y-4">
         <div className="border-b pb-4">
           <h3 className="font-medium mb-2">Morning Exercises</h3>
-          <ul className="list-disc pl-5 space-y-2 text-neutral-600">
+          <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
             <li>Neck Stretches - 3 sets x 10 reps (2x daily)</li>
             <li>Shoulder Rolls - 2 sets x 15 reps (3x daily)</li>
             <li>Deep Breathing - 5 minutes (4x daily)</li>
