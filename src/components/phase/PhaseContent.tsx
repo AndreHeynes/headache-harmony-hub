@@ -55,9 +55,9 @@ const PhaseContent = ({
           </div>
         </div>
         
-        <div className="bg-neutral-100 p-4 rounded mt-4">
+        <div className="bg-muted p-4 rounded mt-4">
           <h3 className="font-medium mb-2">Getting Started</h3>
-          <p className="text-neutral-600">
+          <p className="text-muted-foreground">
             After reviewing these materials, you'll be ready to begin your assessment process.
             Starting from tomorrow, you'll have access to questionnaires that will help us 
             understand your specific situation and create a personalized treatment plan.
