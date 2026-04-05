@@ -1,70 +1,42 @@
 
 
-## Plan: Standardize Color Palette Across the Project
+## Plan: Fix Remaining Technical Issues (Amber/Yellow Priority)
 
-### Problem
-Over 30 component files use hardcoded Tailwind colors (blue-600, purple-50, indigo-900, etc.) creating an inconsistent visual identity. The project has a proper design token system in `index.css` but most components bypass it.
+### Issues to fix, grouped by severity
 
-### What stays as-is (intentional semantic colors)
-- **Progress/comparison colors** in `progressCalculation.ts`: emerald (improved), rose (worsened), amber (unchanged) — these are semantic
-- **Exercise category badge colors** in `exerciseCategoryMap.ts` — each category needs a distinct color for visual differentiation
-- **Form validation** red borders (e.g., `border-red-500` on invalid inputs)
-- **Connection status** green/amber indicators
+**AMBER — Branding errors**
 
-### Color mapping strategy
+1. **`TermsOfService.tsx`** — References "MigraineTracker's website" (line 24). Replace with "Recover & Reclaim".
+2. **`PrivacyPolicy.tsx`** — References "support@migrainetracker.com" (line 36). Replace with appropriate contact reference.
 
-All non-semantic decorative colors will be mapped to the design system tokens:
+**AMBER — Remaining hardcoded colors (missed in previous pass)**
 
-| Current hardcoded | Replacement |
-|---|---|
-| `bg-blue-50`, `bg-indigo-50`, `bg-purple-50` (info/highlight backgrounds) | `bg-muted` or `bg-accent` |
-| `border-blue-100/200`, `border-purple-100` | `border-border` |
-| `text-blue-600/700/800`, `text-indigo-900`, `text-purple-900` | `text-primary` or `text-foreground` |
-| `from-blue-50 to-purple-50` gradients | `bg-muted` (flat) or `from-muted to-accent` |
-| `from-purple-500 to-purple-600` (buttons) | `bg-primary` |
-| `bg-green-50 border-green-100` (positive tips) | Keep as semantic |
+3. **`DataAccessControl.tsx`** — `text-blue-600` link (line 138), `text-neutral-500` descriptions. Replace with `text-primary` and `text-muted-foreground`.
+4. **`CookieConsent.tsx`** — `text-neutral-500` descriptions (lines 82, 96, 110, 124, 153). Replace with `text-muted-foreground`.
+5. **`PrivacyModule.tsx`** — `text-neutral-500` (lines 44, 53, 63). Replace with `text-muted-foreground`.
+6. **`SecurityDashboard.tsx`** — Status icon colors (`text-red-500`, `text-yellow-500`, `text-green-500`) are semantic and stay. No changes needed.
+7. **`HeadacheAnalysis.tsx`** — `bg-neutral-50`, `text-neutral-400/500` stat boxes (lines 47-48, 84-91, 115-122). Replace with `bg-muted` and `text-muted-foreground`. Green trend indicators stay (semantic).
+8. **`PhaseContent.tsx`** — `text-neutral-600/500`, `bg-neutral-50/100`, `hover:bg-neutral-50` throughout (lines 33-66, 77-96, 119-146). Replace with `text-muted-foreground`, `bg-muted`, `hover:bg-muted`.
+9. **`ExerciseTypeIcon.tsx`** — `text-blue-600` for activity icon (line 13). Replace with `text-primary`.
+10. **Policy pages** (`PrivacyPolicy.tsx`, `TermsOfService.tsx`) — `bg-white`, `border-neutral-200`, `text-neutral-600` throughout. Replace with `bg-card`, `border-border`, `text-muted-foreground`.
 
-### Files to update (grouped by area)
+**YELLOW — localStorage-only persistence (acceptable for beta, flag for post-beta)**
 
-**Phase 1** (1 file)
-- `DayOneContent.tsx` — blue info box → muted/primary tokens
+11. **`DiagnosisGuard.tsx` / `DiagnosisAttestation.tsx`** — Attestation stored in localStorage only. This is acceptable for beta (it's a compliance gate, not user data). No change now — add a code comment noting it should migrate to DB post-beta.
+12. **`Profile.tsx`** — Notification preferences in localStorage. Same approach: add comment noting post-beta DB migration. The UI already says "read-only during beta".
+13. **`AgeVerification.tsx`** — Age verification in localStorage. Same: add comment.
 
-**Phase 2** (7 files)
-- `PhaseTwoContent.tsx` — purple headings, purple gradient → primary/muted tokens
-- `ExerciseItem.tsx` — purple gradient button → primary
-- `ExerciseTasks.tsx` — purple heading/background → primary/muted
-- `ActivitySheetTasks.tsx` — blue gradient → muted
-- `ActivitySheet.tsx` — blue icon → primary
-- `RegularExerciseDay.tsx` — purple gradient → muted
-- `WeeklyReviewDay.tsx` — purple gradient → muted
+**YELLOW — Stale/placeholder data**
 
-**Phase 3** (2 files)
-- `DaysOneToSevenContent.tsx` — blue info boxes → muted/primary
-- `DayEightContent.tsx` — indigo/purple gradient header → muted/primary
+14. **`HeadacheAnalysis.tsx`** — Uses hardcoded sample data (lines 15-38). This is a placeholder component with fake stats. Add a visible "Sample data" label so users don't think it's real.
+15. **`ProgramCalendar.tsx`** — Hardcoded dates ("Jan 1, 2025"). Add a "Coming soon" or "Sample" label.
 
-**Phase 4** (1 file)
-- `PostureEducationSection.tsx` — amber alert icon stays (semantic)
+### Summary
 
-**Questionnaire components** (3 files)
-- `QuestionnaireOutcomeFeedback.tsx` — indigo/blue gradient → muted/primary
-- `FHTInterpretation.tsx` — blue info box → muted/primary
-- `PSFSInterpretation.tsx` — blue info box → muted/primary
-- `StandardInterpretation.tsx` — blue "next steps" box → muted/primary (red/amber/green severity stays semantic)
-
-**Document pages** (3 files)
-- `MarketingOverview.tsx` — blue/purple/green/yellow/orange cards → use muted with primary accents
-- `CurriculumOverview.tsx` — colored left borders → use primary with opacity variants
-- `ProgramVisualization.tsx` — colored left borders → primary with opacity variants
-
-**Other** (3 files)
-- `Policy.tsx` — blue links → primary
-- `CookieConsent.tsx` — blue links → primary
-- `BetaSignupSection.tsx` — green success box stays (semantic)
-- `HeadacheAnalysis.tsx` — green trend indicators stay (semantic)
-
-### Technical approach
-
-Each file gets a straightforward find-and-replace of color classes. No structural changes, no new files, no database changes. The design tokens (`primary`, `muted`, `accent`, `foreground`, `border`) adapt automatically to light/dark mode.
-
-**Total: ~20 files updated, zero logic changes.**
+- ~12 files updated
+- Fix 2 branding errors ("MigraineTracker")
+- Standardize remaining `neutral-*` and `blue-600` colors to design tokens
+- Add post-beta migration comments to localStorage-dependent compliance components
+- Label placeholder/sample data clearly
+- No database changes, no new files
 
