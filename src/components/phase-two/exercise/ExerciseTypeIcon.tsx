@@ -10,7 +10,7 @@ interface ExerciseTypeIconProps {
 const ExerciseTypeIcon: React.FC<ExerciseTypeIconProps> = ({ title, type }) => {
   // Get icon based on exercise type
   const getExerciseIcon = () => {
-    if (type === "activity") return <FileText className="h-5 w-5 text-blue-600" />;
+    if (type === "activity") return <FileText className="h-5 w-5 text-primary" />;
     
     if (title.toLowerCase().includes("breathing")) 
       return <Dumbbell className="h-5 w-5 text-indigo-600" />;

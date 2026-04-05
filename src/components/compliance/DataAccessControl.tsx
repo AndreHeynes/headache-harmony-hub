@@ -133,9 +133,9 @@ export const DataAccessControl = () => {
         </div>
 
         <DialogFooter>
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-muted-foreground">
             For more information about how we handle your data, please see our{" "}
-            <a href="/policy" className="text-blue-600 hover:underline">Privacy Policy</a>.
+            <a href="/policy" className="text-primary hover:underline">Privacy Policy</a>.
           </p>
         </DialogFooter>
       </DialogContent>

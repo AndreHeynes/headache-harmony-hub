@@ -150,7 +150,7 @@ export const CookieConsent = () => {
                 </Button>
               </div>
             </div>
-            <p className="text-xs text-center text-neutral-500 pt-2">
+            <p className="text-xs text-center text-muted-foreground pt-2">
               By using our website, you acknowledge that you have read and understand our{" "}
               <Link to="/policy" className="text-primary hover:underline">Privacy Policy</Link> and{" "}
               <Link to="/policy?tab=terms" className="text-primary hover:underline">Terms of Service</Link>

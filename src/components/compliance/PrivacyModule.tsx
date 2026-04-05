@@ -74,7 +74,7 @@ export const PrivacyModule = () => {
         
         <div>
           <h3 className="text-lg font-medium mb-2">Health Information Disclaimer</h3>
-          <p className="text-sm text-neutral-500">
+          <p className="text-sm text-muted-foreground">
             The Recover & Reclaim application is designed to help track and manage headache symptoms. 
             It is not intended to replace professional medical advice, diagnosis, or treatment. 
             Always seek the advice of your physician or other qualified health provider with any 
