@@ -121,7 +121,7 @@ export const CookieConsent = () => {
                 />
                 <div>
                   <label htmlFor="personalized-content" className="font-medium block">Personalized Content</label>
-                  <p className="text-sm text-neutral-500">These cookies allow us to provide content that is more relevant to your interests.</p>
+                  <p className="text-sm text-muted-foreground">These cookies allow us to provide content that is more relevant to your interests.</p>
                 </div>
               </div>
             </div>
