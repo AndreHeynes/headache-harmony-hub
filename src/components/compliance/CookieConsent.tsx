@@ -93,7 +93,7 @@ export const CookieConsent = () => {
                 />
                 <div>
                   <label htmlFor="analytics" className="font-medium block">Analytics Cookies</label>
-                  <p className="text-sm text-neutral-500">These cookies help us improve our website by collecting anonymous information.</p>
+                  <p className="text-sm text-muted-foreground">These cookies help us improve our website by collecting anonymous information.</p>
                 </div>
               </div>
               
