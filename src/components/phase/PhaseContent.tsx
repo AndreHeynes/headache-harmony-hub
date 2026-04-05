@@ -137,9 +137,9 @@ const PhaseContent = ({
         
         {/* For Phase 2, Day 64 - add a completion summary */}
         {phase === 2 && day === 64 && (
-          <div className="bg-neutral-100 p-4 rounded mt-4">
+          <div className="bg-muted p-4 rounded mt-4">
             <h3 className="font-medium mb-2">Phase 2 Completion</h3>
-            <p className="text-neutral-600">
+            <p className="text-muted-foreground">
               Congratulations on completing Phase 2! Review your progress over the past 9 weeks.
               Prepare for moving to Phase 3 of your program.
             </p>
