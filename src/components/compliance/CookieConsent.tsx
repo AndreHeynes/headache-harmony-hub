@@ -79,7 +79,7 @@ export const CookieConsent = () => {
                 <Checkbox id="necessary" checked disabled />
                 <div>
                   <label htmlFor="necessary" className="font-medium block">Necessary Cookies</label>
-                  <p className="text-sm text-neutral-500">These cookies are required for basic site functionality and cannot be disabled.</p>
+                  <p className="text-sm text-muted-foreground">These cookies are required for basic site functionality and cannot be disabled.</p>
                 </div>
               </div>
               
