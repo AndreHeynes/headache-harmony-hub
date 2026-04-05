@@ -123,9 +123,9 @@ const PhaseContent = ({
         
         {/* Phase 1 specific content for other days */}
         {phase === 1 && day !== 1 && day === 7 && !customContent && (
-          <div className="bg-neutral-100 p-4 rounded mt-4">
+          <div className="bg-muted p-4 rounded mt-4">
             <h3 className="font-medium mb-2">Week 1 Summary</h3>
-            <p className="text-neutral-600">
+            <p className="text-muted-foreground">
               Complete your final assessments and review your progress from the past week. 
               Prepare for moving to Phase 2 of your program.
             </p>
