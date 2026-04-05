@@ -89,7 +89,7 @@ const PhaseContent = ({
         </div>
         <div>
           <h3 className="font-medium mb-2">Evening Routine</h3>
-          <ul className="list-disc pl-5 space-y-2 text-neutral-600">
+          <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
             <li>Gentle Yoga - 20 minutes</li>
             <li>Sleep Hygiene Practice - 30 minutes before bed</li>
           </ul>
