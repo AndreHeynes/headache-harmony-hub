@@ -82,7 +82,7 @@ const PhaseContent = ({
         </div>
         <div className="border-b pb-4">
           <h3 className="font-medium mb-2">Relaxation Techniques</h3>
-          <ul className="list-disc pl-5 space-y-2 text-neutral-600">
+          <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
             <li>Progressive Muscle Relaxation - 15 minutes</li>
             <li>Mindfulness Meditation - 10 minutes</li>
           </ul>
