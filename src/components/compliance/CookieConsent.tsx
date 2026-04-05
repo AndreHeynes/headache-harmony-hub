@@ -107,7 +107,7 @@ export const CookieConsent = () => {
                 />
                 <div>
                   <label htmlFor="marketing" className="font-medium block">Marketing Cookies</label>
-                  <p className="text-sm text-neutral-500">These cookies are used to track advertising effectiveness and to display personalized ads.</p>
+                  <p className="text-sm text-muted-foreground">These cookies are used to track advertising effectiveness and to display personalized ads.</p>
                 </div>
               </div>
               
