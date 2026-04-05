@@ -86,7 +86,7 @@ export const DataAccessControl = () => {
         <div className="space-y-6 py-4">
           <div className="space-y-2">
             <h3 className="text-lg font-medium">Download Your Data</h3>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-muted-foreground">
               You can download all personal data we have collected about you.
               This includes your profile information, settings, and usage data.
             </p>
@@ -101,7 +101,7 @@ export const DataAccessControl = () => {
 
           <div className="space-y-2">
             <h3 className="text-lg font-medium">Delete Your Data</h3>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-muted-foreground">
               You can request the deletion of all your personal data from our systems.
               This action cannot be undone.
             </p>
@@ -116,7 +116,7 @@ export const DataAccessControl = () => {
 
           <div className="space-y-2">
             <h3 className="text-lg font-medium">Do Not Sell My Personal Information</h3>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-muted-foreground">
               Under the California Consumer Privacy Act (CCPA), you have the right to opt-out 
               of the sale of your personal information.
             </p>
@@ -133,9 +133,9 @@ export const DataAccessControl = () => {
         </div>
 
         <DialogFooter>
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-muted-foreground">
             For more information about how we handle your data, please see our{" "}
-            <a href="/policy" className="text-blue-600 hover:underline">Privacy Policy</a>.
+            <a href="/policy" className="text-primary hover:underline">Privacy Policy</a>.
           </p>
         </DialogFooter>
       </DialogContent>

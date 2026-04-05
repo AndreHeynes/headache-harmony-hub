@@ -40,7 +40,7 @@ export const PrivacyModule = () => {
       <CardContent className="space-y-6">
         <div>
           <h3 className="text-lg font-medium mb-2">Data Access</h3>
-          <p className="text-sm text-neutral-500 mb-4">
+          <p className="text-sm text-muted-foreground mb-4">
             Access, download or delete your personal data
           </p>
           <DataAccessControl />
@@ -50,7 +50,7 @@ export const PrivacyModule = () => {
         
         <div>
           <h3 className="text-lg font-medium mb-2">Cookie Preferences</h3>
-          <p className="text-sm text-neutral-500 mb-4">
+          <p className="text-sm text-muted-foreground mb-4">
             Update your cookie consent settings
           </p>
           <Button variant="outline" onClick={resetCookieConsent}>
@@ -62,7 +62,7 @@ export const PrivacyModule = () => {
         
         <div>
           <h3 className="text-lg font-medium mb-2">Age Verification</h3>
-          <p className="text-sm text-neutral-500 mb-4">
+          <p className="text-sm text-muted-foreground mb-4">
             Reset your age verification status
           </p>
           <Button variant="outline" onClick={resetAgeVerification}>
@@ -74,7 +74,7 @@ export const PrivacyModule = () => {
         
         <div>
           <h3 className="text-lg font-medium mb-2">Health Information Disclaimer</h3>
-          <p className="text-sm text-neutral-500">
+          <p className="text-sm text-muted-foreground">
             The Recover & Reclaim application is designed to help track and manage headache symptoms. 
             It is not intended to replace professional medical advice, diagnosis, or treatment. 
             Always seek the advice of your physician or other qualified health provider with any 

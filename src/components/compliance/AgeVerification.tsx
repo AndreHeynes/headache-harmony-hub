@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 
+// TODO [POST-BETA]: Migrate age verification from localStorage to database
+// so it persists across devices and sessions. Currently acceptable for beta.
 export const AgeVerification = () => {
   const [open, setOpen] = useState(false);
   const [age, setAge] = useState<string>("");

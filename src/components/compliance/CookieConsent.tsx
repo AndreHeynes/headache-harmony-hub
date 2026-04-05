@@ -79,7 +79,7 @@ export const CookieConsent = () => {
                 <Checkbox id="necessary" checked disabled />
                 <div>
                   <label htmlFor="necessary" className="font-medium block">Necessary Cookies</label>
-                  <p className="text-sm text-neutral-500">These cookies are required for basic site functionality and cannot be disabled.</p>
+                  <p className="text-sm text-muted-foreground">These cookies are required for basic site functionality and cannot be disabled.</p>
                 </div>
               </div>
               
@@ -93,7 +93,7 @@ export const CookieConsent = () => {
                 />
                 <div>
                   <label htmlFor="analytics" className="font-medium block">Analytics Cookies</label>
-                  <p className="text-sm text-neutral-500">These cookies help us improve our website by collecting anonymous information.</p>
+                  <p className="text-sm text-muted-foreground">These cookies help us improve our website by collecting anonymous information.</p>
                 </div>
               </div>
               
@@ -107,7 +107,7 @@ export const CookieConsent = () => {
                 />
                 <div>
                   <label htmlFor="marketing" className="font-medium block">Marketing Cookies</label>
-                  <p className="text-sm text-neutral-500">These cookies are used to track advertising effectiveness and to display personalized ads.</p>
+                  <p className="text-sm text-muted-foreground">These cookies are used to track advertising effectiveness and to display personalized ads.</p>
                 </div>
               </div>
               
@@ -121,7 +121,7 @@ export const CookieConsent = () => {
                 />
                 <div>
                   <label htmlFor="personalized-content" className="font-medium block">Personalized Content</label>
-                  <p className="text-sm text-neutral-500">These cookies allow us to provide content that is more relevant to your interests.</p>
+                  <p className="text-sm text-muted-foreground">These cookies allow us to provide content that is more relevant to your interests.</p>
                 </div>
               </div>
             </div>
@@ -150,7 +150,7 @@ export const CookieConsent = () => {
                 </Button>
               </div>
             </div>
-            <p className="text-xs text-center text-neutral-500 pt-2">
+            <p className="text-xs text-center text-muted-foreground pt-2">
               By using our website, you acknowledge that you have read and understand our{" "}
               <Link to="/policy" className="text-primary hover:underline">Privacy Policy</Link> and{" "}
               <Link to="/policy?tab=terms" className="text-primary hover:underline">Terms of Service</Link>
@@ -163,7 +163,7 @@ export const CookieConsent = () => {
       {!open && (
         <button 
           onClick={resetConsent}
-          className="fixed bottom-4 left-4 bg-neutral-800 text-white text-xs px-3 py-1 rounded-full opacity-50 hover:opacity-100 transition-opacity"
+          className="fixed bottom-4 left-4 bg-foreground text-background text-xs px-3 py-1 rounded-full opacity-50 hover:opacity-100 transition-opacity"
         >
           Manage Cookies
         </button>

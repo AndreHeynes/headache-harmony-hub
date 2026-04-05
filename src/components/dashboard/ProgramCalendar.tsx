@@ -9,21 +9,22 @@ const ProgramCalendar = () => {
     <Card>
       <CardHeader className="pb-2">
         <CardTitle className="text-lg">Program Calendar</CardTitle>
+        <p className="text-xs text-muted-foreground italic">Coming soon — dates will update based on your progress</p>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
           <div className="flex justify-between text-sm">
             <span>Start: Phase 1, Day 1</span>
-            <span className="text-neutral-500">Jan 1, 2025</span>
+            <span className="text-muted-foreground">—</span>
           </div>
-          <Progress value={45} className="h-2" />
+          <Progress value={0} className="h-2" />
           <div className="flex justify-between text-sm">
-            <span>Current: Phase 2, Day 14</span>
-            <span className="text-neutral-500">Feb 15, 2025</span>
+            <span>Current: —</span>
+            <span className="text-muted-foreground">—</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span>End: Phase 4, Day 7</span>
-            <span className="text-neutral-500">Apr 1, 2025</span>
+            <span>End: Phase 4</span>
+            <span className="text-muted-foreground">—</span>
           </div>
         </div>
       </CardContent>

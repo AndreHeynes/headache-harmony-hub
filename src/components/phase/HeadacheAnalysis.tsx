@@ -11,7 +11,7 @@ interface HeadacheAnalysisProps {
   showInPhaseThree?: boolean;
 }
 
-// Sample data - in a real app, this would come from the external tracking app
+// Sample data — placeholder for beta. Will be replaced with real tracking data post-beta.
 const weeklyData = [
   { day: "Mon", count: 0, severity: 0 },
   { day: "Tue", count: 1, severity: 6 },
@@ -44,8 +44,8 @@ const HeadacheAnalysis: React.FC<HeadacheAnalysisProps> = ({ isConnected, showIn
     if (!isConnected) {
       return (
         <div className="text-center p-6 border border-dashed rounded">
-          <Info className="h-8 w-8 text-neutral-400 mx-auto mb-2" />
-          <p className="text-neutral-500">Connect your headache tracking app to view analysis</p>
+          <Info className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+          <p className="text-muted-foreground">Connect your headache tracking app to view analysis</p>
         </div>
       );
     }
@@ -81,15 +81,16 @@ const HeadacheAnalysis: React.FC<HeadacheAnalysisProps> = ({ isConnected, showIn
           </div>
           
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-neutral-50 p-3 rounded">
-              <p className="text-sm text-neutral-500">Weekly Headaches</p>
+            <div className="bg-muted p-3 rounded">
+              <p className="text-sm text-muted-foreground">Weekly Headaches</p>
               <p className="text-2xl font-bold">3</p>
             </div>
-            <div className="bg-neutral-50 p-3 rounded">
-              <p className="text-sm text-neutral-500">Avg. Severity</p>
+            <div className="bg-muted p-3 rounded">
+              <p className="text-sm text-muted-foreground">Avg. Severity</p>
               <p className="text-2xl font-bold">5.7/10</p>
             </div>
           </div>
+          <p className="text-xs text-muted-foreground italic">Sample data — will update with your real tracking data</p>
         </TabsContent>
         
         <TabsContent value="monthly" className="space-y-4">
@@ -112,15 +113,16 @@ const HeadacheAnalysis: React.FC<HeadacheAnalysisProps> = ({ isConnected, showIn
           </div>
           
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-neutral-50 p-3 rounded">
-              <p className="text-sm text-neutral-500">Monthly Headaches</p>
+            <div className="bg-muted p-3 rounded">
+              <p className="text-sm text-muted-foreground">Monthly Headaches</p>
               <p className="text-2xl font-bold">11</p>
             </div>
-            <div className="bg-neutral-50 p-3 rounded">
-              <p className="text-sm text-neutral-500">Avg. Severity</p>
+            <div className="bg-muted p-3 rounded">
+              <p className="text-sm text-muted-foreground">Avg. Severity</p>
               <p className="text-2xl font-bold">4.9/10</p>
             </div>
           </div>
+          <p className="text-xs text-muted-foreground italic">Sample data — will update with your real tracking data</p>
           
           <div className="bg-green-50 p-3 rounded border border-green-100">
             <div className="flex items-center">
