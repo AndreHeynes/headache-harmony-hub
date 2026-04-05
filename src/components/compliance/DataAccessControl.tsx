@@ -86,7 +86,7 @@ export const DataAccessControl = () => {
         <div className="space-y-6 py-4">
           <div className="space-y-2">
             <h3 className="text-lg font-medium">Download Your Data</h3>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-muted-foreground">
               You can download all personal data we have collected about you.
               This includes your profile information, settings, and usage data.
             </p>
