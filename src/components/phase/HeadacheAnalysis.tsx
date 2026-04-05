@@ -44,8 +44,8 @@ const HeadacheAnalysis: React.FC<HeadacheAnalysisProps> = ({ isConnected, showIn
     if (!isConnected) {
       return (
         <div className="text-center p-6 border border-dashed rounded">
-          <Info className="h-8 w-8 text-neutral-400 mx-auto mb-2" />
-          <p className="text-neutral-500">Connect your headache tracking app to view analysis</p>
+          <Info className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+          <p className="text-muted-foreground">Connect your headache tracking app to view analysis</p>
         </div>
       );
     }
