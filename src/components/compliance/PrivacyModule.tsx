@@ -50,7 +50,7 @@ export const PrivacyModule = () => {
         
         <div>
           <h3 className="text-lg font-medium mb-2">Cookie Preferences</h3>
-          <p className="text-sm text-neutral-500 mb-4">
+          <p className="text-sm text-muted-foreground mb-4">
             Update your cookie consent settings
           </p>
           <Button variant="outline" onClick={resetCookieConsent}>
