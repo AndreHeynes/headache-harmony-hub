@@ -48,7 +48,7 @@ const PhaseContent = ({
           
           <div className="border rounded-lg p-4 hover:bg-muted transition-colors">
             <h3 className="font-medium mb-2">Interactive Walkthrough</h3>
-            <p className="text-neutral-500 mb-3">
+            <p className="text-muted-foreground mb-3">
               Explore this interactive guide for a visual walkthrough of your Phase 1 program.
             </p>
             <PhaseOneWalkthrough />
