@@ -116,7 +116,7 @@ export const DataAccessControl = () => {
 
           <div className="space-y-2">
             <h3 className="text-lg font-medium">Do Not Sell My Personal Information</h3>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-muted-foreground">
               Under the California Consumer Privacy Act (CCPA), you have the right to opt-out 
               of the sale of your personal information.
             </p>
