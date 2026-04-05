@@ -101,7 +101,7 @@ export const DataAccessControl = () => {
 
           <div className="space-y-2">
             <h3 className="text-lg font-medium">Delete Your Data</h3>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-muted-foreground">
               You can request the deletion of all your personal data from our systems.
               This action cannot be undone.
             </p>
