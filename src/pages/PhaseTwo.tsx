@@ -10,23 +10,25 @@ import PhaseTwoContent from "@/components/phase-two/PhaseTwoContent";
 import PhaseTwoTaskList from "@/components/phase-two/PhaseTwoTaskList";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { secureStore, secureRetrieve } from "@/utils/security/encryption";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserStatus } from "@/hooks/useUserStatus";
+import { usePhaseAdvancement } from "@/hooks/usePhaseAdvancement";
 
 const PhaseTwo = () => {
   const { toast } = useToast();
   const { user, isAuthenticated } = useAuth();
+  const userStatus = useUserStatus();
+  const { checkPhase2Completion } = usePhaseAdvancement();
   const [currentDay, setCurrentDay] = useState(1);
   const [videoDisplayMode, setVideoDisplayMode] = useState<"embedded" | "link">("link");
   const [isLoading, setIsLoading] = useState(true);
-  const totalDays = 76; // Updated from 64 to 76
+  const totalDays = 77; // 11 weeks × 7 days
   
-  // Initialize currentDay from database or secure storage
+  // Initialize currentDay from database
   useEffect(() => {
     const loadSettings = async () => {
       try {
-        // Try database first if authenticated
         if (isAuthenticated && user) {
           const { data, error } = await supabase
             .from('user_progress')
@@ -36,21 +38,7 @@ const PhaseTwo = () => {
           
           if (!error && data?.phase_two_day) {
             setCurrentDay(data.phase_two_day);
-            setIsLoading(false);
-            return;
           }
-        }
-        
-        // Fall back to secure storage
-        const savedDay = await secureRetrieve('phase2-current-day');
-        if (savedDay) {
-          setCurrentDay(parseInt(savedDay.toString(), 10));
-        }
-        
-        // Also load the video display preference
-        const savedMode = await secureRetrieve('video-display-mode');
-        if (savedMode === 'embedded' || savedMode === 'link') {
-          setVideoDisplayMode(savedMode as "embedded" | "link");
         }
       } catch (e) {
         console.error("Error loading settings:", e);
@@ -62,15 +50,11 @@ const PhaseTwo = () => {
     loadSettings();
   }, [user, isAuthenticated]);
   
-  // Save currentDay to database and secure storage whenever it changes
+  // Save currentDay to database whenever it changes
   useEffect(() => {
-    if (isLoading) return; // Don't save during initial load
+    if (isLoading) return;
     
     const saveDay = async () => {
-      // Always save to secure storage as fallback
-      secureStore('phase2-current-day', currentDay.toString());
-      
-      // Save to database if authenticated
       if (isAuthenticated && user) {
         try {
           await supabase
@@ -92,9 +76,9 @@ const PhaseTwo = () => {
   
   const goToNextDay = () => {
     if (currentDay < totalDays) {
-      setCurrentDay(currentDay + 1);
+      const nextDay = currentDay + 1;
+      setCurrentDay(nextDay);
       
-      // Show completion toast for certain milestone days
       if (currentDay % 7 === 0) {
         toast({
           title: `Week ${Math.floor(currentDay / 7)} Completed!`,
@@ -102,12 +86,13 @@ const PhaseTwo = () => {
         });
       }
       
-      // Final day toast
-      if (currentDay === totalDays - 1) {
+      // Check if Phase 2 is complete
+      if (nextDay >= totalDays) {
         toast({
           title: "Phase 2 Complete!",
           description: "Congratulations on completing Phase 2! You're now ready to move to Phase 3.",
         });
+        checkPhase2Completion(nextDay);
       }
     }
   };
@@ -121,7 +106,6 @@ const PhaseTwo = () => {
   const toggleVideoDisplayMode = () => {
     const newMode = videoDisplayMode === "link" ? "embedded" : "link";
     setVideoDisplayMode(newMode);
-    secureStore('video-display-mode', newMode);
     
     toast({
       title: `Video Display Updated`,
@@ -129,7 +113,6 @@ const PhaseTwo = () => {
     });
   };
 
-  // Function to handle direct day navigation
   const goToSpecificDay = (day: number) => {
     if (day >= 1 && day <= totalDays) {
       setCurrentDay(day);
@@ -196,7 +179,7 @@ const PhaseTwo = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg border shadow-sm">
+        <div className="bg-card rounded-lg border shadow-sm">
           <div className="p-6">
             <h3 className="text-lg font-semibold mb-4">Day {currentDay} Content</h3>
             <PhaseTwoContent 

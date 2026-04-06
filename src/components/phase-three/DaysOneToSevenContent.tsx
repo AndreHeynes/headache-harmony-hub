@@ -11,7 +11,6 @@ interface DaysOneToSevenContentProps {
 const DaysOneToSevenContent: React.FC<DaysOneToSevenContentProps> = ({ 
   completedQuestionnaires 
 }) => {
-  // Check Phase 3 specific completion
   const phase3Questionnaires = ['hit-6', 'midas', 'psfs', 'gpoc'];
   const completedCount = phase3Questionnaires.filter(id => completedQuestionnaires[id]).length;
   const allCompleted = completedCount === 4;
@@ -38,7 +37,7 @@ const DaysOneToSevenContent: React.FC<DaysOneToSevenContentProps> = ({
           <div className="flex items-start justify-between">
             <div>
               <h3 className="font-medium mb-2">HIT-6 Assessment</h3>
-              <p className="text-neutral-500 mb-3">
+              <p className="text-muted-foreground mb-3">
                 Complete the Headache Impact Test to measure how headaches affect your daily activities.
               </p>
             </div>
@@ -59,7 +58,7 @@ const DaysOneToSevenContent: React.FC<DaysOneToSevenContentProps> = ({
           <div className="flex items-start justify-between">
             <div>
               <h3 className="font-medium mb-2">MIDAS Assessment</h3>
-              <p className="text-neutral-500 mb-3">
+              <p className="text-muted-foreground mb-3">
                 Evaluate the impact of headaches on your work, home, and social life.
               </p>
             </div>
@@ -80,7 +79,7 @@ const DaysOneToSevenContent: React.FC<DaysOneToSevenContentProps> = ({
           <div className="flex items-start justify-between">
             <div>
               <h3 className="font-medium mb-2">PSFS Assessment</h3>
-              <p className="text-neutral-500 mb-3">
+              <p className="text-muted-foreground mb-3">
                 Rate your ability to perform the specific activities you identified in Phase 1.
               </p>
             </div>
@@ -101,7 +100,7 @@ const DaysOneToSevenContent: React.FC<DaysOneToSevenContentProps> = ({
           <div className="flex items-start justify-between">
             <div>
               <h3 className="font-medium mb-2">Global Perception of Change</h3>
-              <p className="text-neutral-500 mb-3">
+              <p className="text-muted-foreground mb-3">
                 Rate your overall perception of change since beginning the program.
               </p>
             </div>
