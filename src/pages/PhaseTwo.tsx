@@ -1,6 +1,4 @@
-
 import React, { useState, useEffect } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import PageLayout from "@/components/layout/PageLayout";
 import CurrentPhaseCard from "@/components/phase/CurrentPhaseCard";
 import PhaseTimeline from "@/components/phase/PhaseTimeline";
@@ -8,6 +6,7 @@ import ExternalTracking from "@/components/phase/ExternalTracking";
 import PhaseHeading from "@/components/phase/PhaseHeading";
 import PhaseTwoContent from "@/components/phase-two/PhaseTwoContent";
 import PhaseTwoTaskList from "@/components/phase-two/PhaseTwoTaskList";
+import PhaseTwoCalendar from "@/components/phase-two/PhaseTwoCalendar";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -23,6 +22,7 @@ const PhaseTwo = () => {
   const [currentDay, setCurrentDay] = useState(1);
   const [videoDisplayMode, setVideoDisplayMode] = useState<"embedded" | "link">("link");
   const [isLoading, setIsLoading] = useState(true);
+  const [completedDays, setCompletedDays] = useState<Set<number>>(new Set());
   const totalDays = 77; // 11 weeks × 7 days
   
   // Initialize currentDay from database
@@ -49,6 +49,28 @@ const PhaseTwo = () => {
     
     loadSettings();
   }, [user, isAuthenticated]);
+
+  // Load completed days from task_completions
+  useEffect(() => {
+    const loadCompletedDays = async () => {
+      if (!isAuthenticated || !user) return;
+      try {
+        const { data } = await supabase
+          .from('task_completions')
+          .select('day')
+          .eq('user_id', user.id)
+          .eq('phase', 2)
+          .eq('completed', true);
+        
+        if (data) {
+          setCompletedDays(new Set(data.map(r => r.day)));
+        }
+      } catch (e) {
+        console.error("Error loading completed days:", e);
+      }
+    };
+    loadCompletedDays();
+  }, [user, isAuthenticated]);
   
   // Save currentDay to database whenever it changes
   useEffect(() => {
@@ -73,33 +95,25 @@ const PhaseTwo = () => {
     
     saveDay();
   }, [currentDay, user, isAuthenticated, isLoading]);
-  
-  const goToNextDay = () => {
-    if (currentDay < totalDays) {
-      const nextDay = currentDay + 1;
-      setCurrentDay(nextDay);
-      
-      if (currentDay % 7 === 0) {
-        toast({
-          title: `Week ${Math.floor(currentDay / 7)} Completed!`,
-          description: "Great job completing another week of your recovery program.",
-        });
-      }
-      
-      // Check if Phase 2 is complete
-      if (nextDay >= totalDays) {
-        toast({
-          title: "Phase 2 Complete!",
-          description: "Congratulations on completing Phase 2! You're now ready to move to Phase 3.",
-        });
-        checkPhase2Completion(nextDay);
-      }
+
+  const handleDaySelect = (day: number) => {
+    setCurrentDay(day);
+    
+    // Check week completion toast
+    if (day > 1 && (day - 1) % 7 === 0) {
+      toast({
+        title: `Week ${Math.floor((day - 1) / 7)} Completed!`,
+        description: "Great job completing another week of your recovery program.",
+      });
     }
-  };
-  
-  const goToPreviousDay = () => {
-    if (currentDay > 1) {
-      setCurrentDay(currentDay - 1);
+    
+    // Check if Phase 2 is complete
+    if (day >= totalDays) {
+      toast({
+        title: "Phase 2 Complete!",
+        description: "Congratulations on completing Phase 2! You're now ready to move to Phase 3.",
+      });
+      checkPhase2Completion(day);
     }
   };
   
@@ -113,39 +127,18 @@ const PhaseTwo = () => {
     });
   };
 
-  const goToSpecificDay = (day: number) => {
-    if (day >= 1 && day <= totalDays) {
-      setCurrentDay(day);
-    }
-  };
+  const currentWeek = Math.ceil(currentDay / 7);
+  const dayOfWeek = ((currentDay - 1) % 7);
+  const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const isReviewDay = currentDay % 7 === 0;
 
   return (
     <PageLayout>
-      <div className="flex justify-between items-center mb-8">
+      <div className="mb-8">
         <PhaseHeading title="Building your recovery foundation" />
-        <div className="flex space-x-2">
-          <Button 
-            onClick={goToPreviousDay}
-            disabled={currentDay === 1}
-            variant="outline"
-            size="sm"
-          >
-            <ArrowLeft className="h-4 w-4 mr-1" />
-            Previous
-          </Button>
-          <Button 
-            onClick={goToNextDay}
-            disabled={currentDay === totalDays}
-            variant="outline"
-            size="sm"
-          >
-            Next
-            <ArrowRight className="h-4 w-4 ml-1" />
-          </Button>
-        </div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <CurrentPhaseCard 
           day={currentDay} 
           totalDays={totalDays} 
@@ -154,21 +147,25 @@ const PhaseTwo = () => {
         <PhaseTwoTaskList day={currentDay} />
         <PhaseTimeline currentPhase={2} />
       </div>
-      
+
+      {/* Calendar Grid */}
+      <div className="mb-6">
+        <PhaseTwoCalendar
+          currentDay={currentDay}
+          totalDays={totalDays}
+          onDaySelect={handleDaySelect}
+          completedDays={completedDays}
+        />
+      </div>
+
+      {/* Expanded Day Content */}
       <div className="flex flex-wrap justify-between items-center mb-4 gap-2">
-        <div className="flex items-center">
-          <span className="text-sm mr-2">Jump to day:</span>
-          <select 
-            value={currentDay}
-            onChange={(e) => goToSpecificDay(parseInt(e.target.value, 10))}
-            className="text-sm rounded border p-1"
-          >
-            {Array.from({ length: totalDays }, (_, i) => i + 1).map(day => (
-              <option key={day} value={day}>Day {day}</option>
-            ))}
-          </select>
-        </div>
-        
+        <h2 className="text-xl font-semibold text-foreground">
+          Day {currentDay} — {dayNames[dayOfWeek]}
+          {isReviewDay && (
+            <span className="ml-2 text-sm font-normal text-muted-foreground">(Week {currentWeek} Review)</span>
+          )}
+        </h2>
         <Button 
           onClick={toggleVideoDisplayMode} 
           variant="outline" 

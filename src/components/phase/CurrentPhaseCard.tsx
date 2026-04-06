@@ -17,7 +17,8 @@ const CurrentPhaseCard = ({
 }: CurrentPhaseCardProps) => {
   // Calculate progress percentage based on day number
   const progressValue = (day / totalDays) * 100;
-  
+  const weekNumber = Math.ceil(day / 7);
+
   // Determine details link based on phase number
   const detailsLink = phaseNumber === 1 ? "/phase-one" : 
                      phaseNumber === 2 ? "/phase-two" :
