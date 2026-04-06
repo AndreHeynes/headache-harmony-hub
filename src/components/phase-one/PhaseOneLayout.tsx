@@ -63,7 +63,7 @@ className="p-2 rounded hover:bg-accent disabled:opacity-50 disabled:cursor-not-a
           <button 
             onClick={goToNextDay}
             disabled={currentDay === totalDays}
-            className="p-2 rounded hover:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-2 rounded hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ChevronRight className="h-5 w-5" />
           </button>

@@ -35,7 +35,7 @@ const ExerciseItem: React.FC<ExerciseItemProps> = ({
   };
   
   return (
-    <Card className={`${isCompleted ? 'bg-green-50/50 border-green-200' : 'bg-gradient-to-r from-white to-slate-50/30'} 
+    <Card className={`${isCompleted ? 'bg-green-50/50 border-green-200' : 'bg-gradient-to-r from-card to-muted/30'} 
       hover:shadow-md transition-all duration-200 border h-full`}>
       <CardHeader className="p-4 pb-2">
         <CardTitle className="text-base flex items-center justify-between">
