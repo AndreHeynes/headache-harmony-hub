@@ -98,12 +98,12 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
             <div className={`rounded-lg p-4 shadow-sm border ${getDirectionColor(progress.hit6.direction).bg} ${getDirectionColor(progress.hit6.direction).border}`}>
               <div className="flex items-center mb-2">
                 {getDirectionIcon(progress.hit6.direction)}
-                <h4 className="font-medium text-neutral-900 ml-2">Headache Impact</h4>
+                <h4 className="font-medium text-foreground ml-2">Headache Impact</h4>
               </div>
               <p className={`text-3xl font-bold ${getDirectionColor(progress.hit6.direction).text}`}>
                 {formatPercentage(progress.hit6.percentageChange, progress.hit6.direction)}
               </p>
-              <p className="text-sm text-neutral-600">
+              <p className="text-sm text-muted-foreground">
                 {progress.hit6.direction === 'improved' ? 'Reduction' : 'Change'} in impact score
               </p>
             </div>
@@ -114,12 +114,12 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
             <div className={`rounded-lg p-4 shadow-sm border ${getDirectionColor(progress.midas.direction).bg} ${getDirectionColor(progress.midas.direction).border}`}>
               <div className="flex items-center mb-2">
                 {getDirectionIcon(progress.midas.direction)}
-                <h4 className="font-medium text-neutral-900 ml-2">Disability Days</h4>
+                <h4 className="font-medium text-foreground ml-2">Disability Days</h4>
               </div>
               <p className={`text-3xl font-bold ${getDirectionColor(progress.midas.direction).text}`}>
                 {formatPercentage(progress.midas.percentageChange, progress.midas.direction)}
               </p>
-              <p className="text-sm text-neutral-600">
+              <p className="text-sm text-muted-foreground">
                 {progress.midas.direction === 'improved' ? 'Reduction' : 'Change'} in disability
               </p>
             </div>
@@ -132,12 +132,12 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
                 {progress.psfs.direction === 'improved' ? 
                   <TrendingUp className="h-5 w-5 text-emerald-600" /> : 
                   <TrendingDown className="h-5 w-5 text-rose-600" />}
-                <h4 className="font-medium text-neutral-900 ml-2">Functional Ability</h4>
+                <h4 className="font-medium text-foreground ml-2">Functional Ability</h4>
               </div>
               <p className={`text-3xl font-bold ${getDirectionColor(progress.psfs.direction).text}`}>
                 +{Math.round(progress.psfs.percentageChange || 0)}%
               </p>
-              <p className="text-sm text-neutral-600">
+              <p className="text-sm text-muted-foreground">
                 {progress.psfs.direction === 'improved' ? 'Improvement' : 'Change'} in activities
               </p>
             </div>
@@ -174,15 +174,15 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
                   {progress.hit6.baseline !== null && progress.hit6.followUp !== null ? (
                     <div className="space-y-3">
                       <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-white/60 rounded p-3">
-                          <p className="text-xs text-neutral-500 uppercase tracking-wide">Phase 1 (Baseline)</p>
-                          <p className="text-2xl font-bold text-neutral-800">{progress.hit6.baseline}</p>
-                          <p className="text-sm text-neutral-600">{progress.hit6.baselineInterpretation}</p>
+                        <div className="bg-card/60 rounded p-3">
+                          <p className="text-xs text-muted-foreground uppercase tracking-wide">Phase 1 (Baseline)</p>
+                          <p className="text-2xl font-bold text-foreground">{progress.hit6.baseline}</p>
+                          <p className="text-sm text-muted-foreground">{progress.hit6.baselineInterpretation}</p>
                         </div>
-                        <div className="bg-white/60 rounded p-3">
-                          <p className="text-xs text-neutral-500 uppercase tracking-wide">Phase 3 (Current)</p>
-                          <p className="text-2xl font-bold text-neutral-800">{progress.hit6.followUp}</p>
-                          <p className="text-sm text-neutral-600">{progress.hit6.followUpInterpretation}</p>
+                        <div className="bg-card/60 rounded p-3">
+                          <p className="text-xs text-muted-foreground uppercase tracking-wide">Phase 3 (Current)</p>
+                          <p className="text-2xl font-bold text-foreground">{progress.hit6.followUp}</p>
+                          <p className="text-sm text-muted-foreground">{progress.hit6.followUpInterpretation}</p>
                         </div>
                       </div>
                       <div className={`inline-flex items-center px-3 py-1 rounded-full ${getDirectionColor(progress.hit6.direction).badge}`}>
@@ -197,7 +197,7 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
                       </div>
                     </div>
                   ) : (
-                    <p className="text-neutral-700">
+                    <p className="text-muted-foreground">
                       Score: {progress.hit6.followUp ?? progress.hit6.baseline} - {progress.hit6.followUpInterpretation || progress.hit6.baselineInterpretation}
                     </p>
                   )}
@@ -221,15 +221,15 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
                   {progress.midas.baseline !== null && progress.midas.followUp !== null ? (
                     <div className="space-y-3">
                       <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-white/60 rounded p-3">
-                          <p className="text-xs text-neutral-500 uppercase tracking-wide">Phase 1 (Baseline)</p>
-                          <p className="text-2xl font-bold text-neutral-800">{progress.midas.baseline}</p>
-                          <p className="text-sm text-neutral-600">{progress.midas.baselineInterpretation}</p>
+                        <div className="bg-card/60 rounded p-3">
+                          <p className="text-xs text-muted-foreground uppercase tracking-wide">Phase 1 (Baseline)</p>
+                          <p className="text-2xl font-bold text-foreground">{progress.midas.baseline}</p>
+                          <p className="text-sm text-muted-foreground">{progress.midas.baselineInterpretation}</p>
                         </div>
-                        <div className="bg-white/60 rounded p-3">
-                          <p className="text-xs text-neutral-500 uppercase tracking-wide">Phase 3 (Current)</p>
-                          <p className="text-2xl font-bold text-neutral-800">{progress.midas.followUp}</p>
-                          <p className="text-sm text-neutral-600">{progress.midas.followUpInterpretation}</p>
+                        <div className="bg-card/60 rounded p-3">
+                          <p className="text-xs text-muted-foreground uppercase tracking-wide">Phase 3 (Current)</p>
+                          <p className="text-2xl font-bold text-foreground">{progress.midas.followUp}</p>
+                          <p className="text-sm text-muted-foreground">{progress.midas.followUpInterpretation}</p>
                         </div>
                       </div>
                       <div className={`inline-flex items-center px-3 py-1 rounded-full ${getDirectionColor(progress.midas.direction).badge}`}>
@@ -244,7 +244,7 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
                       </div>
                     </div>
                   ) : (
-                    <p className="text-neutral-700">
+                    <p className="text-muted-foreground">
                       Score: {progress.midas.followUp ?? progress.midas.baseline} - {progress.midas.followUpInterpretation || progress.midas.baselineInterpretation}
                     </p>
                   )}
@@ -264,11 +264,11 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
                   <h3 className="font-medium text-lg mb-2 text-foreground">
                     Global Perception of Change
                   </h3>
-                  <p className="text-neutral-700 mb-2">
+                  <p className="text-muted-foreground mb-2">
                     Your self-reported perception: <strong>{progress.gpoc.interpretation}</strong>
                   </p>
-                  <div className="bg-white/60 rounded p-3 inline-block">
-                    <p className="text-xs text-neutral-500 uppercase tracking-wide">Rating</p>
+                  <div className="bg-card/60 rounded p-3 inline-block">
+                    <p className="text-xs text-muted-foreground uppercase tracking-wide">Rating</p>
                     <p className="text-2xl font-bold text-foreground">{progress.gpoc.rating}/7</p>
                   </div>
                 </div>
@@ -290,28 +290,28 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
                   
                   {progress.psfs.activities.length > 0 ? (
                     <div className="space-y-4">
-                      <p className="text-neutral-700 mb-3">
+                      <p className="text-muted-foreground mb-3">
                         How your ability to perform key activities has changed:
                       </p>
                       
                       {/* Activity-by-activity comparison */}
                       <div className="space-y-3">
                         {progress.psfs.activities.map((activity, index) => (
-                          <div key={activity.id} className="bg-white/60 rounded p-3">
-                            <p className="font-medium text-neutral-800 mb-2">
+                          <div key={activity.id} className="bg-card/60 rounded p-3">
+                            <p className="font-medium text-foreground mb-2">
                               {index + 1}. {activity.text}
                             </p>
                             <div className="flex items-center gap-4">
                               <div className="text-center">
-                                <p className="text-xs text-neutral-500">Before</p>
-                                <p className="text-lg font-bold text-neutral-700">{activity.baselineRating}/10</p>
+                                <p className="text-xs text-muted-foreground">Before</p>
+                                <p className="text-lg font-bold text-muted-foreground">{activity.baselineRating}/10</p>
                               </div>
                               <div className="flex-1 flex items-center justify-center">
-                                <ArrowRight className="h-5 w-5 text-neutral-400" />
+                                <ArrowRight className="h-5 w-5 text-muted-foreground" />
                               </div>
                               <div className="text-center">
-                                <p className="text-xs text-neutral-500">After</p>
-                                <p className="text-lg font-bold text-neutral-700">{activity.followUpRating}/10</p>
+                                <p className="text-xs text-muted-foreground">After</p>
+                                <p className="text-lg font-bold text-muted-foreground">{activity.followUpRating}/10</p>
                               </div>
                               <div className={`px-2 py-1 rounded text-sm font-medium ${
                                 activity.change > 0 ? 'bg-emerald-100 text-emerald-800' :
@@ -327,9 +327,9 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
                       
                       {/* Average Summary */}
                       {progress.psfs.averageBaseline !== null && progress.psfs.averageFollowUp !== null && (
-                        <div className="mt-4 pt-4 border-t border-neutral-200">
+                        <div className="mt-4 pt-4 border-t border-border">
                           <div className="flex items-center justify-between">
-                            <span className="text-neutral-700">Average improvement:</span>
+                            <span className="text-muted-foreground">Average improvement:</span>
                             <span className={`font-bold ${getDirectionColor(progress.psfs.direction).text}`}>
                               {progress.psfs.averageBaseline.toFixed(1)} → {progress.psfs.averageFollowUp.toFixed(1)}
                               {progress.psfs.percentageChange !== null && (
@@ -343,7 +343,7 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
                       )}
                     </div>
                   ) : (
-                    <p className="text-neutral-700">
+                    <p className="text-muted-foreground">
                       Average functional ability: {progress.psfs.averageFollowUp?.toFixed(1) || progress.psfs.averageBaseline?.toFixed(1) || 'N/A'}/10
                       {progress.psfs.averageFollowUp && (
                         <span className="block mt-1 text-sm">

@@ -111,3 +111,18 @@
     scrollbar-width: none;
   }
 }
+
+/* Prevent printing/downloading of questionnaire content */
+@media print {
+  .questionnaire-content,
+  .questionnaire-form {
+    display: none !important;
+  }
+  body::after {
+    content: "Printing of questionnaires is not permitted.";
+    display: block;
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 2rem;
+  }
+}

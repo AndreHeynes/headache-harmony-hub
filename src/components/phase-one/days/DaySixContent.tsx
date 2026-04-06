@@ -12,15 +12,15 @@ const DaySixContent: React.FC<DaySixContentProps> = ({ completedQuestionnaires }
       <p>Focus on identifying lifestyle factors that may be contributing to your migraines. Complete these final assessments.</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         {!completedQuestionnaires['hses'] && (
-          <Link to="/questionnaire/hses" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+          <Link to="/questionnaire/hses" className="p-3 border rounded-md hover:bg-muted transition-colors">
             <h3 className="font-medium">HSES</h3>
-            <p className="text-sm text-neutral-600">Headache Self-Efficacy Scale</p>
+            <p className="text-sm text-muted-foreground">Headache Self-Efficacy Scale</p>
           </Link>
         )}
         {!completedQuestionnaires['hb'] && (
-          <Link to="/questionnaire/hb" className="p-3 border rounded-md hover:bg-neutral-50 transition-colors">
+          <Link to="/questionnaire/hb" className="p-3 border rounded-md hover:bg-muted transition-colors">
             <h3 className="font-medium">HB</h3>
-            <p className="text-sm text-neutral-600">Headache Beliefs</p>
+            <p className="text-sm text-muted-foreground">Headache Beliefs</p>
           </Link>
         )}
       </div>

@@ -6,7 +6,7 @@
  * Migration from localStorage to database is handled by useDataMigration hook on user login.
  */
 
-const PHASE1_QUESTIONNAIRES = ['hit-6', 'midas', 'psfs', 'hses', 'hsloc', 'hb', 'psc', 'fht', 'mkq', 'headache-type'];
+const PHASE1_QUESTIONNAIRES = ['hit-6', 'midas', 'psfs', 'hses', 'hsloc', 'hb', 'psc', 'fht', 'mkq'];
 const PHASE3_QUESTIONNAIRES = ['hit-6', 'midas', 'psfs', 'gpoc'];
 
 /**

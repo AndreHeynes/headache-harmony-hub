@@ -5,11 +5,15 @@ import { useAuth } from "@/hooks/useAuth";
 import { useUserStatus } from "@/hooks/useUserStatus";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuestionnaireResponses } from "@/hooks/useQuestionnaireResponses";
+import { usePhaseAdvancement } from "@/hooks/usePhaseAdvancement";
+
+const PHASE_1_QUESTIONNAIRES = ['hit-6', 'fht', 'psfs', 'mkq', 'midas', 'hsloc', 'psc', 'hses', 'hb'];
 
 const PhaseOne = () => {
   const { user } = useAuth();
   const userStatus = useUserStatus();
   const { getPhaseResponses, loading: responsesLoading } = useQuestionnaireResponses();
+  const { checkPhase1Completion } = usePhaseAdvancement();
   const [currentDay, setCurrentDay] = useState(1);
   const totalDays = 7;
   const [completedQuestionnaires, setCompletedQuestionnaires] = useState<Record<string, boolean>>({});
@@ -29,7 +33,7 @@ const PhaseOne = () => {
   useEffect(() => {
     const saveProgress = async () => {
       if (!user || isLoadingProgress) return;
-      if (currentDay === userStatus.phaseOneDay) return; // No change
+      if (currentDay === userStatus.phaseOneDay) return;
 
       try {
         await supabase
@@ -40,7 +44,6 @@ const PhaseOne = () => {
           })
           .eq("user_id", user.id);
 
-        // Update local context to stay in sync
         userStatus.updateLocalStatus({ phaseOneDay: currentDay });
         console.log("Progress saved - Phase 1 Day:", currentDay);
       } catch (error) {
@@ -69,6 +72,12 @@ const PhaseOne = () => {
         
         setCompletedQuestionnaires(completed);
         setQuestionnaireResults(results);
+
+        // Check if all 9 questionnaires are done — auto-advance to Phase 2
+        const allDone = PHASE_1_QUESTIONNAIRES.every(id => completed[id]);
+        if (allDone && userStatus.currentPhase === 1) {
+          checkPhase1Completion();
+        }
       } catch (error) {
         console.error("Error loading questionnaires from database:", error);
       }
@@ -87,7 +96,6 @@ const PhaseOne = () => {
     />;
   };
 
-  // Show loading only for progress data (auth/subscription handled by ProtectedRoute)
   if (isLoadingProgress) {
     return (
       <div className="min-h-screen flex items-center justify-center">

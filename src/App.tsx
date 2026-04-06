@@ -33,6 +33,7 @@ import WelcomeOnboarding from "@/components/onboarding/WelcomeOnboarding";
 import Admin from "@/pages/Admin";
 import { BetaAdminGuard } from "@/components/compliance/BetaAdminGuard";
 import { useDataMigration } from "@/hooks/useDataMigration";
+import PhaseGuard from "@/components/compliance/PhaseGuard";
 
 // Pages that have their own header
 const PAGES_WITH_OWN_HEADER = ['/'];
@@ -66,7 +67,7 @@ function AppContent() {
         <Route path="/onboarding" element={<WelcomeOnboarding />} />
         
         <Route 
-          path="/questionnaire" 
+          path="/questionnaire/:id" 
           element={
             <DiagnosisGuard>
               <Questionnaire />
@@ -74,12 +75,14 @@ function AppContent() {
           } 
         />
         
-        {/* Phase routes with diagnosis guard */}
+        {/* Phase routes with diagnosis guard and phase gating */}
         <Route 
           path="/phase-one" 
           element={
             <DiagnosisGuard>
-              <PhaseOne />
+              <PhaseGuard requiredPhase={1}>
+                <PhaseOne />
+              </PhaseGuard>
             </DiagnosisGuard>
           } 
         />
@@ -87,7 +90,9 @@ function AppContent() {
           path="/phase-one/video" 
           element={
             <DiagnosisGuard>
-              <PhaseOneVideoPlayer />
+              <PhaseGuard requiredPhase={1}>
+                <PhaseOneVideoPlayer />
+              </PhaseGuard>
             </DiagnosisGuard>
           } 
         />
@@ -95,7 +100,9 @@ function AppContent() {
           path="/phase-two" 
           element={
             <DiagnosisGuard>
-              <PhaseTwo />
+              <PhaseGuard requiredPhase={2}>
+                <PhaseTwo />
+              </PhaseGuard>
             </DiagnosisGuard>
           } 
         />
@@ -103,7 +110,9 @@ function AppContent() {
           path="/phase-three" 
           element={
             <DiagnosisGuard>
-              <PhaseThree />
+              <PhaseGuard requiredPhase={3}>
+                <PhaseThree />
+              </PhaseGuard>
             </DiagnosisGuard>
           } 
         />
@@ -111,7 +120,9 @@ function AppContent() {
           path="/phase-four" 
           element={
             <DiagnosisGuard>
-              <PhaseFour />
+              <PhaseGuard requiredPhase={4}>
+                <PhaseFour />
+              </PhaseGuard>
             </DiagnosisGuard>
           } 
         />

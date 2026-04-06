@@ -1,18 +1,28 @@
 
 import React from "react";
-import { AlertCircle, Info } from "lucide-react";
+import { AlertCircle, Info, Clock } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const DayOneContent: React.FC = () => {
   return (
     <div className="space-y-4">
-      <p className="text-neutral-600">
+      {/* Urgency notice: complete within 1 week */}
+      <Alert variant="default" className="border-primary/30 bg-primary/5">
+        <Clock className="h-4 w-4" />
+        <AlertTitle>Complete Phase 1 within 7 days</AlertTitle>
+        <AlertDescription>
+          For the best results, we recommend completing all 9 questionnaires within your first week. 
+          This ensures your baseline assessments are captured accurately before starting your personalised treatment program in Phase 2.
+        </AlertDescription>
+      </Alert>
+
+      <p className="text-muted-foreground">
         Welcome to Phase 1 of your headache management program. This first phase focuses on understanding 
         your current situation through comprehensive assessments.
       </p>
 
       <h3 className="font-medium text-lg mt-4">What to expect in Phase 1:</h3>
-      <ul className="list-disc pl-5 space-y-2 text-neutral-600">
+      <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
         <li>Complete various assessment questionnaires to help us understand your headache patterns</li>
         <li>Begin tracking your headaches using the integrated tracking tool</li>
         <li>Receive personalized feedback based on your assessment results</li>

@@ -9,9 +9,7 @@ import ProgramBuilder from "@/components/phase-four/ProgramBuilder";
 import ReturnToSportSection from "@/components/phase-four/ReturnToSportSection";
 import PostureEducationSection from "@/components/phase-four/PostureEducationSection";
 import { useMaintenanceProgram } from "@/hooks/useMaintenanceProgram";
-import { Button } from "@/components/ui/button";
-import { Check, Loader2 } from "lucide-react";
-import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const PhaseFour = () => {
   const {
@@ -51,14 +49,9 @@ const PhaseFour = () => {
           <PostureEducationSection />
           
           <div className="flex justify-end items-center mb-8">
-            <Button
-              className="px-6 py-3"
-              variant="default"
-              onClick={() => toast.success("Program saved successfully!")}
-            >
-              <Check className="mr-2 h-4 w-4" />
-              Save Program
-            </Button>
+            <p className="text-sm text-muted-foreground">
+              Your programme is saved automatically as you make changes.
+            </p>
           </div>
         </main>
       </div>

@@ -4,7 +4,7 @@ import { useCurrentUser } from './useCurrentUser';
 import { secureRetrieve, secureRemove } from '@/utils/security/encryption';
 import { Json } from '@/integrations/supabase/types';
 
-const QUESTIONNAIRE_IDS = ['hit-6', 'midas', 'psfs', 'gpoc', 'hsloc', 'fht', 'psc', 'hb', 'mkq', 'hses', 'headache-type'];
+const QUESTIONNAIRE_IDS = ['hit-6', 'midas', 'psfs', 'gpoc', 'hsloc', 'fht', 'psc', 'hb', 'mkq', 'hses'];
 
 export const useDataMigration = () => {
   const { id: userId, isAuthenticated } = useCurrentUser();
