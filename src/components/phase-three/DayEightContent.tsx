@@ -103,7 +103,7 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
               <p className={`text-3xl font-bold ${getDirectionColor(progress.hit6.direction).text}`}>
                 {formatPercentage(progress.hit6.percentageChange, progress.hit6.direction)}
               </p>
-              <p className="text-sm text-neutral-600">
+              <p className="text-sm text-muted-foreground">
                 {progress.hit6.direction === 'improved' ? 'Reduction' : 'Change'} in impact score
               </p>
             </div>
