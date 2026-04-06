@@ -1,113 +1,92 @@
 
 
-## Phase 2: Calendar Redesign — Visual Comparison
+## Plan: Color Standardization + Calendar Date Integration
 
-### Current Design (what exists now)
+### Part 1: Standardize Remaining Hardcoded Colors
 
-```text
-┌─────────────────────────────────────────────────┐
-│  ← Previous                          Next →     │
-│                                                  │
-│  Jump to day: [Day 42 ▼]    Show videos as: Links│
-├─────────────────────────────────────────────────┤
-│                                                  │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐      │
-│  │Phase Card│  │Task List │  │Timeline  │      │
-│  │Day 42/77 │  │☐ Exercise│  │Phase 1 ✓ │      │
-│  │Week 6    │  │☐ AS      │  │Phase 2 ● │      │
-│  └──────────┘  └──────────┘  └──────────┘      │
-│                                                  │
-│  ┌─────────────────────────────────────────┐    │
-│  │ Day 42 Content                          │    │
-│  │ (Full exercise list shown immediately)  │    │
-│  │ Exercise 1, Exercise 2, Exercise 3...   │    │
-│  └─────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────┘
+Replace `bg-white`, `text-neutral-*`, `bg-neutral-*`, `hover:bg-neutral-*`, `bg-gray-*`, `text-gray-*` with semantic design tokens across all remaining files.
+
+**Files to update (token mapping):**
+- `bg-white` → `bg-card`
+- `bg-neutral-50/100` → `bg-muted`
+- `bg-neutral-800` → `bg-primary`
+- `bg-gray-50` → `bg-muted`
+- `text-neutral-500/600` → `text-muted-foreground`
+- `text-neutral-700/800/900` → `text-foreground`
+- `text-gray-600/900` → `text-muted-foreground` / `text-foreground`
+- `hover:bg-neutral-100` → `hover:bg-accent`
+- `hover:bg-white/80` → `hover:bg-accent`
+- `border-neutral-200` → `border-border`
+- `text-green-500` on task completion icons stays (semantic)
+
+**Affected files (~13):**
+- `src/components/phase-one/PhaseOneLayout.tsx` (2 instances)
+- `src/components/phase-three/PhaseThreeTaskList.tsx` (1)
+- `src/components/phase-two/tasks/WeeklyReviewTasks.tsx` (6)
+- `src/components/phase-two/PhaseTwoTaskList.tsx` (1)
+- `src/components/phase-two/tasks/TaskItem.tsx` (3)
+- `src/components/phase-two/exercise/EmptyExerciseDay.tsx` (2)
+- `src/components/phase-two/exercise/ExerciseExpandableContent.tsx` (1)
+- `src/components/phase-two/ExerciseVideo.tsx` (1)
+- `src/components/phase-two/ExerciseItem.tsx` (1)
+- `src/pages/Policy.tsx` (2)
+- `src/pages/SignIn.tsx` (2)
+- `src/pages/Register.tsx` (2)
+- `src/pages/LearnMore.tsx` (~20 instances)
+- `src/pages/BetaSignup.tsx` (1)
+- `src/pages/documents/PhaseOneGuide.tsx` (3)
+
+---
+
+### Part 2: Calendar with Real Dates
+
+**Concept:** When a user registers and enters Phase 2, the calendar grid shows actual calendar dates (e.g., "6 Apr", "7 Apr") instead of just "Day 1", "Day 2". This requires:
+
+1. **Store Phase 2 start date** — Add a `phase_two_start_date` column (type `date`, nullable) to `user_progress`. Set it when `current_phase` advances to 2.
+
+2. **Calculate real dates** — In `PhaseTwoCalendar.tsx`, fetch `phase_two_start_date` from `user_progress`. For each program day, compute:
+   ```
+   actual_date = phase_two_start_date + (day - 1) days
+   ```
+   Display the actual date (e.g., "6 Apr") below the day number in each cell. Show estimated end date in the header.
+
+3. **Week labels** — Instead of just "Week 3", show "Week 3 (20 Apr – 26 Apr)".
+
+4. **Program end date** — Show "Program ends: [date]" calculated as `start_date + 76 days`.
+
+**Database migration:**
+```sql
+ALTER TABLE public.user_progress
+ADD COLUMN phase_two_start_date date;
 ```
 
-**Problems:** Dropdown day selector is hard to navigate. No visual sense of weekly structure. No calendar overview. Can't see which days are done.
+**Files changed:**
+- `src/components/phase-two/PhaseTwoCalendar.tsx` — Add date display per cell, week date range, end date
+- `src/pages/PhaseTwo.tsx` — Fetch and pass `phase_two_start_date` to calendar
+- `src/hooks/usePhaseAdvancement.ts` — Set `phase_two_start_date = CURRENT_DATE` when advancing to Phase 2
 
----
-
-### New Design (proposed calendar/diary format)
-
+**Visual result:**
 ```text
-┌─────────────────────────────────────────────────┐
-│  Building your recovery foundation              │
-│                                                  │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐      │
-│  │Phase Card│  │Task List │  │Timeline  │      │
-│  │Day 42/77 │  │(for      │  │Phase 1 ✓ │      │
-│  │Week 6    │  │ selected │  │Phase 2 ● │      │
-│  └──────────┘  │ day)     │  └──────────┘      │
-│                └──────────┘                     │
-│                                                  │
-│  ┌─ Week 6 ──────────────────────────────────┐  │
-│  │  ◀ Week 5              Week 7 ▶           │  │
-│  │                                            │  │
-│  │  Mon    Tue    Wed    Thu    Fri   Sat  Sun│  │
-│  │  ┌──┐  ┌──┐  ┌──┐  ┌──┐  ┌──┐  ┌──┐ ┌──┐│  │
-│  │  │36│  │37│  │38│  │39│  │40│  │41│ │42││  │
-│  │  │ ✓│  │ ✓│  │ ✓│  │ ✓│  │ ✓│  │ ✓│ │⬤ ││  │
-│  │  └──┘  └──┘  └──┘  └──┘  └──┘  └──┘ └──┘│  │
-│  │                                    ▲       │  │
-│  │                              selected day  │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-│  ┌─ Day 42 (Sunday — Review Day) ────────────┐  │
-│  │                                            │  │
-│  │  Today's Exercises          Activity Sheet │  │
-│  │  ┌────────────────┐  ┌────────────────┐   │  │
-│  │  │ Exercise 1     │  │ AS: Triggers   │   │  │
-│  │  │ 🎬 Video       │  │ [Open →]       │   │  │
-│  │  │ 3x12 reps      │  └────────────────┘   │  │
-│  │  └────────────────┘                        │  │
-│  │  ┌────────────────┐   Daily Reminders     │  │
-│  │  │ Exercise 2     │  • Stay hydrated      │  │
-│  │  │ 🎬 Video       │  • Screen breaks      │  │
-│  │  │ Hold 30s       │  • Track symptoms     │  │
-│  │  └────────────────┘                        │  │
-│  └────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────┘
+┌─ Week 6 (11 May – 17 May) ──────────────────┐
+│  ◀ Week 5                       Week 7 ▶     │
+│                                               │
+│  Mon      Tue      Wed      Thu      Fri ...  │
+│  ┌────┐  ┌────┐  ┌────┐  ┌────┐  ┌────┐     │
+│  │ 36 │  │ 37 │  │ 38 │  │ 39 │  │ 40 │     │
+│  │11May│  │12May│  │13May│  │14May│  │15May│  │
+│  │  ✓ │  │  ✓ │  │  ● │  │    │  │    │     │
+│  └────┘  └────┘  └────┘  └────┘  └────┘     │
+│                                               │
+│  Program ends: 21 Jun 2026                    │
+└───────────────────────────────────────────────┘
 ```
 
-**Key differences:**
-- **Weekly calendar grid** replaces the dropdown — you see Mon–Sun with day numbers
-- **Visual status indicators** — completed days (✓), current/selected day (●), future days (empty)
-- **Week navigation** — arrow buttons to move between weeks
-- **Tap-to-expand** — clicking a day cell opens that day's full content below
-- **Review days** (every 7th day) get a distinct visual treatment
-
 ---
 
-### PSFS in Phase 3 — Already Correct
+### Summary
 
-Your concern is valid but the implementation already handles this correctly:
-
-- **Activity names** (e.g., "Driving", "Reading") → locked as read-only, pre-filled from Phase 1
-- **Rating numbers** (0–10 radio buttons) → fully interactive, the user selects new ratings in Phase 3
-- The comparison on Day 8 then shows Phase 1 rating vs Phase 3 rating side by side
-
-No changes needed for PSFS.
-
----
-
-### Implementation Plan
-
-**New component: `PhaseTwoCalendar.tsx`**
-- Weekly grid showing 7 day cells per row
-- Each cell shows: day number, completion status icon, "Review" label for day 7/14/21...
-- Week navigation (prev/next week arrows)
-- Clicking a cell sets `currentDay` and scrolls to expanded content below
-- Completed days pulled from `useTaskCompletions` or `useExerciseCompletions`
-
-**Modified: `PhaseTwo.tsx`**
-- Replace the dropdown selector and prev/next day buttons with the new `PhaseTwoCalendar`
-- Keep the expanded day content area (`PhaseTwoContent`) below the calendar
-- Current week auto-calculated from `currentDay`
-
-**Modified: `CurrentPhaseCard.tsx`**
-- Add week number display alongside day count
-
-**Files changed:** 3 modified, 1 new component
+- ~15 files: color token standardization (straightforward find-and-replace)
+- 1 DB migration: add `phase_two_start_date` column
+- 3 files modified for date-aware calendar
+- No breaking changes
 
