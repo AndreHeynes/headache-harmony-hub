@@ -98,7 +98,7 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
             <div className={`rounded-lg p-4 shadow-sm border ${getDirectionColor(progress.hit6.direction).bg} ${getDirectionColor(progress.hit6.direction).border}`}>
               <div className="flex items-center mb-2">
                 {getDirectionIcon(progress.hit6.direction)}
-                <h4 className="font-medium text-neutral-900 ml-2">Headache Impact</h4>
+                <h4 className="font-medium text-foreground ml-2">Headache Impact</h4>
               </div>
               <p className={`text-3xl font-bold ${getDirectionColor(progress.hit6.direction).text}`}>
                 {formatPercentage(progress.hit6.percentageChange, progress.hit6.direction)}
