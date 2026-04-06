@@ -23,6 +23,7 @@ const PhaseTwo = () => {
   const [videoDisplayMode, setVideoDisplayMode] = useState<"embedded" | "link">("link");
   const [isLoading, setIsLoading] = useState(true);
   const [completedDays, setCompletedDays] = useState<Set<number>>(new Set());
+  const [startDate, setStartDate] = useState<string | null>(null);
   const totalDays = 77; // 11 weeks × 7 days
   
   // Initialize currentDay from database
