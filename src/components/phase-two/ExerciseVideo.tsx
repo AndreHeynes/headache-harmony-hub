@@ -34,7 +34,7 @@ const ExerciseVideo: React.FC<ExerciseVideoProps> = ({
   if (displayMode === "embedded" && !isPlaying) {
     return (
       <div 
-        className="bg-neutral-800 rounded-lg p-8 flex items-center justify-center cursor-pointer"
+        className="bg-primary rounded-lg p-8 flex items-center justify-center cursor-pointer"
         onClick={() => setIsPlaying(true)}
       >
         <div className="text-center">
