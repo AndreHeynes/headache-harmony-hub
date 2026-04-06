@@ -137,7 +137,7 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
               <p className={`text-3xl font-bold ${getDirectionColor(progress.psfs.direction).text}`}>
                 +{Math.round(progress.psfs.percentageChange || 0)}%
               </p>
-              <p className="text-sm text-neutral-600">
+              <p className="text-sm text-muted-foreground">
                 {progress.psfs.direction === 'improved' ? 'Improvement' : 'Change'} in activities
               </p>
             </div>
