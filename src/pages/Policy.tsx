@@ -25,7 +25,7 @@ const Policy = () => {
   }, [selectedCountry, activeTab]);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <MainHeader />
 
       <main className="pt-28 pb-16">
