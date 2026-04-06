@@ -132,7 +132,7 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
                 {progress.psfs.direction === 'improved' ? 
                   <TrendingUp className="h-5 w-5 text-emerald-600" /> : 
                   <TrendingDown className="h-5 w-5 text-rose-600" />}
-                <h4 className="font-medium text-neutral-900 ml-2">Functional Ability</h4>
+                <h4 className="font-medium text-foreground ml-2">Functional Ability</h4>
               </div>
               <p className={`text-3xl font-bold ${getDirectionColor(progress.psfs.direction).text}`}>
                 +{Math.round(progress.psfs.percentageChange || 0)}%
