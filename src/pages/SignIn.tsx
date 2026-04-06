@@ -8,7 +8,7 @@ const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center p-4 bg-gray-50">
+    <div className="min-h-screen flex flex-col justify-center items-center p-4 bg-muted">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold">Welcome back</h1>
