@@ -65,7 +65,7 @@ const PhaseThreeTaskList: React.FC<PhaseThreeTaskListProps> = ({ day }) => {
           <CardTitle className="text-xl">Program Completion</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-neutral-700">
+          <p className="text-foreground">
             Please review the outcomes of the questionnaires that inform you of what impact the program has had on your headache experience.
           </p>
         </CardContent>

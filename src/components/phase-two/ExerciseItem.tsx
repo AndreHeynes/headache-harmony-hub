@@ -41,7 +41,7 @@ const ExerciseItem: React.FC<ExerciseItemProps> = ({
         <CardTitle className="text-base flex items-center justify-between">
           <div className="flex items-center gap-2">
             <ExerciseTypeIcon title={exercise.title} type={exercise.type} />
-            <span className="text-neutral-800 text-sm md:text-base line-clamp-1">
+            <span className="text-foreground text-sm md:text-base line-clamp-1">
               {exercise.title}
             </span>
           </div>

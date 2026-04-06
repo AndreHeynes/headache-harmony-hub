@@ -19,7 +19,7 @@ const Register = () => {
 
         <SocialAuth isLoading={isLoading} setIsLoading={setIsLoading} mode="signup" />
 
-        <p className="text-center mt-8 text-sm text-gray-600">
+        <p className="text-center mt-8 text-sm text-muted-foreground">
           Already have an account?{" "}
           <Link to="/sign-in" className="font-medium text-primary hover:text-primary/80">
             Sign in

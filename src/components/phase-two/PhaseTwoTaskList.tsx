@@ -99,7 +99,7 @@ const PhaseTwoTaskList: React.FC<PhaseTwoTaskListProps> = ({ day }) => {
           
           {/* Empty State */}
           {physicalExercises.length === 0 && activitySheets.length === 0 && (
-            <p className="text-neutral-500 italic">No exercises scheduled for today.</p>
+            <p className="text-muted-foreground italic">No exercises scheduled for today.</p>
           )}
         </div>
       </div>

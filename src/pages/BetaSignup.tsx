@@ -14,7 +14,7 @@ const BetaSignup = () => {
             alt="Recover From Headache Logo"
             className="w-24 h-24 mx-auto mb-4"
           />
-          <h1 className="text-2xl font-bold text-neutral-900">
+          <h1 className="text-2xl font-bold text-foreground">
             Recover from Headache, Reclaim Your Life!
           </h1>
         </div>
