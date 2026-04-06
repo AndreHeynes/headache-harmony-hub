@@ -31,6 +31,7 @@ const CurrentPhaseCard = ({
       </CardHeader>
       <CardContent>
         <PhaseHeader phaseNumber={phaseNumber} detailsLink={detailsLink} />
+        <p className="text-sm text-muted-foreground mb-2">Week {weekNumber}</p>
         <PhaseProgressBar value={progressValue} day={day} totalDays={totalDays} />
       </CardContent>
     </Card>
