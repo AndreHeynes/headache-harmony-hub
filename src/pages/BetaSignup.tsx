@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 const BetaSignup = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-neutral-50 to-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-b from-muted to-background flex items-center justify-center p-4">
       <div className="w-full max-w-xl">
         <div className="text-center mb-8">
           <img
