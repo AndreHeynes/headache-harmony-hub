@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 const BetaSignup = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-neutral-50 to-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-b from-muted to-background flex items-center justify-center p-4">
       <div className="w-full max-w-xl">
         <div className="text-center mb-8">
           <img
@@ -14,7 +14,7 @@ const BetaSignup = () => {
             alt="Recover From Headache Logo"
             className="w-24 h-24 mx-auto mb-4"
           />
-          <h1 className="text-2xl font-bold text-neutral-900">
+          <h1 className="text-2xl font-bold text-foreground">
             Recover from Headache, Reclaim Your Life!
           </h1>
         </div>

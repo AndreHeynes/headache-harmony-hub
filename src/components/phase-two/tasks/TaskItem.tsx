@@ -12,17 +12,17 @@ interface TaskItemProps {
 const TaskItem: React.FC<TaskItemProps> = ({ item, isCompleted, onClick }) => {
   return (
     <div 
-      className="flex items-center cursor-pointer hover:bg-white/80 p-1.5 rounded-md transition-colors" 
+      className="flex items-center cursor-pointer hover:bg-accent p-1.5 rounded-md transition-colors" 
       onClick={onClick}
     >
-      <div className="mr-3 text-neutral-500 flex-shrink-0">
+      <div className="mr-3 text-muted-foreground flex-shrink-0">
         {isCompleted ? (
           <CheckCircle className="h-5 w-5 text-green-500" />
         ) : (
           <Circle className="h-5 w-5" />
         )}
       </div>
-      <div className="text-neutral-700 text-sm">
+      <div className="text-foreground text-sm">
         {item.title}
         {item.side && (
           <span className="ml-1 text-xs text-purple-500">({item.side})</span>

@@ -26,7 +26,7 @@ const ExerciseExpandableContent: React.FC<ExerciseExpandableContentProps> = ({
   return (
     <div className={`${!isExpanded ? 'max-h-12 overflow-hidden' : ''}`}>
       {description && (
-        <p className="text-neutral-600 text-xs md:text-sm">
+        <p className="text-muted-foreground text-xs md:text-sm">
           {description}
         </p>
       )}

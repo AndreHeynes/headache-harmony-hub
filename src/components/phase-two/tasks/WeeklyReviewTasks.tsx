@@ -19,12 +19,12 @@ const WeeklyReviewTasks: React.FC<WeeklyReviewTasksProps> = ({
           {completedTasks['review_progress'] ? (
             <CheckCircle className="h-5 w-5" />
           ) : (
-            <Circle className="h-5 w-5 text-neutral-500" />
+            <Circle className="h-5 w-5 text-muted-foreground" />
           )}
         </div>
         <div>
           <p className="font-medium">Review Your Progress</p>
-          <p className="text-neutral-500 text-sm">Compare this week with previous weeks</p>
+          <p className="text-muted-foreground text-sm">Compare this week with previous weeks</p>
         </div>
       </div>
       
@@ -33,12 +33,12 @@ const WeeklyReviewTasks: React.FC<WeeklyReviewTasksProps> = ({
           {completedTasks['symptom_check'] ? (
             <CheckCircle className="h-5 w-5" />
           ) : (
-            <Circle className="h-5 w-5 text-neutral-500" />
+            <Circle className="h-5 w-5 text-muted-foreground" />
           )}
         </div>
         <div>
           <p className="font-medium">Complete Symptom Check</p>
-          <p className="text-neutral-500 text-sm">Update your weekly symptom log</p>
+          <p className="text-muted-foreground text-sm">Update your weekly symptom log</p>
         </div>
       </div>
       
@@ -47,12 +47,12 @@ const WeeklyReviewTasks: React.FC<WeeklyReviewTasksProps> = ({
           {completedTasks['headache_frequency'] ? (
             <CheckCircle className="h-5 w-5" />
           ) : (
-            <Circle className="h-5 w-5 text-neutral-500" />
+            <Circle className="h-5 w-5 text-muted-foreground" />
           )}
         </div>
         <div>
           <p className="font-medium">Check Headache Frequency</p>
-          <p className="text-neutral-500 text-sm">Review your headache tracking data</p>
+          <p className="text-muted-foreground text-sm">Review your headache tracking data</p>
         </div>
       </div>
     </CardContent>

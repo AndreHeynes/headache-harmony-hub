@@ -34,12 +34,12 @@ const ExerciseVideo: React.FC<ExerciseVideoProps> = ({
   if (displayMode === "embedded" && !isPlaying) {
     return (
       <div 
-        className="bg-neutral-800 rounded-lg p-8 flex items-center justify-center cursor-pointer"
+        className="bg-primary rounded-lg p-8 flex items-center justify-center cursor-pointer"
         onClick={() => setIsPlaying(true)}
       >
         <div className="text-center">
-          <Play className="h-12 w-12 text-white mb-2" />
-          <p className="text-white">{title}</p>
+          <Play className="h-12 w-12 text-primary-foreground mb-2" />
+          <p className="text-primary-foreground">{title}</p>
         </div>
       </div>
     );

@@ -25,13 +25,13 @@ const Policy = () => {
   }, [selectedCountry, activeTab]);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <MainHeader />
 
       <main className="pt-28 pb-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl md:text-4xl font-bold mb-6 text-neutral-900">Legal Policies</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">Legal Policies</h1>
             
             <CountrySelector 
               selectedCountry={selectedCountry} 

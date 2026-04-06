@@ -22,13 +22,20 @@ export const usePhaseAdvancement = () => {
     if (!user) return false;
 
     try {
+      const upsertData: Record<string, unknown> = {
+        user_id: user.id,
+        current_phase: newPhase,
+        updated_at: new Date().toISOString(),
+      };
+
+      // Set phase_two_start_date when advancing to Phase 2
+      if (newPhase === 2) {
+        upsertData.phase_two_start_date = new Date().toISOString().split('T')[0];
+      }
+
       const { error } = await supabase
         .from("user_progress")
-        .upsert({
-          user_id: user.id,
-          current_phase: newPhase,
-          updated_at: new Date().toISOString(),
-        }, { onConflict: "user_id" });
+        .upsert(upsertData as any, { onConflict: "user_id" });
 
       if (error) {
         console.error("Error advancing phase:", error);
