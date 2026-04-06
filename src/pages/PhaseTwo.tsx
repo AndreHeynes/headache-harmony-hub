@@ -157,6 +157,7 @@ const PhaseTwo = () => {
           totalDays={totalDays}
           onDaySelect={handleDaySelect}
           completedDays={completedDays}
+          startDate={startDate}
         />
       </div>
 
