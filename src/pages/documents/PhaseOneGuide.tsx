@@ -13,7 +13,7 @@ const PhaseOneGuide = () => {
       <div className="flex items-center mb-6">
         <button 
           onClick={() => navigate(-1)} 
-          className="mr-4 p-2 rounded-full hover:bg-neutral-100"
+          className="mr-4 p-2 rounded-full hover:bg-accent"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
