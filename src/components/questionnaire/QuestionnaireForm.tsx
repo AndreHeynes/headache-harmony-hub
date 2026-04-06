@@ -111,7 +111,7 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
   };
 
   return (
-    <Card className="max-w-3xl mx-auto shadow-md">
+    <Card className="max-w-3xl mx-auto shadow-md questionnaire-content">
       <CardHeader>
         <CardTitle className="text-xl">{questionnaire.title}</CardTitle>
         {!isCompleted && (
