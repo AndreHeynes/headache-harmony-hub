@@ -9,7 +9,7 @@ const Register = () => {
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center p-4 bg-muted">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
+      <div className="w-full max-w-md bg-card rounded-lg shadow-md p-8">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold">Create your account</h1>
           <p className="text-gray-500 mt-2">Join Recover & Reclaim to manage your headaches effectively</p>
