@@ -33,12 +33,13 @@ const PhaseTwo = () => {
         if (isAuthenticated && user) {
           const { data, error } = await supabase
             .from('user_progress')
-            .select('phase_two_day')
+            .select('phase_two_day, phase_two_start_date')
             .eq('user_id', user.id)
             .maybeSingle();
           
-          if (!error && data?.phase_two_day) {
-            setCurrentDay(data.phase_two_day);
+          if (!error && data) {
+            if (data.phase_two_day) setCurrentDay(data.phase_two_day);
+            if (data.phase_two_start_date) setStartDate(data.phase_two_start_date);
           }
         }
       } catch (e) {
