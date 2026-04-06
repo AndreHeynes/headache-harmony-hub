@@ -65,7 +65,7 @@ const ActivitySheet: React.FC<ActivitySheetProps> = ({
       </div>
       
       <CollapsibleContent className="mt-2">
-        <p className="text-xs text-neutral-600 mb-2">
+        <p className="text-xs text-muted-foreground mb-2">
           {getActivitySheetDescription()}
         </p>
         
