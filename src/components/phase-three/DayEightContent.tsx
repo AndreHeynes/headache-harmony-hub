@@ -114,7 +114,7 @@ const DayEightContent: React.FC<DayEightContentProps> = ({
             <div className={`rounded-lg p-4 shadow-sm border ${getDirectionColor(progress.midas.direction).bg} ${getDirectionColor(progress.midas.direction).border}`}>
               <div className="flex items-center mb-2">
                 {getDirectionIcon(progress.midas.direction)}
-                <h4 className="font-medium text-neutral-900 ml-2">Disability Days</h4>
+                <h4 className="font-medium text-foreground ml-2">Disability Days</h4>
               </div>
               <p className={`text-3xl font-bold ${getDirectionColor(progress.midas.direction).text}`}>
                 {formatPercentage(progress.midas.percentageChange, progress.midas.direction)}
